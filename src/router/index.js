@@ -1,38 +1,38 @@
-import { createRouter, createWebHistory } from "vue-router";
-import AuthView from "../components/Auth.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import AuthView from '@/components/Auth.vue';
+import NotFound from '@/views/Home/NotFound.vue';
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: HomeView,
-  // },
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
-  {
-    path: '/auth',
-    name: 'Auth',
-    component: AuthView,
-    children: [
-        {
-            path: '/login',
-            name: 'Login',
-            component: () => import('@/views/auth/LoginView.vue'),
-        },
-    ],
-  },
+    {
+        path: '/auth',
+        name: 'Auth',
+        component: AuthView,
+        children: [
+            {
+                path: '/login',
+                name: 'Login',
+                component: () => import('@/views/auth/LoginView.vue'),
+            },
+        ],
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound,
+    },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
+    history: createWebHistory(process.env.BASE_URL),
+    routes,
+});
+
+router.beforeEach(async (to) => {
+    const publicPages = ['/login', '/register'];
+    const authRequired = !publicPages.includes(to.path);
+    if (authRequired) {
+        return { name: 'Login' };
+    }
 });
 
 export default router;

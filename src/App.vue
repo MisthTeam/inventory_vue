@@ -1,22 +1,24 @@
 <template>
-  <Navbar />  
-  <router-view />
+    <Navbar />
+    <div class="container mt-6">
+        <router-view />
+    </div>
 </template>
 
 <script setup>
-  import Navbar from "@/components/NavbarMenu.vue";
+import Navbar from '@/components/NavbarMenu.vue';
 </script>
 <style>
-  html {
+html {
     height: 100%;
-  }
-  .form-signin {
+}
+.form-signin {
     width: 100%;
     max-width: 330px;
     padding: 15px;
     margin: auto;
-  }
-  .btn-block {
+}
+.btn-block {
     width: 100%;
-  }
+}
 </style>

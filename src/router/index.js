@@ -1,8 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AuthView from '@/components/Auth.vue';
 import NotFound from '@/views/Home/NotFound.vue';
+import { useUserStore } from '@/stores';
 
 const routes = [
+    {
+        path: '/',
+        name: 'Dashboard',
+        component: () => import('@/views/Home/HomeView.vue'),
+    },
     {
         path: '/auth',
         name: 'Auth',
@@ -30,7 +36,15 @@ const router = createRouter({
 router.beforeEach(async (to) => {
     const publicPages = ['/login', '/register'];
     const authRequired = !publicPages.includes(to.path);
-    if (authRequired) {
+    const auth = useUserStore();
+    if (authRequired && !auth.isLoggenIn) {
+        const token = localStorage.getItem('Authorization');
+        if (token) {
+            auth.setBearerToken(token);
+            const user = await auth.fetchUserData();
+            if (user) return { path: to.fullPath };
+            else return { name: 'Login' };
+        }
         return { name: 'Login' };
     }
 });

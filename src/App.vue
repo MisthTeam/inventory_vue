@@ -1,8 +1,6 @@
 <template>
     <Navbar />
-    <div class="container mt-6">
-        <router-view />
-    </div>
+    <router-view />
 </template>
 
 <script setup>

@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  vue-ui:
+    build: .
+    working_dir: /app
+    restart: always
+    volumes:
+       - .:/app
+       - /app/node_modules
+    expose:
+      - 80
+    container_name: Inventory_vue
+    environment:
+      - VIRTUAL_HOST=front.misthntism.space
+
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

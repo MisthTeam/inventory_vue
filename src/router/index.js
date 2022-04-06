@@ -19,8 +19,20 @@ const routes = [
                 name: 'Login',
                 component: () => import('@/views/auth/LoginView.vue'),
             },
+            {
+                path: '/register',
+                name: 'Register',
+                component: () => import('@/views/auth/RegisterView.vue'),
+            },
         ],
     },
+
+    {
+        path: '/items',
+        name: 'Items',
+        component: () => import('@/views/Items/IndexView.vue'),
+    },
+
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',

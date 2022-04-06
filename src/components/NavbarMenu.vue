@@ -26,7 +26,7 @@
                     </li>
                 </ul>
             </div>
-            <div v-if="user.isLoggenIn" class="d-flex">
+            <div v-if="userStore.isLoggenIn" class="d-flex">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a
@@ -37,7 +37,7 @@
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                         >
-                            nickname
+                            {{ userStore.getUser.login }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="#">Профиль</a></li>
@@ -47,7 +47,7 @@
                     </li>
                 </ul>
             </div>
-            <form v-if="user.isLoggenIn" class="d-flex">
+            <form v-if="userStore.isLoggenIn" class="d-flex">
                 <input
                     class="form-control me-2"
                     type="search"
@@ -63,5 +63,5 @@
 <script setup>
 import { useUserStore } from '@/stores';
 
-const user = useUserStore();
+const userStore = useUserStore();
 </script>

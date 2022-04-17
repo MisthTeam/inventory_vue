@@ -1,7 +1,16 @@
 export default function (instance) {
     return {
-        get() {
-            return instance.get('/items/get');
+        getItems() {
+            return instance.get('/items');
+        },
+        createItem(payload) {
+            return instance.post('/items', payload);
+        },
+        deleteItem(id) {
+            return instance.delete(`/items/${id}`);
+        },
+        editItem(id) {
+            return instance.post(`/items/${id}`);
         },
     };
 }

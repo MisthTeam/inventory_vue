@@ -12,5 +12,6 @@ export default function (instance) {
         editItem(id) {
             return instance.post(`/items/${id}`);
         },
+        // можно выполнять запрос в store
     };
 }

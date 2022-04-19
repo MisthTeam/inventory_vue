@@ -3,6 +3,9 @@ export default function (instance) {
         getItems() {
             return instance.get('/items');
         },
+        getItem(id) {
+            return instance.get(`/items/view/${id}`);
+        },
         createItem(payload) {
             return instance.post('/items', payload);
         },

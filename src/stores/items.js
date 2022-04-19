@@ -5,12 +5,12 @@ const useItemsStore = defineStore({
     id: 'items',
 
     state: () => ({
-        items: null,
+        items: [] || null,
     }),
     getters: {
         getAllItems: (state) => state.items,
         getCurrentItem: (state) => {
-            return (itemId) => state.items.find((item) => item.id === itemId);
+            return (itemId) => state.items && state.items.find((item) => item.id === itemId);
         },
     },
     actions: {
@@ -18,6 +18,12 @@ const useItemsStore = defineStore({
             const { data } = await api.items.getItems();
             this.items = data.items;
             return this.items;
+        },
+        async createItem(pn) {
+            const { data } = await api.items.createItem({
+                pn: pn,
+            });
+            return data;
         },
     },
 });

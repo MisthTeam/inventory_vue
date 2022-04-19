@@ -19,13 +19,12 @@ const useUserStore = defineStore({
         async register(responseData) {
             const { data } = await api.auth.register(responseData);
             this.setBearerToken(data.access_token);
-            // убрать await добавив новый параметр
-            return await this.fetchUserData();
+            return this.fetchUserData();
         },
         async login(responseData) {
             const { data } = await api.auth.login(responseData);
             this.setBearerToken(data.access_token);
-            return await this.fetchUserData();
+            return this.fetchUserData();
         },
         async fetchUserData() {
             const { data } = await api.auth.me();

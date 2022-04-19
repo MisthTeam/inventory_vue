@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AuthView from '@/components/Auth.vue';
 import NotFound from '@/views/Home/NotFound.vue';
+import ItemComponent from '@/components/ItemComponent.vue';
 import { useUserStore } from '@/stores';
 
 const routes = [
@@ -30,7 +31,40 @@ const routes = [
     {
         path: '/items',
         name: 'Items',
-        component: () => import('@/views/Items/IndexView.vue'),
+        component: ItemComponent,
+        children: [
+            {
+                path: '',
+                component: () => import('@/views/Items/IndexView.vue'),
+            },
+            {
+                path: 'add',
+                name: 'AddItem',
+                component: () => import('@/components/Items/AddItem.vue'),
+            },
+        ],
+    },
+    {
+        path: '/item/:id',
+        name: 'Item',
+        component: ItemComponent,
+        children: [
+            {
+                path: '',
+                name: 'Iteminfo',
+                component: () => import('@/components/Items/ViewItem.vue')
+            },
+            {
+                path: 'edit',
+                name: 'EditItem',
+                component: () => import('@/components/Items/EditItem.vue'),
+            },
+            {
+                path: 'delete',
+                name: 'DeleteItem',
+                component: () => import('@/components/Items/DeleteItem.vue'),
+            },
+        ],
     },
 
     {

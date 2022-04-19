@@ -23,20 +23,7 @@
 </style>
 
 <script setup>
-import useItemsStore from "@/stores/items";
-import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
+import { getItems } from '@/hooks';
 
-const itemsStore = useItemsStore();
-const itemsRef = storeToRefs(itemsStore).items;
-const fetching = async () => {
-  try {
-    const items = await itemsStore.getItems();
-    itemsRef.value = items;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-onMounted(fetching);
+const { itemsRef } = getItems();
 </script>

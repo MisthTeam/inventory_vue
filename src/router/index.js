@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from "vue-router";
 import AuthView from "@/components/Auth.vue";
-import NotFound from "@/views/Home/NotFound.vue";
 import ItemComponent from "@/components/ItemComponent.vue";
 import { useUserStore } from "@/stores";
+import NotFound from "@/views/Home/NotFound.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
@@ -66,6 +66,18 @@ const routes = [
       },
     ],
   },
+
+  // {
+  //   path: "/devices",
+  //   name: "Devices",
+  //   component: ItemComponent,
+  //   children: [
+  //     {
+  //       path: "",
+  //       component: () => import("@/views/Items/IndexView.vue"),
+  //     },
+  //   ],
+  // },
 
   {
     path: "/:pathMatch(.*)*",

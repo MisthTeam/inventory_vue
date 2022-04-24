@@ -6,6 +6,7 @@
           <th scope="col">#</th>
           <th scope="col">Название</th>
           <th scope="col">Тип устройства</th>
+          <th scope="col">Пользователь</th>
           <th scope="col">Дата добавления</th>
         </tr>
       </thead>
@@ -14,19 +15,32 @@
           <th scope="row">{{ item.id }}</th>
           <td>{{ item.meta.name }}</td>
           <td>{{ item.device.type }}</td>
-          <td>14:00 18.04.2022</td>
+          <td>{{ item.user.login }}</td>
+          <td>
+            {{ convertTime(item.created_at) }}
+          </td>
         </tr>
       </tbody>
     </table>
+    <!-- {{ DevicesRef }} -->
   </div>
-  {{ itemsRef }}
   <router-view />
 </template>
 
 <script setup>
-import { getItems } from "@/hooks";
+import { getDevices, getItems } from "@/hooks";
+// import { getItems } from "@/hooks";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 
 const { itemsRef } = getItems();
+const { DevicesRef } = getDevices();
+console.log(DevicesRef);
+
+const convertTime = (time) =>
+  format(new Date(time.replace(" ", "T")), "Q MMMM yyyy", {
+    locale: ru,
+  });
 </script>
 
 <style></style>

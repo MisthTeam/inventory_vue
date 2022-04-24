@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <p>Да это здесь {{ itemsStore.getCurrentItem(+route.params.id) }}</p>
-    </div>
+  <div>
+    <p>Да это здесь {{ itemsStore.getCurrentItem(+route.params.id) }}</p>
+  </div>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
-import { getItems } from '@/hooks';
+import { useRoute } from "vue-router";
+import { getItems } from "@/hooks";
 
 const route = useRoute();
 const { itemsStore } = getItems();

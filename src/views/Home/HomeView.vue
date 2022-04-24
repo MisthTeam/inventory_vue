@@ -23,7 +23,7 @@
 </style>
 
 <script setup>
-import { getItems } from '@/hooks';
+import { getItems } from "@/hooks";
 
 const { itemsRef } = getItems();
 </script>

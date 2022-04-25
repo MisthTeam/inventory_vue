@@ -1,28 +1,31 @@
 <template>
-  <Form @submit="onSubmit" :validation-schema="ValidSchema">
-    <div class="form-floating mb-3">
-      <Field
-        type="text"
-        class="form-control"
-        name="pn"
-        placeholder="name@example.com"
-      />
-      <label for="floatingInput">PN</label>
-      <ErrorMessage name="pn" />
-    </div>
-    <button type="submit" class="btn btn-primary btn-block mt-3">Войти</button>
+  <Form
+    v-if="!deviceFound"
+    @submit="onSubmit"
+    v-slot="{ meta }"
+    :validation-schema="ValidSchema"
+  >
+    <DynamicFields :schema="schema" />
+    <button
+      :disabled="!meta.dirty"
+      class="btn btn-primary btn-block mt-3"
+      type="submit"
+    >
+      Проверить
+    </button>
   </Form>
 </template>
 
 <script setup>
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { Form } from "vee-validate";
 import * as yup from "yup";
-// import { useRouter } from 'vue-router';
+import { createDebounce } from "@/utils/helpers";
+import { ref } from "vue";
 import { useItemsStore } from "@/stores";
 
 const itemStore = useItemsStore();
+const deviceFound = ref(null);
 
-// const router = useRouter();
 const ValidSchema = yup.object({
   pn: yup.string().required("Введите pn предмета"),
 });
@@ -36,5 +39,19 @@ const onSubmit = async ({ pn }) => {
     }
   }
 };
+
+const schema = {
+  divClass: "form-floating mb-3",
+  fields: [
+    {
+      label: "PN",
+      name: "pn",
+      as: "input",
+      input: "text",
+      classes: {
+        input: "form-control",
+      },
+    },
+  ],
+};
 </script>
-<style></style>

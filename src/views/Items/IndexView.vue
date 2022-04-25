@@ -22,25 +22,13 @@
         </tr>
       </tbody>
     </table>
-    <!-- {{ DevicesRef }} -->
   </div>
   <router-view />
 </template>
 
 <script setup>
-import { getDevices, getItems } from "@/hooks";
-// import { getItems } from "@/hooks";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { getItems } from "@/hooks";
+import { convertTime } from "@/utils/helpers";
 
 const { itemsRef } = getItems();
-const { DevicesRef } = getDevices();
-console.log(DevicesRef);
-
-const convertTime = (time) =>
-  format(new Date(time.replace(" ", "T")), "Q MMMM yyyy", {
-    locale: ru,
-  });
 </script>
-
-<style></style>

@@ -20,10 +20,8 @@ const useItemsStore = defineStore({
       this.items = data.items;
       return this.items;
     },
-    async createItem(pn) {
-      const data = await api.post("/api/items", {
-        pn: pn,
-      });
+    async createItem(payload) {
+      const data = await api.post("/api/items", payload);
       return data;
     },
   },

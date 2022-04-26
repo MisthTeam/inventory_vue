@@ -8,8 +8,11 @@ const useDevicesStore = defineStore({
   }),
   actions: {
     async getDevices() {
-      this.devices = await api.get("/api/devices");
+      this.devices = (await api.get("/api/devices")).devices;
       return this.devices;
+    },
+    async getDeviceByPn(pn) {
+      return (await api.get(`/api/devices/pn/${pn}`)).device;
     },
   },
 });

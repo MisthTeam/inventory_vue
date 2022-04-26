@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Да это здесь {{ itemsStore.getCurrentItem(+route.params.id) }}</p>
+    <p>Да это здесь {{ itemsStore.getItemById(route.params.id) }}</p>
   </div>
 </template>
 

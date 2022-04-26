@@ -1,4 +1,4 @@
-import api from "@/api";
+import { api } from "@/utils/api";
 import { defineStore } from "pinia";
 
 const useUserStore = defineStore({
@@ -17,18 +17,15 @@ const useUserStore = defineStore({
     },
 
     async register(responseData) {
-      const { data } = await api.auth.register(responseData);
-      this.setBearerToken(data.access_token);
-      return this.fetchUserData();
+      const response = await api.post("/api/auth/register", responseData);
+      this.setBearerToken(response.access_token);
     },
     async login(responseData) {
-      const { data } = await api.auth.login(responseData);
-      this.setBearerToken(data.access_token);
-      return this.fetchUserData();
+      const response = await api.post("/api/auth/login", responseData);
+      this.setBearerToken(response.access_token);
     },
     async fetchUserData() {
-      const { data } = await api.auth.me();
-      this.user = data;
+      this.user = await api.get("/api/auth/me");
       return this.user;
     },
   },

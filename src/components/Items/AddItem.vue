@@ -18,8 +18,6 @@
 
 <script setup>
 import { Form } from "vee-validate";
-import * as yup from "yup";
-import { createDebounce } from "@/utils/helpers";
 import { ref } from "vue";
 import { useItemsStore } from "@/stores";
 

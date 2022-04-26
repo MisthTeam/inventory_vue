@@ -5,15 +5,36 @@ export const api = axios.create({
   baseURl: "http://172.19.0.17/",
 });
 
+api.interceptors.request.use(function (config) {
+  const token = localStorage.getItem("Authorization");
+  config.headers.Authorization = token ? `Bearer ${token}` : "";
+  return config;
+});
+
 // перехват запросов
 api.interceptors.response.use(
   // обработка успешных запросов
   function (responce) {
     const data = responce.data;
     if (data.error) {
-      return Promise.reject({ message: data.error, response });
+      return Promise.reject({ message: data.error, responce });
     }
     // отдача успешного запроса
     return data;
+  },
+
+  // Обработка ошибок
+  function (error) {
+    // Истечение Bearer-токена
+    if ([403, 401].includes(error?.response?.status)) {
+      router.push({ name: "auth.logout" });
+    } else if (error.response.status === 422) {
+      // Валидация данных
+      const { data } = error.response;
+      return Promise.reject(data); // Откидываем ошибку
+    }
+
+    // Откидываем ошибку
+    return Promise.reject(error);
   }
 );

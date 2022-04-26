@@ -3,8 +3,6 @@ import "@/assets/bootstrap/dist/css/bootstrap.css";
 import { createApp } from "vue";
 import Toast from "vue-toastification";
 import { createPinia } from "pinia";
-import axios from "axios";
-import VueAxios from "vue-axios";
 import App from "./App.vue";
 import components from "@/components/UI";
 import router from "./router";
@@ -19,7 +17,6 @@ components.forEach((element) => {
 
 app.use(createPinia());
 app.use(router);
-app.use(VueAxios, axios);
 app.use(Toast, {});
 
 app.mount("#app");

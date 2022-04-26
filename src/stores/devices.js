@@ -1,4 +1,4 @@
-import api from "@/core/axios";
+import { api } from "@/utils/api";
 import { defineStore } from "pinia";
 
 const useDevicesStore = defineStore({
@@ -8,8 +8,7 @@ const useDevicesStore = defineStore({
   }),
   actions: {
     async getDevices() {
-      const { data } = await api.get("/api/devices/");
-      this.devices = data.devices;
+      this.devices = await api.get("/api/devices");
       return this.devices;
     },
   },

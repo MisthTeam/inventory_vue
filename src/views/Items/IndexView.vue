@@ -19,7 +19,7 @@ const { itemsRef } = getItems();
       <tbody>
         <tr v-for="item in itemsRef" :key="item.id">
           <th scope="row">{{ item.id }}</th>
-          <td>{{ item.meta.name }}</td>
+          <td>{{ item.meta?.name || "nope" }}</td>
           <td>{{ item.device.type }}</td>
           <td>{{ item.user.login }}</td>
           <td>

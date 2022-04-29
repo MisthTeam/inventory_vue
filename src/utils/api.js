@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "@/router";
 
 // аксиос клиент
 export const api = axios.create({

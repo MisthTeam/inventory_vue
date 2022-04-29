@@ -6,7 +6,9 @@ import { types } from "@/utils/helpers";
 const dto = shallowRef({
   pn: "",
   device: { specification: {}, type: null },
-  item: {},
+  item: {
+    name: "",
+  },
 });
 const device = ref(null); // Получение девайса из БД
 const optionsValue = ref(null); // Выбор типа девайса
@@ -83,43 +85,10 @@ const logs = ({ target, value }) => {
         :device="device"
         @editDevice="logs"
       />
-      <!-- <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="floatingInput"
-          placeholder="device specification"
-          :disabled="device"
-          :value="device && device.specification"
-          v-if="device"
-        />
-        <input
-          type="text"
-          class="form-control"
-          id="floatingInput"
-          placeholder="device specification"
-          v-model="dto.device.specification"
-          v-else
-        />
-        <label for="floatingInput">Device specification</label>
-      </div> -->
-      <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          v-model="dto.item.name"
-          id="floatingInput"
-          required
-          placeholder="Item name"
-        />
-        <label for="floatingInput">Item name</label>
-      </div>
+      <AddItemsFields v-model="dto.item.name" />
       <button class="btn btn-outline-secondary" type="submit">
         Создать устройство
       </button>
     </div>
   </form>
-  <!-- <button class="btn btn-primary btn-block mt-3" type="submit">
-      Проверить
-    </button> -->
 </template>

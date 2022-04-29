@@ -28,6 +28,10 @@ const useUserStore = defineStore({
       this.user = await api.get("/api/auth/me");
       return this.user;
     },
+    async logout() {
+      this.$reset();
+      localStorage.removeItem("Authorization");
+    },
   },
 });
 

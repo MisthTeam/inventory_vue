@@ -1,4 +1,5 @@
 import AuthView from "@/components/Auth.vue";
+import useUserStore from "@/stores/user";
 
 export default [
   {
@@ -17,6 +18,15 @@ export default [
         name: "auth.register",
         component: () => import("@/views/auth/RegisterView.vue"),
         meta: { guest: true },
+      },
+      {
+        path: "/logout",
+        name: "auth.logout",
+        redirect: () => {
+          const userStore = useUserStore();
+          userStore.logout();
+          return { name: "auth.login" };
+        },
       },
     ],
   },

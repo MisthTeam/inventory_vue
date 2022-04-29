@@ -7,6 +7,7 @@
       @input="updateValue"
       id="floatingInput"
       required
+      :disabled="disabled"
       placeholder="Item name"
     />
     <label for="floatingInput">Item name</label>
@@ -16,6 +17,11 @@
 <script setup>
 defineProps({
   modelValue: String,
+  disabled: {
+    types: Boolean,
+    required: false,
+    default: false,
+  },
 });
 const emit = defineEmits(["update:modelValue"]);
 

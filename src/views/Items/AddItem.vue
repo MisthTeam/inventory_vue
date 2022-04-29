@@ -1,7 +1,8 @@
 <script setup>
 import { useDevicesStore, useItemsStore } from "@/stores";
-import { types } from "@/utils/helpers";
+import { deviceTypes } from "@/utils/helpers";
 import { ref, shallowRef, watch } from "vue";
+import { useToast } from "vue-toastification";
 
 const dto = shallowRef({
   pn: "",
@@ -15,6 +16,7 @@ const optionsValue = ref(null); // Выбор типа девайса
 const responseRec = ref(false); // Получен ответ или нет (для вывода доп инпутов)
 const deviceStore = useDevicesStore();
 const itemStore = useItemsStore();
+const toast = useToast();
 
 const onSubmit = async () => {
   try {
@@ -24,6 +26,7 @@ const onSubmit = async () => {
     responseRec.value = true;
   } catch (error) {
     console.error(error);
+    toast.error("Произошла ошибка, свяжитесь с администратором");
   }
 };
 
@@ -37,8 +40,12 @@ watch(optionsValue, (value) => {
 const addItem = async () => {
   try {
     await itemStore.createItem(dto.value);
+    toast.success("Комплектующий добавлен");
   } catch (error) {
     console.error(error);
+    toast.error(
+      "Произошла ошибка, проверьте данные или свяжитесь с администратором"
+    );
   }
 };
 const logs = ({ target, value }) => {
@@ -73,7 +80,7 @@ const logs = ({ target, value }) => {
             :disabled="device"
             aria-label="Device type"
           >
-            <option v-for="t in types" :key="t.id" :value="t.type">
+            <option v-for="t in deviceTypes" :key="t.id" :value="t.type">
               {{ t.type }}
             </option>
           </select>

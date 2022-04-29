@@ -5,15 +5,16 @@ export default {
 </script>
 
 <script setup>
-import { types } from "@/utils/helpers";
+import { deviceTypes } from "@/utils/helpers";
 defineProps({
   option: {
     type: String,
     required: true,
   },
   device: {
-    type: Object || null,
+    type: Object,
     required: false,
+    default: null,
   },
   dto: {
     type: Object,
@@ -24,7 +25,7 @@ defineEmits(["editDevice"]);
 </script>
 
 <template>
-  <div v-for="t in types" :key="t.id">
+  <div v-for="t in deviceTypes" :key="t.id">
     <div class="input-group mb-3" v-if="t.type === option">
       <input
         type="text"

@@ -1,11 +1,20 @@
 <script setup>
 import { getItems } from "@/hooks";
 import { useRouter } from "vue-router";
+import { types } from "@/utils/helpers";
+import { computed, ref } from "vue";
 const router = useRouter();
 const toItem = (id) => {
   router.push(`/item/${id}`);
 };
 const { itemsRef } = getItems();
+const sortedValue = ref("");
+const sortedItems = computed(() => {
+  return [...itemsRef.value]?.filter((el) => {
+    console.log(el);
+    return el.device.type.indexOf(sortedValue.value) > -1;
+  });
+});
 </script>
 <template>
   <div class="container mt-6" v-if="itemsRef">
@@ -22,7 +31,7 @@ const { itemsRef } = getItems();
     </div>
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
-        <Selector />
+        <Selector v-model="sortedValue" :options="types" />
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input
@@ -47,7 +56,7 @@ const { itemsRef } = getItems();
           </thead>
           <tbody>
             <tr
-              v-for="item in itemsRef"
+              v-for="item in sortedItems"
               :key="item.id"
               @click="toItem(item.id)"
             >

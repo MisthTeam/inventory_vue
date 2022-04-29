@@ -1,8 +1,9 @@
 import { useItemsStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 export default function getItems() {
+  const isLoading = ref(true);
   const itemsStore = useItemsStore();
   const itemsRef = storeToRefs(itemsStore).items;
   const fetching = async () => {
@@ -14,6 +15,7 @@ export default function getItems() {
         console.log(error);
       }
     }
+    isLoading.value = false;
   };
 
   onMounted(fetching);
@@ -21,5 +23,6 @@ export default function getItems() {
   return {
     itemsStore,
     itemsRef,
+    isLoading,
   };
 }

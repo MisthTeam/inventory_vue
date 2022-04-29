@@ -1,8 +1,9 @@
 import { useDevicesStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 export default function getDevices() {
+  const isLoading = ref(true);
   const DevicesStore = useDevicesStore();
   const DevicesRef = storeToRefs(DevicesStore).devices;
   const fetching = async () => {
@@ -11,6 +12,8 @@ export default function getDevices() {
       DevicesRef.value = devices;
     } catch (error) {
       console.log(error);
+    } finally {
+      isLoading.value = false;
     }
   };
 
@@ -19,5 +22,6 @@ export default function getDevices() {
   return {
     DevicesStore,
     DevicesRef,
+    isLoading,
   };
 }

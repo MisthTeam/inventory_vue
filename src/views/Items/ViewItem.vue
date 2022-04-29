@@ -4,11 +4,12 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-const { itemsStore } = getItems();
+const { itemsStore, isLoading } = getItems();
 const item = computed(() => itemsStore.getItemById(route.params.id));
 </script>
 <template>
-  <div class="container" v-if="item">
+  <LoadingSpinner v-if="isLoading" />
+  <div class="container" v-if="item && !isLoading">
     <div class="row">
       <div class="row justify-content-center">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
@@ -32,7 +33,7 @@ const item = computed(() => itemsStore.getItemById(route.params.id));
       </div>
       <div class="row justify-content-center mt-3">
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <AddItemsFields v-model="item.meta.name" />
+          <AddItemsFields :disabled="true" v-model="item.meta.name" />
         </div>
       </div>
 
@@ -56,6 +57,6 @@ const item = computed(() => itemsStore.getItemById(route.params.id));
         </div>
       </div>
     </div>
+    {{ item.attributes }}
   </div>
-  {{ item.attributes }}
 </template>

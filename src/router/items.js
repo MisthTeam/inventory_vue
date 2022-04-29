@@ -13,7 +13,7 @@ export default [
       {
         path: "add",
         name: "AddItem",
-        component: () => import("@/components/Items/AddItem.vue"),
+        component: () => import("@/views/Items/AddItem.vue"),
       },
     ],
   },
@@ -25,17 +25,17 @@ export default [
       {
         path: "",
         name: "Iteminfo",
-        component: () => import("@/components/Items/ViewItem.vue"),
+        component: () => import("@/views/Items/ViewItem.vue"),
       },
       {
         path: "edit",
         name: "EditItem",
-        component: () => import("@/components/Items/EditItem.vue"),
+        component: () => import("@/views/Items/EditItem.vue"),
       },
       {
         path: "delete",
         name: "DeleteItem",
-        component: () => import("@/components/Items/DeleteItem.vue"),
+        component: () => import("@/views/Items/DeleteItem.vue"),
       },
     ],
   },

@@ -1,5 +1,5 @@
 import AuthView from "@/components/Auth.vue";
-import useUserStore from "@/stores/user";
+import { useUserStore } from "@/stores";
 
 export default [
   {

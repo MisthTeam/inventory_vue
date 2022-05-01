@@ -1,20 +1,10 @@
 <script setup>
-import { getItems } from "@/hooks";
-import { useRouter } from "vue-router";
+import { getItems, useSearch, useSortedItems } from "@/hooks";
 import { types } from "@/utils/helpers";
-import { computed, ref } from "vue";
-const router = useRouter();
-const toItem = (id) => {
-  router.push(`/item/${id}`);
-};
-const { itemsRef } = getItems();
-const sortedValue = ref("");
-const sortedItems = computed(() => {
-  return [...itemsRef.value]?.filter((el) => {
-    console.log(el);
-    return el.device.type.indexOf(sortedValue.value) > -1;
-  });
-});
+import Items from "@/components/Items/Items.vue";
+const { itemsRef } = getItems(); // Получение items из БД
+const { sortedValue, sortedItems } = useSortedItems(itemsRef); // Сортировка по выбранному селектору
+const { searchQuery, searchedItems } = useSearch(sortedItems); // Фильтрация по имени
 </script>
 <template>
   <div class="container mt-6" v-if="itemsRef">
@@ -37,7 +27,7 @@ const sortedItems = computed(() => {
         <input
           type="text"
           class="form-control"
-          required
+          v-model="searchQuery"
           placeholder="Поиск"
           aria-label="enter pn"
           aria-describedby="button-addon2"
@@ -46,39 +36,10 @@ const sortedItems = computed(() => {
     </div>
     <div class="row justify-content-center mt-2">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Название</th>
-              <th scope="col">Тип устройства</th>
-              <th scope="col">Инфо</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="item in sortedItems"
-              :key="item.id"
-              @click="toItem(item.id)"
-            >
-              <td>{{ item.meta?.name || "nope" }}</td>
-              <td>{{ item.device.type }}</td>
-              <td>{{ item.device.specification.volume }}</td>
-              <td>{{ item.user.login }}</td>
-              <td>
-                <!-- {{ convertTime(item.created_at) }} -->
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <Items :items="searchedItems" v-if="searchedItems.length" />
+        <h3 v-else>Данных комплектующих ещё нету</h3>
       </div>
     </div>
   </div>
   <router-view />
 </template>
-<style scoped>
-tbody tr:hover {
-  background-color: #212529;
-  color: white;
-  cursor: pointer;
-}
-</style>

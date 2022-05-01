@@ -1,4 +1,6 @@
 import ItemComponent from "@/components/ItemComponent.vue";
+import { useUserStore } from "@/stores";
+import { checkUserRole } from "@/hooks";
 
 export default [
   {
@@ -16,6 +18,11 @@ export default [
         component: () => import("@/views/Items/AddItem.vue"),
       },
     ],
+    beforeEnter: () => {
+      const userStore = useUserStore();
+      const { isHaveRole } = checkUserRole(userStore.getUser, "items:control2");
+      if (!isHaveRole.value) return { name: "Dashboard" };
+    },
   },
   {
     path: "/item/:id",

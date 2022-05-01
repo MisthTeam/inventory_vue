@@ -1,7 +1,7 @@
 <script setup>
+import Items from "@/components/Items/Items.vue";
 import { getItems, useSearch, useSortedItems } from "@/hooks";
 import { types } from "@/utils/helpers";
-import Items from "@/components/Items/Items.vue";
 const { itemsRef } = getItems(); // Получение items из БД
 const { sortedValue, sortedItems } = useSortedItems(itemsRef); // Сортировка по выбранному селектору
 const { searchQuery, searchedItems } = useSearch(sortedItems); // Фильтрация по имени
@@ -37,7 +37,9 @@ const { searchQuery, searchedItems } = useSearch(sortedItems); // Фильтра
     <div class="row justify-content-center mt-2">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <Items :items="searchedItems" v-if="searchedItems.length" />
-        <h3 v-else>Данных комплектующих ещё нету</h3>
+        <div v-else class="text-center">
+          <h5>Данных комплектующих ещё нету</h5>
+        </div>
       </div>
     </div>
   </div>

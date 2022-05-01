@@ -1,6 +1,6 @@
 import ItemComponent from "@/components/ItemComponent.vue";
-import { useUserStore } from "@/stores";
 import { checkUserRole } from "@/hooks";
+import { useUserStore } from "@/stores";
 
 export default [
   {
@@ -20,7 +20,7 @@ export default [
     ],
     beforeEnter: () => {
       const userStore = useUserStore();
-      const { isHaveRole } = checkUserRole(userStore.getUser, "items:control2");
+      const { isHaveRole } = checkUserRole(userStore.getUser, "items:control");
       if (!isHaveRole.value) return { name: "Dashboard" };
     },
   },

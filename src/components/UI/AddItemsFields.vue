@@ -23,7 +23,7 @@
         v-if="attribute.meta.type === 'text'"
         class="form-control"
         id="floatingInput"
-        :value="attribute.pivot.value"
+        :value="attribute.value"
         required
         :disabled="disabled"
         :placeholder="attribute.name"
@@ -37,7 +37,7 @@
         <option
           v-for="l in attribute.meta.list"
           :key="l"
-          :value="l === attribute.pivot.value"
+          :value="l === attribute.value"
         >
           {{ l }}
         </option>

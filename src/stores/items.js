@@ -16,12 +16,12 @@ const useItemsStore = defineStore({
   },
   actions: {
     async getItems() {
-      const data = await api.get("/api/items");
+      const data = await api.get("items");
       this.items = data.items;
       return this.items;
     },
     async createItem(payload) {
-      const data = await api.post("/api/items", payload);
+      const data = await api.post("items", payload);
       return data;
     },
   },

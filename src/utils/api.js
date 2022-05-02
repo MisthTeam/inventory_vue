@@ -3,13 +3,7 @@ import router from "@/router";
 
 // аксиос клиент
 export const api = axios.create({
-  baseURl: "http://172.19.0.17/",
-});
-
-api.interceptors.request.use(function (config) {
-  const token = localStorage.getItem("Authorization");
-  config.headers.Authorization = token ? `Bearer ${token}` : "";
-  return config;
+  baseURL: "http://172.19.0.17/api/",
 });
 
 // перехват запросов

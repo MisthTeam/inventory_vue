@@ -46,7 +46,7 @@ router.beforeEach(async (to) => {
       auth.setBearerToken(token);
       const user = await auth.fetchUserData();
       if (user) return { path: to.fullPath };
-      else return { name: "auth.login" };
+      return { name: "auth.login" };
     }
     return { name: "auth.login" };
   }

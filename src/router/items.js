@@ -20,12 +20,12 @@ export default [
     ],
     beforeEnter: () => {
       const userStore = useUserStore();
-      const { isHaveRole } = checkUserRole(userStore.getUser, "items:control2");
+      const { isHaveRole } = checkUserRole(userStore.getUser, "items:control");
       if (!isHaveRole.value) return { name: "Dashboard" };
     },
   },
   {
-    path: "/item/:id",
+    path: "/items/:id",
     name: "Item",
     component: ItemComponent,
     children: [

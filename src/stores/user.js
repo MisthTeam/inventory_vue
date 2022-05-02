@@ -12,25 +12,28 @@ const useUserStore = defineStore({
     isLoggenIn: (state) => !!state.user,
   },
   actions: {
-    setBearerToken(token) {
-      localStorage.setItem("Authorization", token);
+    setBearerToken(token = null) {
+      if (token) {
+        localStorage.setItem("Authorization", token);
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      } else {
+        this.$reset();
+        localStorage.removeItem("Authorization");
+        delete api.defaults.headers.common["Authorization"];
+      }
     },
 
     async register(responseData) {
-      const response = await api.post("/api/auth/register", responseData);
+      const response = await api.post("auth/register", responseData);
       this.setBearerToken(response.access_token);
     },
     async login(responseData) {
-      const response = await api.post("/api/auth/login", responseData);
+      const response = await api.post("auth/login", responseData);
       this.setBearerToken(response.access_token);
     },
     async fetchUserData() {
-      this.user = await api.get("/api/auth/me");
+      this.user = await api.get("auth/me");
       return this.user;
-    },
-    async logout() {
-      this.$reset();
-      localStorage.removeItem("Authorization");
     },
   },
 });

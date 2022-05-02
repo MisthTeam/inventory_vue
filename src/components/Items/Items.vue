@@ -31,7 +31,7 @@ defineProps({
 });
 const router = useRouter();
 const toItem = (id) => {
-  router.push(`/item/${id}`);
+  router.push(`/items/${id}`);
 };
 </script>
 

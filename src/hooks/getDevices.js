@@ -12,9 +12,8 @@ export default function getDevices() {
       DevicesRef.value = devices;
     } catch (error) {
       console.log(error);
-    } finally {
-      isLoading.value = false;
     }
+    isLoading.value = false;
   };
 
   onMounted(fetching);

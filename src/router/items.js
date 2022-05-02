@@ -1,6 +1,6 @@
 import ItemComponent from "@/components/ItemComponent.vue";
-import { useUserStore } from "@/stores";
 import { checkUserRole } from "@/hooks";
+import { useUserStore } from "@/stores";
 
 export default [
   {

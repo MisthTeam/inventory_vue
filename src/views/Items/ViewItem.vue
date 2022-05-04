@@ -7,14 +7,14 @@ import { useUserStore } from "@/stores";
 const route = useRoute();
 const userStore = useUserStore();
 const { itemsStore, isLoading } = getItems();
-const { isHaveRole } = checkUserRole(userStore.getUser, "items:control");
+const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
 const item = computed(() => itemsStore.getItemById(route.params.id));
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
   <div class="container" v-if="item && !isLoading">
     <div class="row">
-      <div class="row justify-content-center" v-if="isHaveRole">
+      <div class="row justify-content-center" v-if="isHasRole">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
           <router-link
             :to="{ path: `/items/add` }"

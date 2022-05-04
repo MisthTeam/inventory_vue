@@ -20,8 +20,8 @@ export default [
     ],
     beforeEnter: () => {
       const userStore = useUserStore();
-      const { isHaveRole } = checkUserRole(userStore.getUser, "items:control");
-      if (!isHaveRole.value) return { name: "Dashboard" };
+      const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
+      if (!isHasRole.value) return { name: "Dashboard" };
     },
   },
   {

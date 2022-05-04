@@ -37,10 +37,7 @@ defineEmits(["editDevice"]);
         @input="
           $emit('editDevice', { value: $event.target.value, target: spec })
         "
-        :value="
-          (device && device.specification[spec]) ||
-          (dto.device.specification && dto.device.specification[spec])
-        "
+        :value="device?.specification[spec] || dto.device?.specification[spec]"
         :placeholder="spec"
         :aria-label="spec"
       />

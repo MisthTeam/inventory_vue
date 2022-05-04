@@ -1,12 +1,9 @@
 import { ref } from "vue";
 
 export default function checkUserRole(user, roleValue) {
-  const isHaveRole = ref(false);
-  if (!user) return { isHaveRole };
-  user.roles.forEach((role) => {
-    if (role.value === roleValue) isHaveRole.value = true;
-  });
+  const isHasRole = ref(false);
+  isHasRole.value = user?.roles?.some((role) => role.value === roleValue);
   return {
-    isHaveRole,
+    isHasRole,
   };
 }

@@ -1,18 +1,16 @@
 <script setup>
-import { getItems, checkUserRole } from "@/hooks";
-import { computed } from "vue";
+import { getItem, checkUserRole } from "@/hooks";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores";
 
 const route = useRoute();
 const userStore = useUserStore();
-const { itemsStore, isLoading } = getItems();
+const { itemRef, isLoading } = getItem(route.params.id);
 const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
-const item = computed(() => itemsStore.getItemById(route.params.id));
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
-  <div class="container" v-if="item && !isLoading">
+  <div class="container" v-if="itemRef && !isLoading">
     <div class="row">
       <div class="row justify-content-center" v-if="isHasRole">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
@@ -36,10 +34,10 @@ const item = computed(() => itemsStore.getItemById(route.params.id));
       </div>
       <div class="row justify-content-center mt-3">
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <AddItemsFields
+          <AddItemsFields :disabled="true" v-model="itemRef.meta.name" />
+          <AddAttributeFields
             :disabled="true"
-            v-model="item.meta.name"
-            :attributes="item.attributes"
+            :attributes="itemRef.attributes"
           />
         </div>
       </div>
@@ -48,7 +46,7 @@ const item = computed(() => itemsStore.getItemById(route.params.id));
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
             <select class="form-select" disabled aria-label="Device type">
-              <option selected value="">{{ item.device.type }}</option>
+              <option selected value="">{{ itemRef.device.type }}</option>
             </select>
             <label for="floatingInput">Device type</label>
           </div>
@@ -58,12 +56,12 @@ const item = computed(() => itemsStore.getItemById(route.params.id));
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <AddSpecFields
             :dto="{}"
-            :option="item.device.type"
-            :device="item.device"
+            :option="itemRef.device.type"
+            :device="itemRef.device"
           />
         </div>
       </div>
     </div>
-    {{ item.attributes }}
+    {{ itemRef.attributes }}
   </div>
 </template>

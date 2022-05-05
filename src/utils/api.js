@@ -3,7 +3,7 @@ import router from "@/router";
 
 // аксиос клиент
 export const api = axios.create({
-  baseURL: "http://172.19.0.17/api/",
+  baseURL: "https://inv.misthntism.space/api/",
 });
 
 // перехват запросов

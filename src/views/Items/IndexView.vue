@@ -2,12 +2,13 @@
 import Items from "@/components/Items/Items.vue";
 import { getItems, useSearch, useSortedItems } from "@/hooks";
 import { types } from "@/utils/helpers";
-const { itemsRef } = getItems(); // Получение items из БД
+const { itemsRef, isLoading } = getItems(); // Получение items из БД
 const { sortedValue, sortedItems } = useSortedItems(itemsRef); // Сортировка по выбранному селектору
 const { searchQuery, searchedItems } = useSearch(sortedItems); // Фильтрация по имени
 </script>
 <template>
-  <div class="container mt-6" v-if="itemsRef">
+  <LoadingSpinner v-if="isLoading" />
+  <div class="container mt-6" v-if="itemsRef && !isLoading">
     <div class="row justify-content-center">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <router-link

@@ -24,6 +24,10 @@ const useItemsStore = defineStore({
       const data = await api.post("items", payload);
       return data;
     },
+    async getItem(id) {
+      const data = await api.get(`items/${id}`);
+      return data;
+    },
   },
 });
 

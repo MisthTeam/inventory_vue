@@ -1,6 +1,6 @@
 import { useItemsStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 export default function getItems() {
   const isLoading = ref(true);
@@ -19,6 +19,9 @@ export default function getItems() {
   };
 
   onMounted(fetching);
+  onUnmounted(() => {
+    itemsStore.$reset();
+  });
 
   return {
     itemsStore,

@@ -28,6 +28,16 @@ const useItemsStore = defineStore({
       const data = await api.get(`items/${id}`);
       return data;
     },
+    async deleteItem(id) {
+      await api.delete(`admin/items/${Number(id)}`);
+    },
+    async editItem(id, itemRef) {
+      const { item } = await api.put(`admin/items/${Number(id)}`, {
+        meta: itemRef.meta,
+        attr: {},
+      });
+      return item;
+    },
   },
 });
 

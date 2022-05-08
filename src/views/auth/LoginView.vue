@@ -19,8 +19,18 @@
                 <Field type="password" class="form-control" name="password" />
                 <ErrorMessage name="password" />
               </div>
-              <button type="submit" class="btn btn-primary btn-block mt-3">
-                Войти
+              <button
+                type="submit"
+                class="btn btn-primary btn-block mt-3"
+                :disabled="isLoading"
+              >
+                <span
+                  v-if="isLoading"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                <span v-if="!isLoading">Войти</span>
               </button>
             </Form>
           </div>
@@ -35,6 +45,8 @@ import { useUserStore } from "@/stores";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useToast } from "vue-toastification";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -42,17 +54,21 @@ const ValidSchema = yup.object({
   login: yup.string().required("Введите логин"),
   password: yup.string().required("Введите пароль"),
 });
+const toast = useToast();
+const isLoading = ref(false);
 
-const onSubmit = async ({ login, password }, actions) => {
+const onSubmit = async ({ login, password }) => {
   try {
+    isLoading.value = true;
     await userStore.login({ login, password });
     router.push({
       name: "Dashboard",
     });
   } catch ({ response }) {
-    if (response.data?.errors) {
-      return actions.setErrors(response.data.errors);
+    if (response?.data) {
+      toast.error(response.data.error);
     }
   }
+  isLoading.value = false;
 };
 </script>

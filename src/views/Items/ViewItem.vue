@@ -1,12 +1,17 @@
 <script setup>
-import { getItem, checkUserRole } from "@/hooks";
+import { getItem, checkUserRole, deleteItem, editItem } from "@/hooks";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores";
+import { ref } from "vue";
 
 const route = useRoute();
 const userStore = useUserStore();
+const isEditing = ref(false);
 const { itemRef, isLoading } = getItem(route.params.id);
 const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
+const { deleteIt, isDeleteLoading } = deleteItem();
+const { isUpdateLoading, editIt } = editItem(isEditing);
+console.log(isUpdateLoading);
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
@@ -14,29 +19,47 @@ const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
     <div class="row">
       <div class="row justify-content-center" v-if="isHasRole">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
-          <router-link
-            :to="{ path: `/items/add` }"
+          <button
+            v-if="!isEditing"
             type="button"
             class="btn btn-block btn-warning"
+            @click="isEditing = !isEditing"
+            :disabled="isEditing"
           >
             <b>Изменить</b>
-          </router-link>
+          </button>
+          <button
+            v-else
+            type="button"
+            class="btn btn-block btn-success"
+            @click="editIt(itemRef.id, itemRef)"
+            :disabled="isUpdateLoading"
+          >
+            <span
+              v-if="isUpdateLoading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            />
+            <span>Сохранить</span>
+          </button>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-md-0 mt-2">
-          <router-link
-            :to="{ path: `/items/add` }"
+          <button
             type="button"
             class="btn btn-block btn-danger"
+            @click="deleteIt(itemRef.id)"
+            :disabled="isDeleteLoading"
           >
             <b>Удалить</b>
-          </router-link>
+          </button>
         </div>
       </div>
       <div class="row justify-content-center mt-3">
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <AddItemsFields :disabled="true" v-model="itemRef.meta.name" />
+          <AddItemsFields :disabled="!isEditing" v-model="itemRef.meta.name" />
           <AddAttributeFields
-            :disabled="true"
+            :disabled="!isEditing"
             :attributes="itemRef.attributes"
           />
         </div>
@@ -63,5 +86,12 @@ const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
       </div>
     </div>
     {{ itemRef.attributes }}
+  </div>
+  <div v-else-if="!itemRef && !isLoading" class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 text-center">
+        <h2>Предмета нету</h2>
+      </div>
+    </div>
   </div>
 </template>

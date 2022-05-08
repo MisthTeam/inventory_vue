@@ -2,7 +2,7 @@
   <table class="table" v-if="items.length">
     <thead>
       <tr>
-        <th scope="col">Название</th>
+        <th scope="col">S/N</th>
         <th scope="col">Тип устройства</th>
         <th scope="col">Инфо</th>
       </tr>

@@ -8,9 +8,9 @@
       id="floatingInput"
       required
       :disabled="disabled"
-      placeholder="Название комплектующего"
+      placeholder="S/N"
     />
-    <label for="floatingInput">Название комплектующего</label>
+    <label for="floatingInput">S/N</label>
   </div>
 </template>
 

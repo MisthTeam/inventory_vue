@@ -1,9 +1,10 @@
 <template>
   <nav
+    v-if="userStore.isLoggenIn"
     class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm"
   >
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <router-link class="navbar-brand" to="/">Navbar</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -38,7 +39,7 @@
             </router-link>
           </li>
         </ul>
-        <div v-if="userStore.isLoggenIn" class="d-flex">
+        <div class="d-flex">
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <a
@@ -60,7 +61,11 @@
                 <li>
                   <a class="dropdown-item" href="#">Панель администратора</a>
                 </li>
-                <li><a class="dropdown-item" href="#">Выход</a></li>
+                <li>
+                  <router-link class="dropdown-item" to="/logout"
+                    >Выход</router-link
+                  >
+                </li>
               </ul>
             </li>
           </ul>

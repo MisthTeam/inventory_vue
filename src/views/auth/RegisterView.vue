@@ -33,8 +33,18 @@
                 />
                 <ErrorMessage name="password_confirmation" />
               </div>
-              <button type="submit" class="btn btn-primary btn-block mt-3">
-                Зарегистрироваться
+              <button
+                type="submit"
+                class="btn btn-primary btn-block mt-3"
+                :disabled="isLoading"
+              >
+                <span
+                  v-if="isLoading"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                <span v-if="!isLoading">Зарегистрироваться</span>
               </button>
             </Form>
           </div>
@@ -45,13 +55,9 @@
 </template>
 
 <script setup>
+import { useRegister } from "@/hooks/auth";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-import { useRouter } from "vue-router";
-import { useUserStore } from "@/stores";
-
-const userStore = useUserStore();
-const router = useRouter();
 const ValidSchema = yup.object({
   login: yup.string().required("Введите логин"),
   email: yup
@@ -64,22 +70,5 @@ const ValidSchema = yup.object({
     .oneOf([yup.ref("password"), null], "Пароли не совпадают")
     .required("Введите повторный пароль"),
 });
-
-const onSubmit = async (data, actions) => {
-  const user = {
-    login: data.login,
-    email: data.email,
-    password: data.password,
-    password_confirmation: data.password_confirmation,
-  };
-
-  try {
-    await userStore.register(user);
-    router.push({
-      name: "Dashboard",
-    });
-  } catch (error) {
-    actions.setErrors(error.errors);
-  }
-};
+const { isLoading, onSubmit } = useRegister();
 </script>

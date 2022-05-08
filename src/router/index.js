@@ -1,7 +1,7 @@
 import authRouters from "./auth";
 import itemRouters from "./items";
+import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
-import NotFound from "@/views/Home/NotFound.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -26,7 +26,7 @@ const routes = [
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: NotFound,
+    component: () => import("@/views/Home/NotFound.vue"),
   },
 
   ...authRouters,
@@ -49,6 +49,11 @@ router.beforeEach(async (to) => {
       return { name: "auth.login" };
     }
     return { name: "auth.login" };
+  }
+
+  if (to.meta?.role && auth.isLoggenIn) {
+    const { isHasRole } = checkUserRole(auth.getUser, to.meta.role);
+    if (!isHasRole.value) return { name: "Dashboard" };
   }
 });
 

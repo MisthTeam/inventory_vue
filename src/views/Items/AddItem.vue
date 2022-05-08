@@ -54,7 +54,7 @@ const logs = ({ target, value }) => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container mt-6">
     <form @submit.prevent="addItem">
       <form @submit.prevent="onSubmit">
         <div class="input-group mb-3">

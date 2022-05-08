@@ -41,34 +41,12 @@
 </template>
 
 <script setup>
-import { useUserStore } from "@/stores";
+import { useLogin } from "@/hooks/auth";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
-import { useToast } from "vue-toastification";
-
-const userStore = useUserStore();
-const router = useRouter();
 const ValidSchema = yup.object({
   login: yup.string().required("Введите логин"),
   password: yup.string().required("Введите пароль"),
 });
-const toast = useToast();
-const isLoading = ref(false);
-
-const onSubmit = async ({ login, password }) => {
-  try {
-    isLoading.value = true;
-    await userStore.login({ login, password });
-    router.push({
-      name: "Dashboard",
-    });
-  } catch ({ response }) {
-    if (response?.data) {
-      toast.error(response.data.error);
-    }
-  }
-  isLoading.value = false;
-};
+const { isLoading, onSubmit } = useLogin();
 </script>

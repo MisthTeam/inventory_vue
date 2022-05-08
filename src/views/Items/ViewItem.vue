@@ -1,5 +1,6 @@
 <script setup>
-import { getItem, checkUserRole, deleteItem, editItem } from "@/hooks";
+import { getItem, deleteItem, editItem } from "@/hooks/items";
+import { checkUserRole } from "@/hooks/user";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores";
 import { ref } from "vue";
@@ -11,11 +12,10 @@ const { itemRef, isLoading } = getItem(route.params.id);
 const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
 const { deleteIt, isDeleteLoading } = deleteItem();
 const { isUpdateLoading, editIt } = editItem(isEditing);
-console.log(isUpdateLoading);
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
-  <div class="container" v-if="itemRef && !isLoading">
+  <div class="container mt-6" v-if="itemRef && !isLoading">
     <div class="row">
       <div class="row justify-content-center" v-if="isHasRole">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
@@ -51,6 +51,12 @@ console.log(isUpdateLoading);
             @click="deleteIt(itemRef.id)"
             :disabled="isDeleteLoading"
           >
+            <span
+              v-if="isDeleteLoading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            />
             <b>Удалить</b>
           </button>
         </div>

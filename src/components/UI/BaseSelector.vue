@@ -25,5 +25,5 @@ const changeOption = (event) => {
 </script>
 
 <script>
-export default { name: "Selector" };
+export default { name: "BaseSelector" };
 </script>

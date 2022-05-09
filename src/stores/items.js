@@ -1,5 +1,6 @@
 import { api } from "@/utils/api";
 import { defineStore } from "pinia";
+import { array_column } from "@/utils/helpers";
 
 const useItemsStore = defineStore({
   id: "items",
@@ -34,7 +35,7 @@ const useItemsStore = defineStore({
     async editItem(id, itemRef) {
       const { item } = await api.put(`admin/items/${Number(id)}`, {
         meta: itemRef.meta,
-        attr: {},
+        attr: array_column(itemRef.attributes, "value", "id"),
       });
       return item;
     },

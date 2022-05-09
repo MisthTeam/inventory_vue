@@ -1,10 +1,10 @@
 <script setup>
 import { useDevicesStore, useItemsStore } from "@/stores";
 import { deviceTypes } from "@/utils/helpers";
-import { ref, shallowRef, watch } from "vue";
+import { ref, watch } from "vue";
 import { useToast } from "vue-toastification";
 
-const dto = shallowRef({
+const dto = ref({
   pn: "",
   device: { specification: {}, type: null },
   item: {
@@ -12,7 +12,6 @@ const dto = shallowRef({
   },
 });
 const device = ref(null); // Получение девайса из БД
-const optionsValue = ref(null); // Выбор типа девайса
 const responseRec = ref(false); // Получен ответ или нет (для вывода доп инпутов)
 const deviceStore = useDevicesStore();
 const itemStore = useItemsStore();
@@ -21,8 +20,7 @@ const toast = useToast();
 const onSubmit = async () => {
   try {
     device.value = await deviceStore.getDeviceByPn(dto.value.pn);
-    dto.value.device = device.value || { specification: {} };
-    optionsValue.value = device.value?.type || null;
+    dto.value.device = device.value || { specification: {}, type: null };
     responseRec.value = true;
   } catch (error) {
     console.error(error);
@@ -30,12 +28,16 @@ const onSubmit = async () => {
   }
 };
 
-watch(optionsValue, (value) => {
-  dto.value.device.type = value;
-  if (!device.value) {
-    dto.value.device.specification = {};
-  }
-});
+watch(
+  () => dto.value.device.type,
+  (value) => {
+    dto.value.device.type = value;
+    if (!device.value) {
+      dto.value.device.specification = {};
+    }
+  },
+  { deep: true }
+);
 
 const addItem = async () => {
   try {
@@ -76,7 +78,7 @@ const logs = ({ target, value }) => {
         <div class="form-floating mb-3">
           <select
             class="form-select"
-            v-model="optionsValue"
+            v-model="dto.device.type"
             :disabled="device"
             aria-label="Device type"
           >
@@ -88,8 +90,8 @@ const logs = ({ target, value }) => {
         </div>
         <AddSpecFields
           :dto="dto"
-          v-if="optionsValue"
-          :option="optionsValue"
+          v-if="dto.device.type"
+          :option="dto.device.type"
           :device="device"
           @editDevice="logs"
         />

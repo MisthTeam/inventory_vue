@@ -64,10 +64,17 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
       <div class="row justify-content-center mt-3">
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <AddItemsFields :disabled="!isEditing" v-model="itemRef.meta.name" />
-          <AddAttributeFields
-            :disabled="!isEditing"
-            :attributes="itemRef.attributes"
-          />
+          <div
+            class="form-floating mb-3"
+            v-for="(attribute, i) in itemRef.attributes"
+            :key="attribute.id"
+          >
+            <AddAttributeFields
+              :disabled="!isEditing"
+              :attribute="attribute"
+              v-model="itemRef.attributes[i]"
+            />
+          </div>
         </div>
       </div>
 

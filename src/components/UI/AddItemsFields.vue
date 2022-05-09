@@ -4,7 +4,7 @@
       type="text"
       class="form-control"
       :value="modelValue"
-      @input="updateValue"
+      @input="$emit('update:modelValue', $event.target.value)"
       id="floatingInput"
       required
       :disabled="disabled"
@@ -23,11 +23,7 @@ defineProps({
     default: false,
   },
 });
-const emit = defineEmits(["update:modelValue"]);
-
-const updateValue = (event) => {
-  emit("update:modelValue", event.target.value);
-};
+defineEmits(["update:modelValue"]);
 </script>
 
 <script>

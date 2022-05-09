@@ -11,7 +11,7 @@
       <tr v-for="item in items" :key="item.id" @click="toItem(item.id)">
         <td>{{ item.meta?.name || "nope" }}</td>
         <td>{{ item.device.type }}</td>
-        <td>{{ item.device.specification.volume }}</td>
+        <td>{{ itemInfo(item) }}</td>
         <td>{{ item.user.login }}</td>
         <td>
           <!-- {{ convertTime(item.created_at) }} -->
@@ -32,6 +32,19 @@ defineProps({
 const router = useRouter();
 const toItem = (id) => {
   router.push(`/items/${id}`);
+};
+const itemInfo = (item) => {
+  const info = {
+    HDD: item.device.specification.volume,
+    SSD: item.device.specification.volume,
+    CPU: item.device.specification.model,
+    GPU: item.device.specification.model,
+    NVMe: item.device.specification.volume,
+    networkCard: item.device.specification.connector,
+    raidController: item.device.specification.model,
+    DRAM: item.device.specification.volume,
+  };
+  return info[item.device.type] || "None";
 };
 </script>
 

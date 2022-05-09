@@ -1,9 +1,10 @@
 <script setup>
-defineProps({
-  attributes: {
-    types: Array,
-    required: false,
-    default: () => null,
+const props = defineProps({
+  modelValue: Object,
+  attribute: {
+    types: Object,
+    required: true,
+    default: () => {},
   },
   disabled: {
     types: Boolean,
@@ -11,6 +12,10 @@ defineProps({
     default: false,
   },
 });
+const emit = defineEmits(["update:modelValue"]);
+const updatevalue = (key, value) => {
+  emit("update:modelValue", { ...props.modelValue, [key]: value });
+};
 </script>
 
 <script>
@@ -20,35 +25,32 @@ export default {
 </script>
 
 <template>
-  <div
-    class="form-floating mb-3"
-    v-for="attribute in attributes"
-    :key="attribute.id"
-  >
-    <input
-      type="text"
-      v-if="attribute.meta.type === 'text'"
-      class="form-control"
-      id="floatingInput"
-      :value="attribute.value"
-      required
-      :disabled="disabled"
-      :placeholder="attribute.name"
-    />
+  <input
+    type="text"
+    v-if="attribute.meta.type === 'text'"
+    class="form-control"
+    id="floatingInput"
+    :value="attribute.value || ''"
+    @input="updatevalue('value', $event.target.value)"
+    required
+    :disabled="disabled"
+    :placeholder="attribute.name"
+  />
 
-    <select
-      :disabled="disabled"
-      class="form-select"
-      v-if="attribute.meta.type === 'select'"
+  <select
+    :disabled="disabled"
+    class="form-select"
+    v-if="attribute.meta.type === 'select'"
+    :value="attribute.value || ''"
+    @change="updatevalue('value', $event.target.value)"
+  >
+    <option
+      v-for="l in attribute.meta.list"
+      :key="l"
+      :value="l === attribute.value"
     >
-      <option
-        v-for="l in attribute.meta.list"
-        :key="l"
-        :value="l === attribute.value"
-      >
-        {{ l }}
-      </option>
-    </select>
-    <label for="floatingInput">{{ attribute.name }}</label>
-  </div>
+      {{ l }}
+    </option>
+  </select>
+  <label for="floatingInput">{{ attribute.name }}</label>
 </template>

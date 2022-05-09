@@ -12,7 +12,7 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
     <div class="row justify-content-center">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <router-link
-          :to="{ path: `/items/add` }"
+          to="/items/add"
           type="button"
           class="btn btn-block btn-dark"
         >

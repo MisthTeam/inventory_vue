@@ -63,7 +63,13 @@
                   <a class="dropdown-item" href="#">Настройки</a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">Панель администратора</a>
+                  <router-link
+                    to="/admin"
+                    aria-current="page"
+                    class="dropdown-item"
+                  >
+                    Панель администратора
+                  </router-link>
                 </li>
                 <li>
                   <router-link class="dropdown-item" to="/logout">

@@ -63,18 +63,16 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">Название</th>
+              <th scope="col">S\N</th>
               <th scope="col">Тип устройства</th>
-              <th scope="col">Инфо</th>
-              <th scope="col">Сотрудник</th>
+              <th scope="col" class="d-sm-block d-none">Сотрудник</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>1</td>
               <td>2</td>
-              <td>3</td>
-              <td>4</td>
+              <td class="d-sm-block d-none">4</td>
             </tr>
           </tbody>
         </table>

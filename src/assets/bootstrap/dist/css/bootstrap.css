@@ -5163,6 +5163,24 @@ fieldset:disabled .btn {
 .badge:empty {
   display: none;
 }
+.vertical-center {
+  min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+.badge-success {
+  color: #fff;
+  background-color: #28a745;
+}
+
+.badge-success[href]:hover,
+.badge-success[href]:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #1e7e34;
+}
 
 .btn .badge {
   position: relative;
@@ -7651,7 +7669,7 @@ fieldset:disabled .btn {
 }
 
 .mt-5 {
-  margin-top: 3rem !important;
+  margin-top: 3.7rem !important;
 }
 
 .mt-6 {

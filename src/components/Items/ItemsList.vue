@@ -11,8 +11,9 @@
       <tr v-for="item in items" :key="item.id" @click="toItem(item.id)">
         <td>{{ item.meta?.name || "nope" }}</td>
         <td>{{ item.device.type }}</td>
-        <td>{{ itemInfo(item) }}</td>
-        <td>{{ item.user.login }}</td>
+        <td class="d-sm-table-cell d-none">{{ itemInfo(item) }}</td>
+        <td class="d-sm-table-cell d-none">{{ item.user.login }}</td>
+        <td><span class="badge badge-success">Свободно</span></td>
         <td>
           <!-- {{ convertTime(item.created_at) }} -->
         </td>

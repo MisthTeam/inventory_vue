@@ -1,9 +1,9 @@
 <script setup>
-import { getItem, deleteItem, editItem } from "@/hooks/items";
+import { deleteItem, editItem, getItem } from "@/hooks/items";
 import { checkUserRole } from "@/hooks/user";
-import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -15,8 +15,11 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
-  <div v-if="itemRef && !isLoading" class="container mt-6">
-    <div class="row">
+  <div class="container">
+    <div
+      v-if="itemRef && !isLoading"
+      class="row justify-content-center align-items-center vh-100"
+    >
       <div v-if="isHasRole" class="row justify-content-center">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
           <button
@@ -60,18 +63,13 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
             <b>Удалить</b>
           </button>
         </div>
-      </div>
-      <div class="row justify-content-center mt-3">
-        <div class="col-xl-8 col-lg-8 col-md-12 col-12">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-3">
           <ItemsFields v-model="itemRef.meta.name" :disabled="!isEditing" />
           <AttributesList
             :attributes="itemRef.attributes"
             :disabled="!isEditing"
           />
         </div>
-      </div>
-
-      <div class="row justify-content-center">
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
             <select class="form-select" disabled aria-label="Device type">
@@ -82,8 +80,6 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
             <label for="floatingInput">Device type</label>
           </div>
         </div>
-      </div>
-      <div class="row justify-content-center">
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <AddSpecFields
             :dto="{}"
@@ -93,10 +89,10 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
         </div>
       </div>
     </div>
-    {{ itemRef.attributes }}
-  </div>
-  <div v-else-if="!itemRef && !isLoading" class="container">
-    <div class="row justify-content-center">
+    <div
+      v-else-if="!itemRef && !isLoading"
+      class="row justify-content-center align-items-center vh-100"
+    >
       <div class="col-12 text-center">
         <h2>Предмета нету</h2>
       </div>

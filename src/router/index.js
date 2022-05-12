@@ -1,8 +1,9 @@
-import authRouters from "./auth";
-import itemRouters from "./items";
 import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
 import { createRouter, createWebHistory } from "vue-router";
+import adminRouters from "./admin";
+import authRouters from "./auth";
+import itemRouters from "./items";
 
 const routes = [
   {
@@ -31,6 +32,7 @@ const routes = [
 
   ...authRouters,
   ...itemRouters,
+  ...adminRouters,
 ];
 
 const router = createRouter({

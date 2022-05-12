@@ -8,7 +8,7 @@
         <div class="card shadow-lg">
           <div class="card-body">
             <h4 class="card-title text-center">Регистрация</h4>
-            <Form @submit="onSubmit" :validation-schema="ValidSchema">
+            <Form :validation-schema="ValidSchema" @submit="onSubmit">
               <div class="form-group mt-2">
                 <label class="form-label">Login</label>
                 <Field type="text" class="form-control" name="login" />

@@ -8,7 +8,7 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
-  <div class="container mt-6" v-if="itemsRef && !isLoading">
+  <div v-if="itemsRef && !isLoading" class="container mt-6">
     <div class="row justify-content-center">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <router-link
@@ -26,9 +26,9 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input
+          v-model="searchQuery"
           type="text"
           class="form-control"
-          v-model="searchQuery"
           placeholder="Поиск"
           aria-label="enter pn"
           aria-describedby="button-addon2"
@@ -37,7 +37,7 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
     </div>
     <div class="row justify-content-center mt-2">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-        <ItemsList :items="searchedItems" v-if="searchedItems.length" />
+        <ItemsList v-if="searchedItems.length" :items="searchedItems" />
         <div v-else class="text-center">
           <h5>Данных комплектующих ещё нету</h5>
         </div>

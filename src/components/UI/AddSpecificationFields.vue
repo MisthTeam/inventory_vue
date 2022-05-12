@@ -26,20 +26,20 @@ defineEmits(["editDevice"]);
 
 <template>
   <div v-for="t in deviceTypes" :key="t.id">
-    <div class="input-group mb-3" v-if="t.type === option">
+    <div v-if="t.type === option" class="input-group mb-3">
       <input
-        type="text"
         v-for="spec of t.specification"
-        :key="spec"
-        class="form-control"
         id="floatingInput"
+        :key="spec"
+        type="text"
+        class="form-control"
         :disabled="device"
-        @input="
-          $emit('editDevice', { value: $event.target.value, target: spec })
-        "
         :value="device?.specification[spec] || dto.device?.specification[spec]"
         :placeholder="spec"
         :aria-label="spec"
+        @input="
+          $emit('editDevice', { value: $event.target.value, target: spec })
+        "
       />
     </div>
   </div>

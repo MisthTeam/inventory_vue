@@ -5,7 +5,7 @@
         <div class="card m-3 green">
           <div class="card-body">
             <h5 class="card-title">Комплектующие</h5>
-            <h4 class="card-text text-end" v-if="itemsRef">
+            <h4 v-if="itemsRef" class="card-text text-end">
               {{ itemsRef.length }}
             </h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -16,7 +16,7 @@
         <div class="card m-3 devices">
           <div class="card-body">
             <h5 class="card-title">Девайсы</h5>
-            <h4 class="card-text text-end" v-if="itemsRef">
+            <h4 v-if="itemsRef" class="card-text text-end">
               {{ itemsRef.length }}
             </h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -27,7 +27,7 @@
         <div class="card m-3 free-compl">
           <div class="card-body">
             <h5 class="card-title">Свободно комплектующих</h5>
-            <h4 class="card-text text-end" v-if="itemsRef">
+            <h4 v-if="itemsRef" class="card-text text-end">
               {{ itemsRef.length }}
             </h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -38,7 +38,7 @@
         <div class="card m-3 used-compl">
           <div class="card-body">
             <h5 class="card-title">Используется комплектующих</h5>
-            <h4 class="card-text text-end" v-if="itemsRef">
+            <h4 v-if="itemsRef" class="card-text text-end">
               {{ itemsRef.length }}
             </h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -49,7 +49,7 @@
         <div class="card m-3 crash-compl">
           <div class="card-body">
             <h5 class="card-title">Сломано комплектующих</h5>
-            <h4 class="card-text text-end" v-if="itemsRef">
+            <h4 v-if="itemsRef" class="card-text text-end">
               {{ itemsRef.length }}
             </h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -100,6 +100,12 @@
   </div>
 </template>
 
+<script setup>
+import { getItems } from "@/hooks/items";
+
+const { itemsRef } = getItems();
+</script>
+
 <style scoped>
 .green {
   background-color: #bffffd;
@@ -122,9 +128,3 @@
   color: #733535;
 }
 </style>
-
-<script setup>
-import { getItems } from "@/hooks/items";
-
-const { itemsRef } = getItems();
-</script>

@@ -1,14 +1,17 @@
 import { onMounted, ref } from "vue";
 import { api } from "@/utils/api";
+import { useToast } from "vue-toastification";
 
 export default function getAttributes() {
   const isLoading = ref(true);
   const attributes = ref(null);
+  const toast = useToast();
   const fetching = async () => {
     try {
       const { attrs } = api.get("attr");
       attributes.value = attrs;
     } catch (error) {
+      toast.error("Произошла ошибка при получении данных. Попробуйте позже");
       console.log(error);
     }
     isLoading.value = false;

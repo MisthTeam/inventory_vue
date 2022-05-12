@@ -61,8 +61,8 @@ const logs = ({ target, value }) => {
       <form @submit.prevent="onSubmit">
         <div class="input-group mb-3">
           <input
-            type="text"
             v-model="dto.pn"
+            type="text"
             class="form-control"
             required
             placeholder="enter pn"
@@ -77,8 +77,8 @@ const logs = ({ target, value }) => {
       <div v-if="responseRec">
         <div class="form-floating mb-3">
           <select
-            class="form-select"
             v-model="dto.device.type"
+            class="form-select"
             :disabled="device"
             aria-label="Device type"
           >
@@ -89,13 +89,13 @@ const logs = ({ target, value }) => {
           <label for="floatingInput">Device type</label>
         </div>
         <AddSpecFields
-          :dto="dto"
           v-if="dto.device.type"
+          :dto="dto"
           :option="dto.device.type"
           :device="device"
           @editDevice="logs"
         />
-        <AddItemsFields v-model="dto.item.name" />
+        <ItemsFields v-model="dto.item.name" />
         <button class="btn btn-outline-secondary" type="submit">
           Создать устройство
         </button>

@@ -20,34 +20,35 @@ const updatevalue = (key, value) => {
 
 <script>
 export default {
-  name: "AddAttributeFields",
+  name: "AttributeField",
 };
 </script>
 
 <template>
   <input
-    type="text"
     v-if="attribute.meta.type === 'text'"
-    class="form-control"
     id="floatingInput"
-    :value="attribute.value || ''"
-    @input="updatevalue('value', $event.target.value)"
+    type="text"
+    class="form-control"
+    :value="attribute.value"
     required
     :disabled="disabled"
     :placeholder="attribute.name"
+    @input="updatevalue('value', $event.target.value)"
   />
 
   <select
+    v-if="attribute.meta.type === 'select'"
     :disabled="disabled"
     class="form-select"
-    v-if="attribute.meta.type === 'select'"
-    :value="attribute.value || ''"
+    :value="attribute.value"
     @change="updatevalue('value', $event.target.value)"
   >
     <option
       v-for="l in attribute.meta.list"
       :key="l"
-      :value="l === attribute.value"
+      :selected="l === attribute.value"
+      :value="l"
     >
       {{ l }}
     </option>

@@ -1,14 +1,14 @@
 <template>
   <div class="form-floating mb-3">
     <input
+      id="floatingInput"
       type="text"
       class="form-control"
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-      id="floatingInput"
       required
       :disabled="disabled"
       placeholder="S/N"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
     <label for="floatingInput">S/N</label>
   </div>
@@ -28,6 +28,6 @@ defineEmits(["update:modelValue"]);
 
 <script>
 export default {
-  name: "AddItemsFields",
+  name: "ItemsFields",
 };
 </script>

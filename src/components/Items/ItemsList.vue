@@ -1,5 +1,5 @@
 <template>
-  <table class="table" v-if="items.length">
+  <table v-if="items.length" class="table">
     <thead>
       <tr>
         <th scope="col">S/N</th>

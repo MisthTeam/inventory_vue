@@ -15,16 +15,16 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
-  <div class="container mt-6" v-if="itemRef && !isLoading">
+  <div v-if="itemRef && !isLoading" class="container mt-6">
     <div class="row">
-      <div class="row justify-content-center" v-if="isHasRole">
+      <div v-if="isHasRole" class="row justify-content-center">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
           <button
             v-if="!isEditing"
             type="button"
             class="btn btn-block btn-warning"
-            @click="isEditing = !isEditing"
             :disabled="isEditing"
+            @click="isEditing = !isEditing"
           >
             <b>Изменить</b>
           </button>
@@ -32,8 +32,8 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
             v-else
             type="button"
             class="btn btn-block btn-success"
-            @click="editIt(itemRef.id, itemRef)"
             :disabled="isUpdateLoading"
+            @click="(event) => editIt(itemRef.id, itemRef, event)"
           >
             <span
               v-if="isUpdateLoading"
@@ -48,8 +48,8 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
           <button
             type="button"
             class="btn btn-block btn-danger"
-            @click="deleteIt(itemRef.id)"
             :disabled="isDeleteLoading"
+            @click="deleteIt(itemRef.id)"
           >
             <span
               v-if="isDeleteLoading"
@@ -63,18 +63,11 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
       </div>
       <div class="row justify-content-center mt-3">
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <AddItemsFields :disabled="!isEditing" v-model="itemRef.meta.name" />
-          <div
-            class="form-floating mb-3"
-            v-for="(attribute, i) in itemRef.attributes"
-            :key="attribute.id"
-          >
-            <AddAttributeFields
-              :disabled="!isEditing"
-              :attribute="attribute"
-              v-model="itemRef.attributes[i]"
-            />
-          </div>
+          <ItemsFields v-model="itemRef.meta.name" :disabled="!isEditing" />
+          <AttributesList
+            :attributes="itemRef.attributes"
+            :disabled="!isEditing"
+          />
         </div>
       </div>
 
@@ -82,7 +75,9 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
             <select class="form-select" disabled aria-label="Device type">
-              <option selected value="">{{ itemRef.device.type }}</option>
+              <option selected value="">
+                {{ itemRef.device.type }}
+              </option>
             </select>
             <label for="floatingInput">Device type</label>
           </div>

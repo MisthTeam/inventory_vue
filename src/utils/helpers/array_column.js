@@ -28,7 +28,6 @@ export default function array_column(input, ColumnKey, IndexKey = null) {
         }
       }
     }
-    console.log(newarray);
     return Object.assign({}, newarray);
   }
 }

@@ -1,9 +1,11 @@
 import { useItemsStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import { onMounted, onUnmounted, ref } from "vue";
+import { useToast } from "vue-toastification";
 
 export default function getItems() {
   const isLoading = ref(true);
+  const toast = useToast();
   const itemsStore = useItemsStore();
   const itemsRef = storeToRefs(itemsStore).items;
   const fetching = async () => {
@@ -12,6 +14,7 @@ export default function getItems() {
         const items = await itemsStore.getItems();
         itemsRef.value = items;
       } catch (error) {
+        toast.error("Произошла ошибка при получении данных. Попробуйте позже");
         console.log(error);
       }
     }

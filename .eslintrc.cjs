@@ -7,11 +7,14 @@ module.exports = {
     "plugin:vue/vue3-essential",
     "eslint:recommended",
     "@vue/eslint-config-prettier",
+    "prettier",
   ],
   env: {
     "vue/setup-compiler-macros": true,
+    es6: true,
   },
   rules: {
+    "vue/no-mutating-props": "ingore",
     "no-undef": "off",
   },
 };

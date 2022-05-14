@@ -83,6 +83,7 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <AddSpecFields
             :dto="{}"
+            disabled
             :option="itemRef.device.type"
             :device="itemRef.device"
           />

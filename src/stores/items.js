@@ -36,6 +36,7 @@ const useItemsStore = defineStore({
       const { item } = await api.put(`admin/items/${Number(id)}`, {
         meta: itemRef.meta,
         attr: array_column(itemRef.attributes, "value", "id"),
+        status: itemRef.status.id,
       });
       return item;
     },

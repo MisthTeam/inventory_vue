@@ -13,7 +13,16 @@
         <td>{{ item.device.type }}</td>
         <td class="d-sm-table-cell d-none">{{ itemInfo(item) }}</td>
         <td class="d-sm-table-cell d-none">{{ item.user.login }}</td>
-        <td><span class="badge badge-success">Свободно</span></td>
+        <td>
+          <span
+            class="badge"
+            :class="{
+              'badge-success': item.status.id === 1,
+              'badge-danger': item.status.id === 2,
+            }"
+            >{{ item.status.name }}</span
+          >
+        </td>
         <td>
           <!-- {{ convertTime(item.created_at) }} -->
         </td>

@@ -11,6 +11,11 @@ defineProps({
     type: String,
     required: true,
   },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   device: {
     type: Object,
     required: false,
@@ -33,7 +38,7 @@ defineEmits(["editDevice"]);
         :key="spec"
         type="text"
         class="form-control"
-        :disabled="device"
+        :disabled="disabled"
         :value="device?.specification[spec] || dto.device?.specification[spec]"
         :placeholder="spec"
         :aria-label="spec"

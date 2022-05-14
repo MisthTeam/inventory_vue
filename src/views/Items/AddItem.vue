@@ -3,6 +3,8 @@ import { useDevicesStore, useItemsStore } from "@/stores";
 import { deviceTypes } from "@/utils/helpers";
 import { ref, watch } from "vue";
 import { useToast } from "vue-toastification";
+import { getAttributeByType } from "@/hooks/attributes";
+import { array_column } from "@/utils/helpers";
 
 const dto = ref({
   pn: "",
@@ -16,6 +18,7 @@ const responseRec = ref(false); // Получен ответ или нет (дл
 const deviceStore = useDevicesStore();
 const itemStore = useItemsStore();
 const toast = useToast();
+const { isLoadingAttribute, getAttribute, attributes } = getAttributeByType();
 
 const onSubmit = async () => {
   try {
@@ -30,8 +33,9 @@ const onSubmit = async () => {
 
 watch(
   () => dto.value.device.type,
-  (value) => {
+  async (value) => {
     dto.value.device.type = value;
+    if (value) await getAttribute(value);
     if (!device.value) {
       dto.value.device.specification = {};
     }
@@ -41,7 +45,10 @@ watch(
 
 const addItem = async () => {
   try {
-    await itemStore.createItem(dto.value);
+    await itemStore.createItem({
+      ...dto.value,
+      attr: array_column(attributes.value, "value", "id"),
+    });
     toast.success("Комплектующий добавлен");
   } catch (error) {
     console.error(error);
@@ -79,7 +86,7 @@ const logs = ({ target, value }) => {
           <select
             v-model="dto.device.type"
             class="form-select"
-            :disabled="device"
+            :disabled="!!device || isLoadingAttribute"
             aria-label="Device type"
           >
             <option v-for="t in deviceTypes" :key="t.id" :value="t.type">
@@ -91,10 +98,12 @@ const logs = ({ target, value }) => {
         <AddSpecFields
           v-if="dto.device.type"
           :dto="dto"
+          :disabled="isLoadingAttribute || !!device"
           :option="dto.device.type"
           :device="device"
           @editDevice="logs"
         />
+        <AttributesList :attributes="attributes" />
         <ItemsFields v-model="dto.item.name" />
         <button class="btn btn-outline-secondary" type="submit">
           Создать устройство

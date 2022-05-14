@@ -5182,6 +5182,18 @@ fieldset:disabled .btn {
   background-color: #1e7e34;
 }
 
+.badge-danger {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.badge-danger[href]:hover,
+.badge-danger[href]:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #dc3545;
+}
+
 .btn .badge {
   position: relative;
   top: -1px;

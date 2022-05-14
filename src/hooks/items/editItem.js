@@ -12,7 +12,7 @@ export default function editItem(isEditing) {
     }
     isLoading.value = true;
     try {
-      itemRef.value = await itemsStore.editItem(id, itemRef);
+      await itemsStore.editItem(id, itemRef);
       toast.success("Комплектующий изменён");
       isEditing.value = false;
     } catch (error) {

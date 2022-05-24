@@ -2,10 +2,10 @@
   <div class="container-fluid">
     <div class="row">
       <div
-        class="col-1 p-0 justify-content-center navbar-light bg-light shadow"
+        class="col-1 p-0 justify-content-center navbar-light bg-light fixed-top mt-5"
         style="width: 55px; height: 100vh"
       >
-        <nav class="sidebar-sticky mt-5">
+        <nav class="sidebar-sticky">
           <div class="navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav text-center flex-column">
               <li class="nav-item">
@@ -31,7 +31,17 @@
           </div>
         </nav>
       </div>
-      <div class="col mt-6">Панель администратора</div>
+      <div class="col mt-6 ml-c">
+        <!-- sdfsdf -->
+      </div>
     </div>
   </div>
 </template>
+<style scoped>
+.mt-5 {
+  margin-top: 3.5rem !important;
+}
+.ml-c {
+  margin-left: 52px;
+}
+</style>

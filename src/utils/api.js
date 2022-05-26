@@ -23,7 +23,7 @@ api.interceptors.response.use(
     // Истечение Bearer-токена
     if ([403, 401].includes(error?.response?.status)) {
       router.push({ name: "auth.logout" });
-    } else if (error.response.status === 422) {
+    } else if (error.response?.status === 422) {
       // Валидация данных
       const { data } = error.response;
       return Promise.reject(data); // Откидываем ошибку

@@ -43,14 +43,9 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   const auth = useUserStore();
   if (!to.meta?.guest && !auth.isLoggenIn) {
-    const token = localStorage.getItem("Authorization");
-    if (token) {
-      auth.setBearerToken(token);
-      const user = await auth.fetchUserData();
-      if (user) return { path: to.fullPath };
-      return { name: "auth.login" };
-    }
-    return { name: "auth.login" };
+    const canAccess = await checkAuth();
+    if (canAccess) return { path: to.fullPath };
+    else return { name: "auth.login", query: { redirect: to.fullPath } };
   }
 
   if (to.meta?.role && auth.isLoggenIn) {
@@ -58,5 +53,16 @@ router.beforeEach(async (to) => {
     if (!isHasRole.value) return { name: "Dashboard" };
   }
 });
+
+const checkAuth = async () => {
+  const auth = useUserStore();
+  const token = localStorage.getItem("Authorization");
+  if (token) {
+    auth.setBearerToken(token);
+    const user = await auth.fetchUserData();
+    if (user) return true;
+  }
+  return false;
+};
 
 export default router;

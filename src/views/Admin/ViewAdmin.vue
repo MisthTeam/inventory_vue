@@ -8,35 +8,55 @@
         <nav class="sidebar-sticky">
           <div class="navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav text-center flex-column">
-              <li class="nav-item">
-                <a href="" class="nav-link"><i class="bi bi-card-list"></i></a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link"
-                  ><i class="bi bi-people-fill"></i
-                ></a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link"
-                  ><i class="bi bi-file-text-fill"></i
-                ></a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link"><i class="bi bi-exclude"></i></a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">5</a>
+              <li class="nav-item" v-for="(_, page) in pages" :key="page">
+                <router-link
+                  :to="{ query: { page: page } }"
+                  :class="[
+                    'nav-link',
+                    {
+                      active: currentPage === page,
+                    },
+                  ]"
+                  @click="currentPage = page"
+                >
+                  <component :is="'i'" :class="iconsPage[page]" />
+                </router-link>
               </li>
             </ul>
           </div>
         </nav>
       </div>
       <div class="col mt-6 ml-c">
-        <!-- sdfsdf -->
+        <component :is="pages[currentPage]" />
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+import device from "@/components/Admin/DeviceList.vue";
+import user from "@/components/Admin/UserList.vue";
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
+
+const currentPage = ref("device");
+
+const iconsPage = {
+  device: "bi bi-card-list",
+  user: "bi bi-people-fill",
+  fields: "bi bi-exclude",
+  logs: "bi bi-file-text-fill",
+};
+
+const pages = {
+  device,
+  user,
+};
+
+const route = useRoute();
+const pageQuery = computed(() => route.query.page);
+</script>
+
 <style scoped>
 .mt-5 {
   margin-top: 3.5rem !important;

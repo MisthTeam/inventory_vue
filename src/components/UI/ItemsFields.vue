@@ -12,6 +12,18 @@
     />
     <label for="floatingInput">S/N</label>
   </div>
+  <div v-if="item" class="form-floating mb-3">
+    <input
+      id="floatingInput2"
+      type="text"
+      class="form-control"
+      :value="item.device.pn"
+      disabled
+      placeholder="P/N"
+    />
+
+    <label for="floatingInput2">P/N</label>
+  </div>
 </template>
 
 <script setup>
@@ -21,6 +33,11 @@ defineProps({
     types: Boolean,
     required: false,
     default: false,
+  },
+  item: {
+    types: Object,
+    requried: false,
+    default: () => {},
   },
 });
 defineEmits(["update:modelValue"]);

@@ -5,6 +5,7 @@ import Toast from "vue-toastification";
 import { createPinia } from "pinia";
 import App from "./App.vue";
 import components from "@/components/UI";
+import directives from "@/directives";
 import router from "./router";
 
 import "vue-toastification/dist/index.css";
@@ -13,6 +14,10 @@ const app = createApp(App);
 
 components.forEach((element) => {
   app.component(element.name, element);
+});
+
+directives.forEach((dir) => {
+  app.directive(dir.name, dir);
 });
 
 app.use(createPinia());

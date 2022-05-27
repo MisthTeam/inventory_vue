@@ -1,12 +1,13 @@
 <script>
 export default {
-  name: "AddSpecFields",
+  name: "SpecFields",
 };
 </script>
 
 <script setup>
 import { deviceTypes } from "@/utils/helpers";
-defineProps({
+import { computed } from 'vue';
+const props = defineProps({
   option: {
     type: String,
     required: true,
@@ -23,20 +24,25 @@ defineProps({
   },
   dto: {
     type: Object,
-    required: true,
+    required: false,
+    default: () => {},
   },
 });
 defineEmits(["editDevice"]);
+const deviceType = computed(() =>  deviceTypes.find((d) => d.type === props.option));
 </script>
 
 <template>
-  <div v-for="t in deviceTypes" :key="t.id">
-    <div v-if="t.type === option" class="input-group mb-3">
+  <div v-if="deviceType" class="input-group">
+    <div
+      class="form-floating mb-3"
+      v-for="spec of deviceType.specification"
+      :key="spec"
+    >
       <input
-        v-for="spec of t.specification"
         id="floatingInput"
-        :key="spec"
         type="text"
+        required
         class="form-control"
         :disabled="disabled"
         :value="device?.specification[spec] || dto.device?.specification[spec]"
@@ -46,6 +52,7 @@ defineEmits(["editDevice"]);
           $emit('editDevice', { value: $event.target.value, target: spec })
         "
       />
+      <label for="floatingInput">{{ spec }}</label>
     </div>
   </div>
 </template>

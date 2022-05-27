@@ -1,5 +1,5 @@
 import ItemsFields from "./ItemsFields.vue";
-import AddSpecFields from "./AddSpecificationFields.vue";
+import SpecFields from "./SpecificationFields.vue";
 import AttributesList from "./Attributes/AttributesList.vue";
 import AttributeField from "./Attributes/AttributeField.vue";
 import DynamicFields from "./Fields.vue";
@@ -8,7 +8,7 @@ import LoadingSpinner from "./LoadingSpinner.vue";
 
 export default [
   DynamicFields,
-  AddSpecFields,
+  SpecFields,
   ItemsFields,
   AttributeField,
   BaseSelector,

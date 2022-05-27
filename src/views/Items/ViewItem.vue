@@ -64,7 +64,7 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
           </button>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-3">
-          <ItemsFields v-model="itemRef.meta.name" :disabled="!isEditing" />
+          <ItemsFields v-model="itemRef.meta.name" :item="itemRef" :disabled="!isEditing" />
           <AttributesList
             :attributes="itemRef.attributes"
             :disabled="!isEditing"
@@ -81,8 +81,7 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
           </div>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <AddSpecFields
-            :dto="{}"
+          <SpecFields
             disabled
             :option="itemRef.device.type"
             :device="itemRef.device"

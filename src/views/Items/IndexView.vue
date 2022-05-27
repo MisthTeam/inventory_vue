@@ -37,10 +37,7 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
     </div>
     <div class="row justify-content-center mt-2">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-        <ItemsList v-if="searchedItems.length" :items="searchedItems" />
-        <div v-else class="text-center">
-          <h5>Данных комплектующих ещё нету</h5>
-        </div>
+        <ItemsList :items="searchedItems" />
       </div>
     </div>
   </div>

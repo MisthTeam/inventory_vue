@@ -1,11 +1,9 @@
 <script setup>
-import { useDevicesStore, useItemsStore } from "@/stores";
 import { deviceTypes } from "@/utils/helpers";
 import { ref, watch } from "vue";
-import { useToast } from "vue-toastification";
 import { getAttributeByType } from "@/hooks/attributes";
-import { array_column } from "@/utils/helpers";
-
+import { getDevice } from "@/hooks/devices";
+import { addItem } from "@/hooks/items";
 const dto = ref({
   pn: "",
   device: { specification: {}, type: null },
@@ -13,23 +11,10 @@ const dto = ref({
     name: "",
   },
 });
-const device = ref(null); // Получение девайса из БД
-const responseRec = ref(false); // Получен ответ или нет (для вывода доп инпутов)
-const deviceStore = useDevicesStore();
-const itemStore = useItemsStore();
-const toast = useToast();
 const { isLoadingAttribute, getAttribute, attributes } = getAttributeByType();
+const { addIt, isAddLoading } = addItem(dto, attributes);
 
-const onSubmit = async () => {
-  try {
-    device.value = await deviceStore.getDeviceByPn(dto.value.pn);
-    dto.value.device = device.value || { specification: {}, type: null };
-    responseRec.value = true;
-  } catch (error) {
-    console.error(error);
-    toast.error("Произошла ошибка, свяжитесь с администратором");
-  }
-};
+const { onSubmit, isLoadingDevice, responseRec, device } = getDevice(dto);
 
 watch(
   () => dto.value.device.type,
@@ -43,20 +28,6 @@ watch(
   { deep: true }
 );
 
-const addItem = async () => {
-  try {
-    await itemStore.createItem({
-      ...dto.value,
-      attr: array_column(attributes.value, "value", "id"),
-    });
-    toast.success("Комплектующий добавлен");
-  } catch (error) {
-    console.error(error);
-    toast.error(
-      "Произошла ошибка, проверьте данные или свяжитесь с администратором"
-    );
-  }
-};
 const logs = ({ target, value }) => {
   dto.value.device.specification[target] = value;
 };
@@ -64,7 +35,7 @@ const logs = ({ target, value }) => {
 
 <template>
   <div class="container mt-6">
-    <form @submit.prevent="addItem">
+    <form @submit.prevent="addIt">
       <form @submit.prevent="onSubmit">
         <div class="input-group mb-3">
           <input
@@ -75,9 +46,21 @@ const logs = ({ target, value }) => {
             placeholder="enter pn"
             aria-label="enter pn"
             aria-describedby="button-addon2"
+            v-focus
+            :disabled="isLoadingDevice || isLoadingAttribute"
           />
-          <button class="btn btn-outline-secondary" type="submit">
-            Проверить
+          <button
+            :disabled="isLoadingDevice || isLoadingAttribute"
+            class="btn btn-outline-secondary"
+            type="submit"
+          >
+            <span
+              v-if="isLoadingDevice || isLoadingAttribute"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            />
+            <span v-else>Проверить</span>
           </button>
         </div>
       </form>
@@ -89,13 +72,13 @@ const logs = ({ target, value }) => {
             :disabled="!!device || isLoadingAttribute"
             aria-label="Device type"
           >
-            <option v-for="t in deviceTypes" :key="t.id" :value="t.type">
+            <option :selected="t.type " v-for="t in deviceTypes" :key="t.id" :value="t.type">
               {{ t.type }}
             </option>
           </select>
           <label for="floatingInput">Device type</label>
         </div>
-        <AddSpecFields
+        <SpecFields
           v-if="dto.device.type"
           :dto="dto"
           :disabled="isLoadingAttribute || !!device"
@@ -104,9 +87,19 @@ const logs = ({ target, value }) => {
           @editDevice="logs"
         />
         <AttributesList :attributes="attributes" />
-        <ItemsFields v-model="dto.item.name" />
-        <button class="btn btn-outline-secondary" type="submit">
-          Создать устройство
+        <ItemsFields v-model="dto.item.name" :disabled="isAddLoading || isLoadingAttribute" />
+        <button
+          :disabled="isAddLoading"
+          class="btn btn-outline-secondary"
+          type="submit"
+        >
+          <span
+            v-if="isAddLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          />
+          <span v-if="!isAddLoading">Добавить устройство</span>
         </button>
       </div>
     </form>

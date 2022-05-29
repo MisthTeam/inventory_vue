@@ -6,7 +6,7 @@ export default {
 
 <script setup>
 import { deviceTypes } from "@/utils/helpers";
-import { computed } from 'vue';
+import { computed } from "vue";
 const props = defineProps({
   option: {
     type: String,
@@ -29,13 +29,15 @@ const props = defineProps({
   },
 });
 defineEmits(["editDevice"]);
-const deviceType = computed(() =>  deviceTypes.find((d) => d.type === props.option));
+const deviceType = computed(() =>
+  deviceTypes.find((d) => d.type === props.option)
+);
 </script>
 
 <template>
-  <div v-if="deviceType" class="input-group">
+  <div v-if="deviceType" class="input-group justify-content-between">
     <div
-      class="form-floating mb-3"
+      class="form-floating"
       v-for="spec of deviceType.specification"
       :key="spec"
     >
@@ -44,6 +46,7 @@ const deviceType = computed(() =>  deviceTypes.find((d) => d.type === props.opti
         type="text"
         required
         class="form-control"
+        style="max-width: 180px"
         :disabled="disabled"
         :value="device?.specification[spec] || dto.device?.specification[spec]"
         :placeholder="spec"

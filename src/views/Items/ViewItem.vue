@@ -1,5 +1,5 @@
 <script setup>
-import { deleteItem, editItem, getItem } from "@/hooks/items";
+import { deleteItem, editItem, getItem, getStatused } from "@/hooks/items";
 import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
 import { ref } from "vue";
@@ -12,6 +12,7 @@ const { itemRef, isLoading } = getItem(route.params.id);
 const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
 const { deleteIt, isDeleteLoading } = deleteItem();
 const { isUpdateLoading, editIt } = editItem(isEditing);
+const { statusList } = getStatused();
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
@@ -22,49 +23,37 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
     >
       <div v-if="isHasRole" class="row justify-content-center">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
-          <button
+          <BaseButton
             v-if="!isEditing"
-            type="button"
-            class="btn btn-block btn-warning"
-            :disabled="isEditing"
-            @click="isEditing = !isEditing"
+            @clickButton="() => (isEditing = !isEditing)"
+            class="btn-block btn-warning"
           >
-            <b>Изменить</b>
-          </button>
-          <button
+            Изменить
+          </BaseButton>
+          <BaseButton
             v-else
-            type="button"
-            class="btn btn-block btn-success"
             :disabled="isUpdateLoading"
-            @click="(event) => editIt(itemRef.id, itemRef, event)"
+            @clickButton="(event) => editIt(itemRef.id, itemRef, event)"
+            class="btn-block btn-success"
           >
-            <span
-              v-if="isUpdateLoading"
-              class="spinner-border spinner-border-sm"
-              role="status"
-              aria-hidden="true"
-            />
-            <span>Сохранить</span>
-          </button>
+            Сохранить
+          </BaseButton>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-md-0 mt-2">
-          <button
-            type="button"
-            class="btn btn-block btn-danger"
+          <BaseButton
             :disabled="isDeleteLoading"
-            @click="deleteIt(itemRef.id)"
+            @clickButton="deleteIt(itemRef.id)"
+            class="btn-block btn-danger"
           >
-            <span
-              v-if="isDeleteLoading"
-              class="spinner-border spinner-border-sm"
-              role="status"
-              aria-hidden="true"
-            />
-            <b>Удалить</b>
-          </button>
+            Удалить
+          </BaseButton>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-3">
-          <ItemsFields v-model="itemRef.meta.name" :item="itemRef" :disabled="!isEditing" />
+          <ItemsFields
+            v-model="itemRef.meta.name"
+            :item="itemRef"
+            :disabled="!isEditing"
+          />
           <AttributesList
             :attributes="itemRef.attributes"
             :disabled="!isEditing"
@@ -73,7 +62,7 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
             <select class="form-select" disabled aria-label="Device type">
-              <option selected value="">
+              <option selected :value="itemRef.device.type">
                 {{ itemRef.device.type }}
               </option>
             </select>
@@ -86,6 +75,27 @@ const { isUpdateLoading, editIt } = editItem(isEditing);
             :option="itemRef.device.type"
             :device="itemRef.device"
           />
+        </div>
+        <div v-if="statusList" class="col-xl-8 col-lg-8 col-md-12 col-12">
+          <div class="form-floating mb-3">
+            <select
+              class="form-select"
+              :disabled="!isEditing"
+              aria-label="Change status"
+              v-model="itemRef.status.id"
+            >
+              <option
+                v-for="status in statusList"
+                :key="status.id"
+                :value="status.id"
+                :selected="status.id === itemRef.status.id"
+                :disabled="status.id === itemRef.status.id"
+              >
+                {{ status.name }}
+              </option>
+            </select>
+            <label for="floatingInput">Change status</label>
+          </div>
         </div>
       </div>
     </div>

@@ -33,19 +33,13 @@
                 />
                 <ErrorMessage name="password_confirmation" />
               </div>
-              <button
+              <BaseButton
                 type="submit"
-                class="btn btn-primary btn-block mt-3"
                 :disabled="isLoading"
+                class="btn-primary btn-block mt-3"
               >
-                <span
-                  v-if="isLoading"
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-                <span v-if="!isLoading">Зарегистрироваться</span>
-              </button>
+                Зарегистрироваться
+              </BaseButton>
             </Form>
           </div>
         </div>

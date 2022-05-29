@@ -19,19 +19,13 @@
                 <Field type="password" class="form-control" name="password" />
                 <ErrorMessage name="password" />
               </div>
-              <button
+              <BaseButton
                 type="submit"
-                class="btn btn-primary btn-block mt-3"
                 :disabled="isLoading"
+                class="btn-primary btn-block mt-3"
               >
-                <span
-                  v-if="isLoading"
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-                <span v-if="!isLoading">Войти</span>
-              </button>
+                Войти
+              </BaseButton>
             </Form>
           </div>
         </div>

@@ -49,19 +49,13 @@ const logs = ({ target, value }) => {
             v-focus
             :disabled="isLoadingDevice || isLoadingAttribute"
           />
-          <button
+          <BaseButton
             :disabled="isLoadingDevice || isLoadingAttribute"
-            class="btn btn-outline-secondary"
+            class="btn-outline-secondary"
             type="submit"
           >
-            <span
-              v-if="isLoadingDevice || isLoadingAttribute"
-              class="spinner-border spinner-border-sm"
-              role="status"
-              aria-hidden="true"
-            />
-            <span v-else>Проверить</span>
-          </button>
+            Проверить
+          </BaseButton>
         </div>
       </form>
       <div v-if="responseRec">
@@ -72,7 +66,12 @@ const logs = ({ target, value }) => {
             :disabled="!!device || isLoadingAttribute"
             aria-label="Device type"
           >
-            <option :selected="t.type " v-for="t in deviceTypes" :key="t.id" :value="t.type">
+            <option
+              :selected="t.type"
+              v-for="t in deviceTypes"
+              :key="t.id"
+              :value="t.type"
+            >
               {{ t.type }}
             </option>
           </select>
@@ -87,20 +86,17 @@ const logs = ({ target, value }) => {
           @editDevice="logs"
         />
         <AttributesList :attributes="attributes" />
-        <ItemsFields v-model="dto.item.name" :disabled="isAddLoading || isLoadingAttribute" />
-        <button
+        <ItemsFields
+          v-model="dto.item.name"
+          :disabled="isAddLoading || isLoadingAttribute"
+        />
+        <BaseButton
           :disabled="isAddLoading"
-          class="btn btn-outline-secondary"
+          class="btn-outline-secondary"
           type="submit"
         >
-          <span
-            v-if="isAddLoading"
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-          />
-          <span v-if="!isAddLoading">Добавить устройство</span>
-        </button>
+          Добавить
+        </BaseButton>
       </div>
     </form>
   </div>

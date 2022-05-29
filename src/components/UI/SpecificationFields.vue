@@ -35,18 +35,12 @@ const deviceType = computed(() =>
 </script>
 
 <template>
-  <div v-if="deviceType" class="input-group justify-content-between">
-    <div
-      class="form-floating"
-      v-for="spec of deviceType.specification"
-      :key="spec"
-    >
+  <div v-if="deviceType" class="input-group justify-content-between mb-3">
+    <template v-for="spec of deviceType.specification" :key="spec">
       <input
-        id="floatingInput"
         type="text"
         required
         class="form-control"
-        style="max-width: 180px"
         :disabled="disabled"
         :value="device?.specification[spec] || dto.device?.specification[spec]"
         :placeholder="spec"
@@ -55,7 +49,6 @@ const deviceType = computed(() =>
           $emit('editDevice', { value: $event.target.value, target: spec })
         "
       />
-      <label for="floatingInput">{{ spec }}</label>
-    </div>
+    </template>
   </div>
 </template>

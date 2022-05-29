@@ -1,5 +1,5 @@
 import { useItemsStore } from "@/stores";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
 
 export default function getItem(id) {
@@ -19,9 +19,6 @@ export default function getItem(id) {
   };
 
   onMounted(fetching);
-  onUnmounted(() => {
-    itemRef.value = null;
-  });
 
   return {
     itemsStore,

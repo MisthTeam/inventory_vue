@@ -22,7 +22,9 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
     </div>
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
-        <BaseSelector v-model="sortedValue" :options="types" />
+        <BaseSelector v-model="sortedValue" :options="types">
+          Выберите тип сортировки
+        </BaseSelector>
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input

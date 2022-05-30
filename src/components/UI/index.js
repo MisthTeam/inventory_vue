@@ -4,6 +4,7 @@ import AttributesList from "./Attributes/AttributesList.vue";
 import AttributeField from "./Attributes/AttributeField.vue";
 import DynamicFields from "./Fields.vue";
 import BaseSelector from "./BaseSelector.vue";
+import BaseModal from "./BaseModal.vue";
 import LoadingSpinner from "./LoadingSpinner.vue";
 import BaseButton from "./BaseButton.vue";
 
@@ -13,6 +14,7 @@ export default [
   ItemsFields,
   AttributeField,
   BaseSelector,
+  BaseModal,
   AttributesList,
   BaseButton,
   LoadingSpinner,

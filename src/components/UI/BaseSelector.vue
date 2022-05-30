@@ -1,6 +1,6 @@
 <template>
   <select class="form-select" :value="modelValue" @change="changeOption">
-    <option selected value="">Выберите тип сортировки</option>
+    <option selected value=""><slot>Выберите опцию</slot></option>
     <option v-for="option in options" :key="option" :value="option">
       {{ option }}
     </option>

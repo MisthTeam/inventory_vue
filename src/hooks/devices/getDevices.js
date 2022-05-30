@@ -6,12 +6,11 @@ import { useToast } from "vue-toastification";
 export default function getDevices() {
   const isLoading = ref(true);
   const toast = useToast();
-  const DevicesStore = useDevicesStore();
-  const DevicesRef = storeToRefs(DevicesStore).devices;
+  const devicesStore = useDevicesStore();
+  const devices = storeToRefs(devicesStore).devices;
   const fetching = async () => {
     try {
-      const devices = await DevicesStore.getDevices();
-      DevicesRef.value = devices;
+      devices.value = await devicesStore.getDevices();
     } catch (error) {
       toast.error("Произошла ошибка при получении данных. Попробуйте позже");
       console.log(error);
@@ -22,8 +21,8 @@ export default function getDevices() {
   onMounted(fetching);
 
   return {
-    DevicesStore,
-    DevicesRef,
+    devicesStore,
+    devices,
     isLoading,
   };
 }

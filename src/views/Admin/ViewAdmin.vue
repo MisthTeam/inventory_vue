@@ -35,7 +35,7 @@
 
 <script setup>
 import device from "@/components/Admin/DeviceList.vue";
-import user from "@/components/Admin/UserList.vue";
+import users from "@/components/Admin/UserList.vue";
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
@@ -43,14 +43,14 @@ const currentPage = ref("device");
 
 const iconsPage = {
   device: "bi bi-card-list",
-  user: "bi bi-people-fill",
+  users: "bi bi-people-fill",
   fields: "bi bi-exclude",
   logs: "bi bi-file-text-fill",
 };
 
 const pages = {
   device,
-  user,
+  users,
 };
 
 const route = useRoute();

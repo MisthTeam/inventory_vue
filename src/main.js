@@ -1,14 +1,13 @@
-import "bootstrap";
 import "@/assets/bootstrap/dist/css/bootstrap.css";
-import { createApp } from "vue";
-import Toast from "vue-toastification";
-import { createPinia } from "pinia";
-import App from "./App.vue";
 import components from "@/components/UI";
 import directives from "@/directives";
-import router from "./router";
-
+import "bootstrap";
+import { createPinia } from "pinia";
+import { createApp } from "vue";
+import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import App from "./App.vue";
+import router from "./router";
 
 const app = createApp(App);
 

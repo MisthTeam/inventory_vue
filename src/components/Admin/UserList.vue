@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr @click="toUser()">
+          <tr>
             <td>misthntism</td>
             <td>cblpgamer@yandex.ru</td>
           </tr>
@@ -23,13 +23,7 @@
     </div>
   </div>
 </template>
-<script setup>
-import { useRouter } from "vue-router";
-const router = useRouter();
-const toUser = () => {
-  router.push(`/admin/user/`);
-};
-</script>
+<script setup></script>
 <style scoped>
 tbody tr:hover {
   background-color: #212529;

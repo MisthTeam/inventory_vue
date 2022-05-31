@@ -6,7 +6,8 @@ export default function useSearchItems(sortedItems) {
     return sortedItems.value.filter((item) => {
       return item.meta?.name
         ?.toLowerCase()
-        .includes(searchQuery.value.toLowerCase());
+        .trim()
+        .includes(searchQuery.value.trim().toLowerCase());
     });
   });
 

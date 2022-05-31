@@ -5,8 +5,9 @@
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
+    @click="close"
   >
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg" @click.stop>
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">{{ name }}</h5>
@@ -18,26 +19,29 @@
           ></button>
         </div>
         <div class="modal-body">
-          <!-- форма -->
-          <div class="form-floating mb-3">
-            <input
-              id="floatingInput2"
-              type="text"
-              class="form-control"
-              value="KSDHDSFUH"
-              placeholder="P/N"
-            />
-            <label for="floatingInput2">P/N</label>
-          </div>
-          <div class="input-group justify-content-between mb-3">
-            <input type="text" required class="form-control" :value="123" />
-            <input type="text" required class="form-control" :value="123" />
-            <input type="text" required class="form-control" :value="123" />
-          </div>
-          <!-- конец формы -->
+          <slot>
+            <p>Здесь форма</p>
+          </slot>
         </div>
         <div class="modal-footer">
-          <slot name="footer" />
+          <slot name="footer" :close="close" :ok="confirm">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              @click="$emit('close')"
+            >
+              Отмена
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-dismiss="modal"
+              @click="$emit('ok')"
+            >
+              Сохранить
+            </button>
+          </slot>
         </div>
       </div>
     </div>
@@ -46,12 +50,25 @@
 
 <script setup>
 defineProps({
+  isOpen: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   name: {
     type: String,
     required: false,
     default: "Модалка",
   },
 });
+
+const emit = defineEmits({
+  close: null,
+  ok: null,
+});
+
+const close = () => emit("close");
+const confirm = () => emit("ok");
 </script>
 
 <script>

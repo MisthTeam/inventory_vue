@@ -10,28 +10,19 @@
         :disabled="isDeleteLoading"
         class="btn-danger"
       >
-        <i class="bi bi-trash-fill"></i>
+        <i class="bi bi-trash-fill" />
       </BaseButton>
-      <button
+      <BaseButton
         type="button"
-        class="btn btn-warning ms-lg-1 ms-md-1 ms-0 mt-xl-0 mt-lg-1 mt-md-0 mt-sm-1 mt-1"
+        class="btn-warning ms-lg-1 ms-md-1 ms-0 mt-xl-0 mt-lg-1 mt-md-0 mt-sm-1 mt-1"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
+        @click="openModal"
       >
-        <i class="bi bi-pencil-fill"></i>
-      </button>
+        <i class="bi bi-pencil-fill" />
+      </BaseButton>
     </td>
   </tr>
-  <BaseModal name="Изменение устройства">
-    <template #footer>
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        Отмена
-      </button>
-      <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-        Сохранить
-      </button>
-    </template>
-  </BaseModal>
 </template>
 <script setup>
 import { deleteDevice } from "@/hooks/devices/deleteDevice";
@@ -43,12 +34,15 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(["deleteDevice"]);
+const emit = defineEmits(["deleteDevice", "openModal"]);
 
 const { isDeleteLoading, deleting } = deleteDevice(props.device.id);
 
 const deleteDev = async () => {
-  await deleting();
+  // await deleting();
   emit("deleteDevice");
+};
+const openModal = () => {
+  emit("openModal", props.device);
 };
 </script>

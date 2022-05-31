@@ -1,5 +1,5 @@
 <script setup>
-import DeviceTable from "./Device/DeviceTable.vue";
+import DeviceTable from "./DeviceTable.vue";
 import { getDevices, useSortedDevices, useSearch } from "@/hooks/devices";
 import { types } from "@/utils/helpers";
 
@@ -34,6 +34,5 @@ const deleteDevice = async (value) => {
         <DeviceTable :devices="searchedDevices" @deleteDevice="deleteDevice" />
       </div>
     </div>
-    <!-- modal -->
   </div>
 </template>

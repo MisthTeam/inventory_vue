@@ -43,5 +43,4 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
       </div>
     </div>
   </div>
-  <router-view />
 </template>

@@ -11,7 +11,7 @@ api.interceptors.response.use(
   // обработка успешных запросов
   function (responce) {
     const data = responce.data;
-    if (data.response?.notify) {
+    if (data.response?.notify?.type === "error") {
       return Promise.reject({ error: data.response.notify, responce });
     }
     // отдача успешного запроса

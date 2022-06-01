@@ -6,9 +6,8 @@ import { types } from "@/utils/helpers";
 const { devices, isLoading } = getDevices();
 const { sortedValue, sortedDevices } = useSortedDevices(devices);
 const { searchQuery, searchedDevices } = useSearch(sortedDevices);
-const deleteDevice = async (value) => {
-  devices.value.splice(value, 1);
-};
+const deleteDevice = async (value) =>
+  (devices.value = devices.value.filter((device) => device.id !== value));
 </script>
 
 <template>

@@ -8,11 +8,11 @@ const useDevicesStore = defineStore({
   }),
   actions: {
     async getDevices() {
-      this.devices = (await api.get("devices")).devices;
-      return this.devices;
+      const { response } = await api.get("devices");
+      return (this.devices = response);
     },
     async getDeviceByPn(pn) {
-      return (await api.get(`devices/pn/${pn}`)).device;
+      return (await api.get(`devices/pn/${pn}`)).response;
     },
     async deleteDevice(id) {
       await api.delete(`admin/device/${Number(id)}`);

@@ -9,8 +9,7 @@ export default function getItem(id) {
   const itemRef = ref(null);
   const fetching = async () => {
     try {
-      const { item } = await itemsStore.getItem(id);
-      itemRef.value = item;
+      itemRef.value = await itemsStore.getItem(id);
     } catch (error) {
       toast.error("Произошла ошибка при получении данных. Попробуйте позже");
       console.log(error);

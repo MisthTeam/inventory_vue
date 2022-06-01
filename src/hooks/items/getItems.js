@@ -11,8 +11,7 @@ export default function getItems() {
   const fetching = async () => {
     if (!itemsRef.value.length) {
       try {
-        const items = await itemsStore.getItems();
-        itemsRef.value = items;
+        itemsRef.value = await itemsStore.getItems();
       } catch (error) {
         toast.error("Произошла ошибка при получении данных. Попробуйте позже");
         console.log(error);

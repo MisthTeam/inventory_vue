@@ -1,10 +1,13 @@
 <template>
-  <Navbar />
+  <Navbar :user="userStore.getUser" :isLoggenIn="userStore.isLoggenIn" />
   <router-view />
 </template>
 
 <script setup>
 import Navbar from "@/components/NavbarMenu.vue";
+import { useUserStore } from "@/stores";
+
+const userStore = useUserStore();
 </script>
 <style>
 html {
@@ -15,8 +18,5 @@ html {
   max-width: 330px;
   padding: 15px;
   margin: auto;
-}
-.btn-block {
-  width: 100%;
 }
 </style>

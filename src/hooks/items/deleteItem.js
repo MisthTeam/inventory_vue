@@ -10,9 +10,14 @@ export default function deleteItem() {
   const toast = useToast();
   const deleteIt = async (id) => {
     isLoading.value = true;
-    await itemsStore.deleteItem(id);
-    route.push("/items");
-    toast.success("Комплектующий удален");
+    try {
+      await itemsStore.deleteItem(id);
+      route.push("/items");
+      toast.success("Комплектующий удален");
+    } catch (error) {
+      console.error(error);
+      toast.error("Произошла ошибка. Повторите позже");
+    }
     isLoading.value = false;
   };
   return {

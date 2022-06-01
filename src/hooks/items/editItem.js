@@ -6,10 +6,7 @@ export default function editItem(isEditing) {
   const isLoading = ref(false);
   const itemsStore = useItemsStore();
   const toast = useToast();
-  const editIt = async (id, itemRef, event) => {
-    if (!isEditing.value) {
-      event.stopPropagation();
-    }
+  const editIt = async (id, itemRef) => {
     isLoading.value = true;
     try {
       await itemsStore.editItem(id, itemRef);

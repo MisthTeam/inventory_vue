@@ -17,28 +17,28 @@ const useItemsStore = defineStore({
   },
   actions: {
     async getItems() {
-      const data = await api.get("items");
-      this.items = data.items;
+      const { response } = await api.get("items");
+      this.items = response;
       return this.items;
     },
     async createItem(payload) {
-      const data = await api.post("items", payload);
-      return data;
+      const { response } = await api.post("items", payload);
+      return response;
     },
     async getItem(id) {
-      const data = await api.get(`items/${id}`);
-      return data;
+      const { response } = await api.get(`items/${id}`);
+      return response;
     },
     async deleteItem(id) {
       await api.delete(`admin/items/${Number(id)}`);
     },
     async editItem(id, itemRef) {
-      const { item } = await api.put(`admin/items/${Number(id)}`, {
+      const { response } = await api.put(`admin/items/${Number(id)}`, {
         meta: itemRef.meta,
         attr: array_column(itemRef.attributes, "value", "id"),
         status: itemRef.status.id,
       });
-      return item;
+      return response;
     },
   },
 });

@@ -22,7 +22,7 @@
               <BaseButton
                 type="submit"
                 :disabled="isLoading"
-                class="btn-primary btn-block mt-3"
+                class="btn-primary w-100 mt-3"
               >
                 Войти
               </BaseButton>

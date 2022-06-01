@@ -26,15 +26,15 @@ const { statusList } = getStatused();
           <BaseButton
             v-if="!isEditing"
             @clickButton="() => (isEditing = !isEditing)"
-            class="btn-block btn-warning"
+            class="w-100 btn-warning"
           >
             Изменить
           </BaseButton>
           <BaseButton
             v-else
             :disabled="isUpdateLoading"
-            @clickButton="(event) => editIt(itemRef.id, itemRef, event)"
-            class="btn-block btn-success"
+            @clickButton="editIt(itemRef.id, itemRef)"
+            class="w-100 btn-success"
           >
             Сохранить
           </BaseButton>
@@ -43,7 +43,7 @@ const { statusList } = getStatused();
           <BaseButton
             :disabled="isDeleteLoading"
             @clickButton="deleteIt(itemRef.id)"
-            class="btn-block btn-danger"
+            class="w-100 btn-danger"
           >
             Удалить
           </BaseButton>

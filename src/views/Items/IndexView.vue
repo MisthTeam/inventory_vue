@@ -14,7 +14,7 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
         <router-link
           to="/items/add"
           type="button"
-          class="btn btn-block btn-dark"
+          class="btn w-100 btn-dark"
         >
           Добавить комплектующий
         </router-link>

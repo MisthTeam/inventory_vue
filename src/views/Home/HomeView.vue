@@ -5,9 +5,7 @@
         <div class="card m-3 green">
           <div class="card-body">
             <h5 class="card-title">Комплектующие</h5>
-            <h4 v-if="itemsRef" class="card-text text-end">
-              {{ itemsRef.length }}
-            </h4>
+            <h4 class="card-text text-end">0</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -16,9 +14,7 @@
         <div class="card m-3 devices">
           <div class="card-body">
             <h5 class="card-title">Девайсы</h5>
-            <h4 v-if="itemsRef" class="card-text text-end">
-              {{ itemsRef.length }}
-            </h4>
+            <h4 class="card-text text-end">0</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -27,9 +23,7 @@
         <div class="card m-3 free-compl">
           <div class="card-body">
             <h5 class="card-title">Свободно комплектующих</h5>
-            <h4 v-if="itemsRef" class="card-text text-end">
-              {{ itemsRef.length }}
-            </h4>
+            <h4 class="card-text text-end">0</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -38,9 +32,7 @@
         <div class="card m-3 used-compl">
           <div class="card-body">
             <h5 class="card-title">Используется комплектующих</h5>
-            <h4 v-if="itemsRef" class="card-text text-end">
-              {{ itemsRef.length }}
-            </h4>
+            <h4 class="card-text text-end">0</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -49,9 +41,7 @@
         <div class="card m-3 crash-compl">
           <div class="card-body">
             <h5 class="card-title">Сломано комплектующих</h5>
-            <h4 v-if="itemsRef" class="card-text text-end">
-              {{ itemsRef.length }}
-            </h4>
+            <h4 class="card-text text-end">0</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -97,12 +87,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { getItems } from "@/hooks/items";
-
-const { itemsRef } = getItems();
-</script>
 
 <style scoped>
 .green {

@@ -45,7 +45,7 @@ router.beforeEach(async (to) => {
   if (!to.meta?.guest && !auth.isLoggenIn) {
     const canAccess = await checkAuth();
     if (canAccess) return { path: to.fullPath };
-    else return { name: "auth.login", query: { redirect: to.fullPath } };
+    return { name: "auth.login", query: { redirect: to.fullPath } };
   }
 
   if (to.meta?.role && auth.isLoggenIn) {

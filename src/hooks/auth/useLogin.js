@@ -16,10 +16,8 @@ export default function useLogin() {
       await userStore.login({ login, password });
       const redirectPath = route.query?.redirect || "/";
       router.push(redirectPath);
-    } catch ({ response }) {
-      if (response?.data) {
-        toast.error(response.data.error);
-      }
+    } catch ({ error }) {
+      toast.error(error.content);
     }
     isLoading.value = false;
   };

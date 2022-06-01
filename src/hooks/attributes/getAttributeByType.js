@@ -9,8 +9,8 @@ export default function getAttributeByType() {
   const getAttribute = async (device_type) => {
     isLoading.value = true;
     try {
-      const { attrs } = await api.get(`attr/type/${device_type}`);
-      attributes.value = attrs;
+      const { response } = await api.get(`attr/type/${device_type}`);
+      attributes.value = response;
     } catch (error) {
       toast.error(
         "Произошла ошибка при получении данных атрибутов. Попробуйте позже"

@@ -13,7 +13,7 @@ export default function getDevices() {
       devices.value = await devicesStore.getDevices();
     } catch (error) {
       toast.error("Произошла ошибка при получении данных. Попробуйте позже");
-      console.log(error);
+      console.error(error);
     }
     isLoading.value = false;
   };

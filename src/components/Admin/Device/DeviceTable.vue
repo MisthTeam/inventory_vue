@@ -11,10 +11,10 @@
     </thead>
     <tbody>
       <DeviceItem
-        v-for="(device, index) in devices"
+        v-for="device in devices"
         :key="device.id"
         :device="device"
-        @deleteDevice="$emit('deleteDevice', index)"
+        @deleteDevice="$emit('deleteDevice', device.id)"
         @openModal="openModal"
       />
       <div v-show="!devices.length" class="text-center">

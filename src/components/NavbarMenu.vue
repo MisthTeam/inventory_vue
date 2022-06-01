@@ -1,6 +1,6 @@
 <template>
   <nav
-    v-if="userStore.isLoggenIn"
+    v-if="isLoggenIn"
     class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm"
   >
     <div class="container-fluid">
@@ -28,16 +28,6 @@
               Комплектующие
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link
-              to="/"
-              aria-current="page"
-              class="nav-link disabled"
-              aria-disabled="true"
-            >
-              Девайсы
-            </router-link>
-          </li>
         </ul>
         <div class="d-flex">
           <ul class="navbar-nav">
@@ -50,7 +40,7 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {{ userStore.getUser.login }}
+                {{ user.login }}
               </a>
               <ul
                 class="dropdown-menu"
@@ -95,7 +85,16 @@
 </template>
 
 <script setup>
-import { useUserStore } from "@/stores";
-
-const userStore = useUserStore();
+defineProps({
+  user: {
+    type: Object || null,
+    required: false,
+    default: null,
+  },
+  isLoggenIn: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 </script>

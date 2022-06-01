@@ -1,7 +1,7 @@
 <script setup>
 import DeviceTable from "./DeviceTable.vue";
 import { getDevices, useSortedDevices, useSearch } from "@/hooks/devices";
-import { types } from "@/utils/helpers";
+import { deviceTypes } from "@/utils/helpers";
 
 const { devices, isLoading } = getDevices();
 const { sortedValue, sortedDevices } = useSortedDevices(devices);
@@ -15,7 +15,7 @@ const deleteDevice = async (value) =>
   <div v-if="devices && !isLoading" class="container">
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
-        <BaseSelector v-model="sortedValue" :options="types" />
+        <BaseSelector v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input

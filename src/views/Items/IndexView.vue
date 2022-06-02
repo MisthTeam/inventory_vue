@@ -1,13 +1,13 @@
 <script setup>
 import ItemsList from "@/components/Items/ItemsList.vue";
-import { getItems, useSearchItems, useSortedItems } from "@/hooks/items";
+import { getItems } from "@/hooks/items";
 import { deviceTypes } from "@/utils/helpers";
 import { ref, watch } from "vue";
 import BasePagination from "../../components/UI/BasePagination.vue";
 
+const searchQuery = ref(""); // Сортировка по выбранному селектору
+const sortedValue = ref(""); // Фильтрация по названию
 const { itemsRef, isLoading, fetching } = getItems(); // Получение items из БД
-const { sortedValue } = useSortedItems(itemsRef); // Сортировка по выбранному селектору
-const { searchQuery } = useSearchItems(itemsRef); // Фильтрация по имени
 const page = ref(itemsRef.value?.meta?.currentPage || 1);
 
 watch([page, sortedValue, searchQuery], () => {

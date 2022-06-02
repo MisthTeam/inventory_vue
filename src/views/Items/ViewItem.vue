@@ -16,9 +16,9 @@ const { statusList } = getStatused();
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
-  <div class="container">
+  <div v-else class="container">
     <div
-      v-if="itemRef && !isLoading"
+      v-if="itemRef && statusList"
       class="row justify-content-center align-items-center vh-100"
     >
       <div v-if="isHasRole" class="row justify-content-center">
@@ -76,7 +76,7 @@ const { statusList } = getStatused();
             :device="itemRef.device"
           />
         </div>
-        <div v-if="statusList" class="col-xl-8 col-lg-8 col-md-12 col-12">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
             <select
               class="form-select"
@@ -99,10 +99,7 @@ const { statusList } = getStatused();
         </div>
       </div>
     </div>
-    <div
-      v-else-if="!itemRef && !isLoading"
-      class="row justify-content-center align-items-center vh-100"
-    >
+    <div v-else class="row justify-content-center align-items-center vh-100">
       <div class="col-12 text-center">
         <h2>Предмета нету</h2>
       </div>

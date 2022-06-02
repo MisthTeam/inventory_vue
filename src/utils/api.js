@@ -27,6 +27,8 @@ api.interceptors.response.use(
       // Валидация данных
       const { data } = error.response;
       return Promise.reject(data); // Откидываем ошибку
+    } else if (error.response?.status === 404) {
+      return Promise.resolve(error.response);
     }
 
     // Откидываем ошибку

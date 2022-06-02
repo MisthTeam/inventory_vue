@@ -12,7 +12,8 @@ const useDevicesStore = defineStore({
       return (this.devices = response);
     },
     async getDeviceByPn(pn) {
-      return (await api.get(`devices/pn/${pn}`)).response;
+      const { response } = await api.get(`devices/pn/${pn}`);
+      return response;
     },
     async deleteDevice(id) {
       await api.delete(`admin/device/${Number(id)}`);

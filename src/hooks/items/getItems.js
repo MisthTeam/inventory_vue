@@ -8,16 +8,17 @@ export default function getItems() {
   const toast = useToast();
   const itemsStore = useItemsStore();
   const itemsRef = storeToRefs(itemsStore).items;
-  const fetching = async () => {
-    if (!itemsRef.value.length) {
-      try {
-        itemsRef.value = await itemsStore.getItems();
-      } catch (error) {
-        toast.error("Произошла ошибка при получении данных. Попробуйте позже");
-        console.log(error);
-      }
+  const fetching = async (params = { limit: 10, page: 1 }) => {
+    isLoading.value = true;
+    try {
+      const data = await itemsStore.getItems(params);
+      itemsRef.value = ref(data);
+    } catch (error) {
+      toast.error("Произошла ошибка при получении данных. Попробуйте позже");
+      console.log(error);
+    } finally {
+      isLoading.value = false;
     }
-    isLoading.value = false;
   };
 
   onMounted(fetching);
@@ -26,6 +27,7 @@ export default function getItems() {
   });
 
   return {
+    fetching,
     itemsStore,
     itemsRef,
     isLoading,

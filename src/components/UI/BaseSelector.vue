@@ -1,5 +1,10 @@
 <template>
-  <select class="form-select" :value="modelValue" @change="changeOption">
+  <select
+    class="form-select"
+    :disabled="disabled"
+    :value="modelValue"
+    @change="changeOption"
+  >
     <option selected value=""><slot>Все</slot></option>
     <option v-for="option in options" :key="option" :value="option">
       {{ option }}
@@ -14,6 +19,11 @@ defineProps({
     type: Array,
     required: true,
     default: () => [],
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 });
 

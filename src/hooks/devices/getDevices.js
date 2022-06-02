@@ -1,6 +1,6 @@
 import { useDevicesStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { useToast } from "vue-toastification";
 
 export default function getDevices() {
@@ -19,6 +19,9 @@ export default function getDevices() {
   };
 
   onMounted(fetching);
+  onUnmounted(() => {
+    devicesStore.$reset();
+  });
 
   return {
     devicesStore,

@@ -1,5 +1,5 @@
 <script setup>
-import DeviceTable from "./DeviceTable.vue";
+import DeviceList from "./DevicesList.vue";
 import { getDevices, useSortedDevices, useSearch } from "@/hooks/devices";
 import { deviceTypes } from "@/utils/helpers";
 
@@ -12,10 +12,13 @@ const deleteDevice = async (value) =>
 
 <template>
   <LoadingSpinner v-if="isLoading" />
-  <div v-if="devices && !isLoading" class="container">
+  <div v-else class="container">
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
-        <BaseSelector v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
+        <BaseSelector
+          v-model="sortedValue"
+          :options="deviceTypes.map((t) => t.type)"
+        />
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input
@@ -30,7 +33,7 @@ const deleteDevice = async (value) =>
     </div>
     <div class="row justify-content-center">
       <div class="col-xl- col-lg-8 col-md-12 col-12 mt-2">
-        <DeviceTable :devices="searchedDevices" @deleteDevice="deleteDevice" />
+        <DeviceList :devices="searchedDevices" @deleteDevice="deleteDevice" />
       </div>
     </div>
   </div>

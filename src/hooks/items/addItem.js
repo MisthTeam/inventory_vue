@@ -1,7 +1,6 @@
 import { ref } from "vue";
 import { useItemsStore } from "@/stores";
 import { useToast } from "vue-toastification";
-import { array_column } from "@/utils/helpers";
 import { useRouter } from "vue-router";
 
 export default function addItem(dto, attributes) {
@@ -13,8 +12,8 @@ export default function addItem(dto, attributes) {
     try {
       isLoading.value = true;
       const item = await itemStore.createItem({
-        ...dto.value,
-        attr: array_column(attributes.value, "value", "id"),
+        dto: dto.value,
+        attr: attributes.value,
       });
       router.push(`/items/${item.id}`);
       toast.success("Комплектующий добавлен");

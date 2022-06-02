@@ -2,13 +2,24 @@
 import ItemsList from "@/components/Items/ItemsList.vue";
 import { getItems, useSearchItems, useSortedItems } from "@/hooks/items";
 import { deviceTypes } from "@/utils/helpers";
-const { itemsRef, isLoading } = getItems(); // Получение items из БД
-const { sortedValue, sortedItems } = useSortedItems(itemsRef); // Сортировка по выбранному селектору
-const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Фильтрация по имени
+import { ref, watch } from "vue";
+import BasePagination from "../../components/UI/BasePagination.vue";
+
+const { itemsRef, isLoading, fetching } = getItems(); // Получение items из БД
+const { sortedValue } = useSortedItems(itemsRef); // Сортировка по выбранному селектору
+const { searchQuery } = useSearchItems(itemsRef); // Фильтрация по имени
+const page = ref(itemsRef.value?.meta?.currentPage || 1);
+
+watch([page, sortedValue, searchQuery], () => {
+  fetching({
+    page: page.value,
+    search: searchQuery.value,
+    type: sortedValue.value,
+  });
+});
 </script>
 <template>
-  <LoadingSpinner v-if="isLoading" />
-  <div v-if="itemsRef && !isLoading" class="container mt-6">
+  <div class="container mt-6">
     <div class="row justify-content-center">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <router-link to="/items/add" type="button" class="btn w-100 btn-dark">
@@ -25,7 +36,7 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input
-          v-model="searchQuery"
+          v-model.lazy="searchQuery"
           type="text"
           class="form-control"
           placeholder="Поиск"
@@ -36,7 +47,13 @@ const { searchQuery, searchedItems } = useSearchItems(sortedItems); // Филь�
     </div>
     <div class="row justify-content-center mt-2">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-        <ItemsList :items="searchedItems" />
+        <LoadingSpinner v-if="isLoading" />
+        <ItemsList v-else :items="itemsRef.data" />
+        <BasePagination
+          v-model="page"
+          :current-page="page"
+          :totalPages="itemsRef.meta?.last_page || 1"
+        ></BasePagination>
       </div>
     </div>
   </div>

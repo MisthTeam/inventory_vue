@@ -16,7 +16,7 @@
   </div>
 </template>
 <script setup>
-import Item from './Item.vue';
+import Item from "./Item.vue";
 defineProps({
   items: {
     type: Array,

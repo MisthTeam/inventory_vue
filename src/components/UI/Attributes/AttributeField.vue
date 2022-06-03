@@ -1,10 +1,9 @@
 <script setup>
-const props = defineProps({
-  modelValue: Object,
+defineProps({
   attribute: {
     types: Object,
     required: true,
-    default: () => {},
+    default: () => ({}),
   },
   disabled: {
     types: Boolean,
@@ -12,10 +11,12 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(["update:modelValue"]);
-const updatevalue = (key, value) => {
-  emit("update:modelValue", { ...props.modelValue, [key]: value });
-};
+
+const emit = defineEmits({
+  updateAttr: null,
+});
+
+const updateAttr = (values) => emit("updateAttr", values);
 </script>
 
 <script>
@@ -34,7 +35,7 @@ export default {
     required
     :disabled="disabled"
     :placeholder="attribute.name"
-    @input="updatevalue('value', $event.target.value)"
+    @input="updateAttr({ attr: attribute, value: $event.target.value })"
   />
 
   <select
@@ -42,7 +43,7 @@ export default {
     :disabled="disabled"
     class="form-select"
     :value="attribute.value"
-    @change="updatevalue('value', $event.target.value)"
+    @change="updateAttr({ attr: attribute, value: $event.target.value })"
   >
     <option
       v-for="l in attribute.meta.list"

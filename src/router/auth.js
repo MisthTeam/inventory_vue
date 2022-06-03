@@ -4,13 +4,13 @@ export default [
   {
     path: "/login",
     name: "auth.login",
-    component: () => import("@/views/auth/LoginView.vue"),
+    component: () => import("@/views/Auth/LoginView.vue"),
     meta: { guest: true },
   },
   {
     path: "/register",
     name: "auth.register",
-    component: () => import("@/views/auth/RegisterView.vue"),
+    component: () => import("@/views/Auth/RegisterView.vue"),
     meta: { guest: true },
   },
   {

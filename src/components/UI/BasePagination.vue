@@ -77,7 +77,6 @@ const items = computed(() => {
     }
   } else {
     for (let i = 1; i <= props.totalPages; i++) {
-      console.log("dsadasd");
       items.push({
         page: i,
         class: props.modelValue == i ? "active" : "",

@@ -6,10 +6,10 @@ export default function editItem(isEditing) {
   const isLoading = ref(false);
   const itemsStore = useItemsStore();
   const toast = useToast();
-  const editIt = async (id, itemRef) => {
+  const editIt = async (id, item) => {
     isLoading.value = true;
     try {
-      await itemsStore.editItem(id, itemRef);
+      await itemsStore.editItem(id, item);
       toast.success("Комплектующий изменён");
       isEditing.value = false;
     } catch (error) {

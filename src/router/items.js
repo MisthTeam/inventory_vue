@@ -2,7 +2,7 @@ export default [
   {
     path: "/items",
     name: "Items",
-    component: () => import("@/views/Items/IndexView.vue"),
+    component: () => import("@/views/Items/ItemsView.vue"),
     meta: { role: "items:control" },
   },
   {
@@ -14,7 +14,7 @@ export default [
   {
     path: "/items/:id",
     name: "Iteminfo",
-    component: () => import("@/views/Items/ViewItem.vue"),
+    component: () => import("@/views/Items/ItemView.vue"),
     meta: { role: "items:control" },
   },
 ];

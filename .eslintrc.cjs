@@ -14,7 +14,6 @@ module.exports = {
     es6: true,
   },
   rules: {
-    "vue/no-mutating-props": "ingore",
     "no-undef": "off",
   },
 };

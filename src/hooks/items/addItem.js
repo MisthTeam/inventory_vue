@@ -3,7 +3,7 @@ import { useItemsStore } from "@/stores";
 import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
 
-export default function addItem(dto, attributes) {
+export default function addItem(dto) {
   const isLoading = ref(false);
   const itemStore = useItemsStore();
   const toast = useToast();
@@ -11,10 +11,7 @@ export default function addItem(dto, attributes) {
   const addIt = async () => {
     try {
       isLoading.value = true;
-      const item = await itemStore.createItem({
-        dto: dto.value,
-        attr: attributes.value,
-      });
+      const item = await itemStore.createItem({ dto: dto.value });
       router.push(`/items/${item.id}`);
       toast.success("Комплектующий добавлен");
     } catch (error) {

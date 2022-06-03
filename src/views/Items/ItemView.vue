@@ -8,7 +8,8 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const userStore = useUserStore();
 const isEditing = ref(false);
-const { itemRef, isLoading } = getItem(route.params.id);
+
+const { item, isLoading } = getItem(route.params.id);
 const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
 const { deleteIt, isDeleteLoading } = deleteItem();
 const { isUpdateLoading, editIt } = editItem(isEditing);
@@ -18,7 +19,7 @@ const { statusList } = getStatused();
   <LoadingSpinner v-if="isLoading" />
   <div v-else class="container">
     <div
-      v-if="itemRef && statusList"
+      v-if="item && statusList"
       class="row justify-content-center align-items-center vh-100"
     >
       <div v-if="isHasRole" class="row justify-content-center">
@@ -33,7 +34,7 @@ const { statusList } = getStatused();
           <BaseButton
             v-else
             :disabled="isUpdateLoading"
-            @clickButton="editIt(itemRef.id, itemRef)"
+            @clickButton="editIt(item.id, item)"
             class="w-100 btn-success"
           >
             Сохранить
@@ -42,7 +43,7 @@ const { statusList } = getStatused();
         <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-md-0 mt-2">
           <BaseButton
             :disabled="isDeleteLoading"
-            @clickButton="deleteIt(itemRef.id)"
+            @clickButton="deleteIt(item.id)"
             class="w-100 btn-danger"
           >
             Удалить
@@ -50,30 +51,30 @@ const { statusList } = getStatused();
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-3">
           <ItemsFields
-            v-model="itemRef.meta.name"
-            :item="itemRef"
+            v-model="item.meta.name"
+            :item="item"
             :disabled="!isEditing"
           />
           <AttributesList
-            :attributes="itemRef.attributes"
+            :attributes="item.attributes"
             :disabled="!isEditing"
           />
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
             <select class="form-select" disabled aria-label="Device type">
-              <option selected :value="itemRef.device.type">
-                {{ itemRef.device.type }}
+              <option selected :value="item.device.type">
+                {{ item.device.type }}
               </option>
             </select>
             <label for="floatingInput">Device type</label>
           </div>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <SpecFields
+          <SpecificationsList
             disabled
-            :option="itemRef.device.type"
-            :device="itemRef.device"
+            :type="item.device.type"
+            :device="item.device"
           />
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
@@ -82,14 +83,13 @@ const { statusList } = getStatused();
               class="form-select"
               :disabled="!isEditing"
               aria-label="Change status"
-              v-model="itemRef.status.id"
+              v-model="item.status.id"
             >
               <option
                 v-for="status in statusList"
                 :key="status.id"
                 :value="status.id"
-                :selected="status.id === itemRef.status.id"
-                :disabled="status.id === itemRef.status.id"
+                :selected="status.id === item.status.id"
               >
                 {{ status.name }}
               </option>

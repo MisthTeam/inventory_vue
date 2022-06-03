@@ -1,11 +1,11 @@
 <template>
   <div
-    v-for="(attribute, i) in attributes"
+    v-for="attribute in attributes"
     :key="attribute.id"
     class="form-floating mb-3"
   >
     <AttributeField
-      v-model="attributes[i]"
+      @updateAttr="(v) => $emit('updateAttr', v)"
       :disabled="disabled"
       :attribute="attribute"
     />
@@ -13,6 +13,7 @@
 </template>
 
 <script setup>
+import AttributeField from "./AttributeField.vue";
 defineProps({
   attributes: {
     type: Array,
@@ -24,6 +25,10 @@ defineProps({
     required: false,
     default: false,
   },
+});
+
+defineEmits({
+  updateAttr: null,
 });
 </script>
 

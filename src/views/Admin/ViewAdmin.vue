@@ -15,7 +15,6 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { adminPages } from "@/utils/helpers";
 
-
 const currentPage = ref("device");
 
 const route = useRoute();

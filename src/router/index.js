@@ -11,19 +11,6 @@ const routes = [
     name: "Dashboard",
     component: () => import("@/views/Home/HomeView.vue"),
   },
-
-  // {
-  //   path: "/devices",
-  //   name: "Devices",
-  //   component: ItemComponent,
-  //   children: [
-  //     {
-  //       path: "",
-  //       component: () => import("@/views/Items/IndexView.vue"),
-  //     },
-  //   ],
-  // },
-
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",

@@ -31,10 +31,9 @@ const useItemsStore = defineStore({
       this.items = response;
       return this.items;
     },
-    async createItem(payload) {
+    async createItem({ dto }) {
       const { response } = await api.post("items", {
-        ...payload.dto,
-        attr: array_column(payload.attr, "value", "id"),
+        ...dto,
       });
       return response;
     },
@@ -45,11 +44,11 @@ const useItemsStore = defineStore({
     async deleteItem(id) {
       await api.delete(`admin/items/${Number(id)}`);
     },
-    async editItem(id, itemRef) {
+    async editItem(id, item) {
       await api.put(`admin/items/${Number(id)}`, {
-        meta: itemRef.meta,
-        attr: array_column(itemRef.attributes, "value", "id"),
-        status: itemRef.status.id,
+        meta: item.meta,
+        attr: array_column(item.attributes, "value", "id"),
+        status: item.status.id,
       });
     },
   },

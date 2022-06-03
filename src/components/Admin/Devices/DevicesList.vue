@@ -42,9 +42,9 @@
       </div>
       <div class="input-group justify-content-between mb-3">
         <SpecFields
-          :option="getDevice.type"
+          :type="getDevice.type"
           :device="getDevice"
-          @editDevice="editDeviceEmit"
+          @editSpecification="changeSpecification"
         />
       </div>
     </template>
@@ -54,6 +54,7 @@
 import { ref } from "vue";
 import { editDevice } from "../../../hooks/devices";
 import DeviceItem from "./DeviceItem.vue";
+
 defineProps({
   devices: {
     type: Array,
@@ -62,10 +63,11 @@ defineProps({
 });
 defineEmits(["deleteDevice"]);
 
-const { isEditingLoading, editing } = editDevice();
+const { editing } = editDevice();
 
 const isOpenModal = ref(false);
 const getDevice = ref(null);
+
 const openModal = (device) => {
   getDevice.value = device;
   isOpenModal.value = true;
@@ -75,9 +77,10 @@ const modalClose = () => {
   isOpenModal.value = false;
 };
 
-const modalOk = () => editing(getDevice.value); //Изменение девайса
+const modalOk = () => editing(getDevice.value); // Изменение девайса
 
-const editDeviceEmit = ({ target, value }) => {
-  getDevice.value.specification[target] = value;
-};
+const changeSpecification = ({ target, value }) =>
+  Object.assign(getDevice.value.specification, {
+    [target]: value,
+  }); // Изменение спецификации
 </script>

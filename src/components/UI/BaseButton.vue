@@ -26,8 +26,8 @@ export default {
     type: {
       type: String,
       required: false,
-      default: 'button'
-    }
+      default: "button",
+    },
   },
   emits: {
     clickButton: null,

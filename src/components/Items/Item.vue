@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names  -->
 <template>
   <tr @click="toItem(item.id)">
     <td>{{ item.meta?.name || "nope" }}</td>

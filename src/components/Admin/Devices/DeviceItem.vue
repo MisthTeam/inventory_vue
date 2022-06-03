@@ -36,11 +36,10 @@ const props = defineProps({
 });
 const emit = defineEmits(["deleteDevice", "openModal"]);
 
-const { isDeleteLoading, deleting } = deleteDevice(props.device.id);
+const { isDeleteLoading, deleting: deleteItem } = deleteDevice(props.device.id);
 
 const deleteDev = async () => {
-  await deleting();
-  emit("deleteDevice");
+  deleteItem().then(emit("deleteDevice"));
 };
 const openModal = () => emit("openModal", props.device);
 </script>

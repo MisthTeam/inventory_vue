@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <AdminNavbar :pages="adminPages" currentPage="users" disabled />
+      <AdminNavbar currentPage="users" disabled />
       <div class="col mt-6 ml-c">
         <div class="row justify-content-center">
           <div class="col-xl-3 col-lg-2 col-md-12 col-12 mt-2">
@@ -41,7 +41,6 @@
 import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
 import params from "@/components/Admin/User/UserParams.vue";
 import roles from "@/components/Admin/User/UserRoles.vue";
-import { adminPages } from "@/utils/helpers";
 import { ref } from "vue";
 const currentUserPage = ref("params");
 

@@ -6,9 +6,9 @@
     <nav class="sidebar-sticky">
       <div class="navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav text-center flex-column">
-          <li class="nav-item" v-for="(_, page) in pages" :key="page">
+          <li class="nav-item" v-for="(_, page) in adminPages" :key="page">
             <router-link
-              :to="{ query: { page: page } }"
+              :to="{ path: page }"
               :class="[
                 'nav-link',
                 {
@@ -16,7 +16,7 @@
                   disabled: disabled,
                 },
               ]"
-              @click="updatePage(page)"
+              @click="currentPage = page"
             >
               <component :is="'i'" :class="iconsPage[page]" />
             </router-link>
@@ -28,6 +28,9 @@
 </template>
 
 <script setup>
+import { adminPages } from "@/utils/helpers";
+import { ref } from "vue";
+
 const iconsPage = {
   device: "bi bi-card-list",
   users: "bi bi-people-fill",
@@ -35,28 +38,16 @@ const iconsPage = {
   logs: "bi bi-file-text-fill",
 };
 
-defineProps({
-  pages: {
-    type: Object,
-    required: true,
-  },
-  currentPage: {
-    type: String,
-    required: false,
-    default: "device",
-  },
+const currentPage = ref(props.currentPage || "device");
+
+const props = defineProps({
+  currentPage: [String],
   disabled: {
     type: Boolean,
     required: false,
     default: false,
   },
 });
-
-const emit = defineEmits(["update:currentPage"]);
-
-const updatePage = (page) => {
-  emit("update:currentPage", page);
-};
 </script>
 <style scoped>
 .mt-5 {

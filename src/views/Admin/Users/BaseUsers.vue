@@ -26,9 +26,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 const router = useRouter();
-const toUser = (id) => {
-  router.push(`/admin/user/${id}`);
-};
+const toUser = (id) => router.push(`/admin/users/${id}`);
 </script>
 <style scoped>
 tbody tr:hover {

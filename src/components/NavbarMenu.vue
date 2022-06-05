@@ -54,7 +54,7 @@
                 </li>
                 <li>
                   <router-link
-                    to="/admin"
+                    to="/admin/device"
                     aria-current="page"
                     class="dropdown-item"
                   >

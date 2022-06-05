@@ -62,7 +62,7 @@ const items = computed(() => {
       items.push({ page: props.totalPages, class: "" });
     } else if (props.totalPages - props.modelValue < 3) {
       items.push({ page: 1, class: "" });
-      items.push({ page: 9, class: "disabled" });
+      items.push({ class: "disabled" });
       if (props.modelValue == props.totalPages - 2) {
         items.push({ page: props.totalPages - 3, class: "" });
       }

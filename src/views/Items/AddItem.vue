@@ -35,6 +35,7 @@ const changeSpecification = ({ target, value }) =>
     [target]: value,
   });
 
+// Изменение атрибутов
 const changeAttributes = ({ attr, value }) => {
   Object.assign(dto.value.attr, {
     [attr.id]: { value },

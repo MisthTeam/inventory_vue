@@ -28,7 +28,18 @@ const useDevicesStore = defineStore({
       await api.delete(`admin/device/${Number(id)}`);
     },
     async editDevice(id, payload) {
-      await api.put(`admin/device/${Number(id)}`, payload);
+      const { response } = await api.put(`admin/device/${Number(id)}`, payload);
+      this.updateDevice(id, payload);
+      return response;
+    },
+
+    updateDevice(id, payload) {
+      let device = this.devices.data.find((d) => d.id === id);
+      if (device) {
+        device = Object.assign(device, {
+          ...payload,
+        });
+      }
     },
   },
 });

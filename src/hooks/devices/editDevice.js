@@ -9,12 +9,12 @@ export default function editDevice() {
   const editing = async ({ id, specification, pn, type }) => {
     isLoading.value = true;
     try {
-      await devicesStore.editDevice(id, {
+      const { notify } = await devicesStore.editDevice(id, {
         type,
         pn,
         specification,
       });
-      toast.success("Настройки сохранены");
+      toast.success(notify.content);
     } catch (error) {
       console.error(error);
       toast.error("Произошла ошибка, попробуйте позже");

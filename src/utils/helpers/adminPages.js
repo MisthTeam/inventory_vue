@@ -1,5 +1,5 @@
-import device from "@/components/Admin/Devices/BaseDevices.vue";
-import users from "@/components/Admin/Users/UsersList.vue";
+import device from "@/views/Admin/Devices/BaseDevices.vue";
+import users from "@/views/Admin/Users/BaseUsers.vue";
 
 const adminPages = {
   device,

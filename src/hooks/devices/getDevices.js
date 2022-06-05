@@ -8,9 +8,10 @@ export default function getDevices() {
   const toast = useToast();
   const devicesStore = useDevicesStore();
   const devices = storeToRefs(devicesStore).devices;
-  const fetching = async () => {
+  const fetching = async (params = { limit: 10, page: 1 }) => {
+    isLoading.value = true;
     try {
-      devices.value = await devicesStore.getDevices();
+      devices.value = await devicesStore.getDevices(params);
     } catch (error) {
       toast.error("Произошла ошибка при получении данных. Попробуйте позже");
       console.error(error);
@@ -26,6 +27,7 @@ export default function getDevices() {
   return {
     devicesStore,
     devices,
+    fetching,
     isLoading,
   };
 }

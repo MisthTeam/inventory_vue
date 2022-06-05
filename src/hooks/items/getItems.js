@@ -11,8 +11,7 @@ export default function getItems() {
   const fetching = async (params = { limit: 10, page: 1 }) => {
     isLoading.value = true;
     try {
-      const data = await itemsStore.getItems(params);
-      itemsRef.value = ref(data);
+      itemsRef.value = await itemsStore.getItems(params);
     } catch (error) {
       toast.error("Произошла ошибка при получении данных. Попробуйте позже");
       console.log(error);

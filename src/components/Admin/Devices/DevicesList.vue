@@ -41,7 +41,7 @@
         <label for="floatingInput2">P/N</label>
       </div>
       <div class="input-group justify-content-between mb-3">
-        <SpecFields
+        <SpecificationsList
           :type="getDevice.type"
           :device="getDevice"
           @editSpecification="changeSpecification"

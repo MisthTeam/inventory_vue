@@ -27,19 +27,15 @@ const useItemsStore = defineStore({
       if (!params.search) {
         delete params.search;
       }
-      const { response } = await api.get(`items/test?${stringify(params)}`);
-      this.items = response;
-      return this.items;
+      return (this.items = await api.get(`items/test?${stringify(params)}`));
     },
     async createItem({ dto }) {
-      const { response } = await api.post("items", {
+      return await api.post("items", {
         ...dto,
       });
-      return response;
     },
     async getItem(id) {
-      const { response } = await api.get(`items/${id}`);
-      return response;
+      return await api.get(`items/${id}`);
     },
     async deleteItem(id) {
       await api.delete(`admin/items/${Number(id)}`);

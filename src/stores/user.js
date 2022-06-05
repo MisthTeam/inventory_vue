@@ -24,16 +24,15 @@ const useUserStore = defineStore({
     },
 
     async register(responseData) {
-      const { response } = await api.post("auth/register", responseData);
+      const response = await api.post("auth/register", responseData);
       this.setBearerToken(response.access_token);
     },
     async login(responseData) {
-      const { response } = await api.post("auth/login", responseData);
+      const response = await api.post("auth/login", responseData);
       this.setBearerToken(response.access_token);
     },
     async fetchUserData() {
-      this.user = (await api.get("auth/me")).response;
-      return this.user;
+      return (this.user = await api.get("auth/me"));
     },
   },
 });

@@ -8,8 +8,7 @@ export default function getAttributes() {
   const toast = useToast();
   const fetching = async () => {
     try {
-      const { response } = api.get("attr");
-      attributes.value = response;
+      attributes.value = api.get("attr");
     } catch (error) {
       toast.error("Произошла ошибка при получении данных. Попробуйте позже");
       console.log(error);

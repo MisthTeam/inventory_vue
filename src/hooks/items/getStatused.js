@@ -7,7 +7,7 @@ export default function getStatused() {
   const toast = useToast();
   const fetching = async () => {
     try {
-      statusList.value = (await api.get("status")).response;
+      statusList.value = await api.get("status");
     } catch (error) {
       console.error(error);
       toast.error("Случилась ошибка при получении статусов");

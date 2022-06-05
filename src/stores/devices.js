@@ -17,18 +17,16 @@ const useDevicesStore = defineStore({
       if (!params.search) {
         delete params.search;
       }
-      const { response } = await api.get(`devices?${stringify(params)}`);
-      return (this.devices = response);
+      return (this.devices = await api.get(`devices?${stringify(params)}`));
     },
     async getDeviceByPn(pn) {
-      const { response } = await api.get(`devices/pn/${pn}`);
-      return response;
+      return await api.get(`devices/pn/${pn}`);
     },
     async deleteDevice(id) {
       await api.delete(`admin/device/${Number(id)}`);
     },
     async editDevice(id, payload) {
-      const { response } = await api.put(`admin/device/${Number(id)}`, payload);
+      const response = await api.put(`admin/device/${Number(id)}`, payload);
       this.updateDevice(id, payload);
       return response;
     },

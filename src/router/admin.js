@@ -9,11 +9,13 @@ export default [
         path: "device",
         name: "AdminDevices",
         component: () => import("@/views/Admin/Devices/BaseDevices.vue"),
+        meta: { page: "device" },
       },
       {
         path: "users",
         name: "AdminUsers",
         component: () => import("@/views/Admin/Users/BaseUsers.vue"),
+        meta: { page: "users" },
       },
       {
         path: "users/:id",

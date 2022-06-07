@@ -8,7 +8,7 @@
         <ul class="navbar-nav text-center flex-column">
           <li class="nav-item" v-for="(_, page) in adminPages" :key="page">
             <router-link
-              :to="{ path: page }"
+              :to="{ path: `/admin/${page}` }"
               :class="[
                 'nav-link',
                 {
@@ -16,7 +16,6 @@
                   disabled: disabled,
                 },
               ]"
-              @click="currentPage = page"
             >
               <component :is="'i'" :class="iconsPage[page]" />
             </router-link>
@@ -30,6 +29,20 @@
 <script setup>
 import { adminPages } from "@/utils/helpers";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
+
+const props = defineProps({
+  currentPage: {
+    type: String,
+    default: "device",
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
+const route = useRoute();
 
 const iconsPage = {
   device: "bi bi-card-list",
@@ -38,16 +51,7 @@ const iconsPage = {
   logs: "bi bi-file-text-fill",
 };
 
-const currentPage = ref(props.currentPage || "device");
-
-const props = defineProps({
-  currentPage: [String],
-  disabled: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-});
+const currentPage = ref(route.meta?.page || props.currentPage);
 </script>
 <style scoped>
 .mt-5 {

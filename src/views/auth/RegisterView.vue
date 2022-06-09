@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center align-items-center" style="height: 100vh">
+    <div
+      class="row justify-content-center align-items-center"
+      style="height: 100vh"
+    >
       <div class="col-4">
         <div class="card shadow-lg">
           <div class="card-body">
@@ -23,10 +26,18 @@
               </div>
               <div class="form-group mt-2">
                 <label class="form-label">Password confirmation</label>
-                <Field type="password" class="form-control" name="password_confirmation" />
+                <Field
+                  type="password"
+                  class="form-control"
+                  name="password_confirmation"
+                />
                 <ErrorMessage name="password_confirmation" />
               </div>
-              <BaseButton type="submit" :disabled="isLoading" class="btn-primary w-100 mt-3">
+              <BaseButton
+                type="submit"
+                :disabled="isLoading"
+                class="btn-primary w-100 mt-3"
+              >
                 Зарегистрироваться
               </BaseButton>
             </Form>
@@ -37,19 +48,21 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRegister } from "@/hooks/auth";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-
-const { isLoading, onSubmit } = useRegister();
 const ValidSchema = yup.object({
   login: yup.string().required("Введите логин"),
-  email: yup.string().required("Введите email").email("Введите корректный email адресс"),
+  email: yup
+    .string()
+    .required("Введите email")
+    .email("Введите корректный email адресс"),
   password: yup.string().required("Введите пароль"),
   password_confirmation: yup
     .string()
     .oneOf([yup.ref("password"), null], "Пароли не совпадают")
     .required("Введите повторный пароль"),
 });
+const { isLoading, onSubmit } = useRegister();
 </script>

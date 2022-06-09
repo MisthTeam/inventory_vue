@@ -1,22 +1,25 @@
-<script setup lang="ts">
-import { AttributeField } from "@/stores/items/types";
-import { UpdateAttr } from "@/stores/devices/types";
+<script setup>
+defineProps({
+  attribute: {
+    types: Object,
+    required: true,
+    default: () => ({}),
+  },
+  disabled: {
+    types: Boolean,
+    required: false,
+    default: false,
+  },
+});
 
-interface Props {
-  attribute: AttributeField;
-  disabled?: boolean;
-}
+const emit = defineEmits({
+  updateAttr: null,
+});
 
-defineProps<Props>();
-
-const emit = defineEmits<{
-  (e: "updateAttr", value: UpdateAttr): void;
-}>();
-
-const updateAttr = (values: UpdateAttr) => emit("updateAttr", values);
+const updateAttr = (values) => emit("updateAttr", values);
 </script>
 
-<script lang="ts">
+<script>
 export default {
   name: "AttributeField",
 };
@@ -32,7 +35,7 @@ export default {
     required
     :disabled="disabled"
     :placeholder="attribute.name"
-    @input="updateAttr({ attrId: attribute.id, value: ($event.target as HTMLInputElement).value })"
+    @input="updateAttr({ attr: attribute, value: $event.target.value })"
   />
 
   <select
@@ -40,9 +43,14 @@ export default {
     :disabled="disabled"
     class="form-select"
     :value="attribute.value"
-    @change="updateAttr({ attrId: attribute.id, value: ($event.target as HTMLSelectElement).value })"
+    @change="updateAttr({ attr: attribute, value: $event.target.value })"
   >
-    <option v-for="l in attribute.meta.list" :key="l" :selected="l === attribute.value" :value="l">
+    <option
+      v-for="l in attribute.meta.list"
+      :key="l"
+      :selected="l === attribute.value"
+      :value="l"
+    >
       {{ l }}
     </option>
   </select>

@@ -3,7 +3,7 @@
   <tr @click="toItem(item.id)">
     <td>{{ item.meta?.name || "nope" }}</td>
     <td>{{ item.device.type }}</td>
-    <td class="d-sm-table-cell d-none">{{ itemInfo(item.device.type) }}</td>
+    <td class="d-sm-table-cell d-none">{{ itemInfo(item) }}</td>
     <td class="d-sm-table-cell d-none">{{ item.user.login }}</td>
     <td>
       <span class="badge" :class="classObject">{{ item.status.name }}</span>
@@ -14,17 +14,17 @@
   </tr>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { convertTime } from "@/utils/helpers";
-import { Item } from "@/stores/items/types";
+import { convertTime } from "../../utils/helpers";
 
-interface Props {
-  item: Item;
-}
-
-const props = defineProps<Props>();
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
+  },
+});
 
 const classObject = computed(() => ({
   "bg-primary": props.item.status.badge === "primary",
@@ -37,20 +37,23 @@ const classObject = computed(() => ({
   "bg-dark": props.item.status.badge === "dark",
 }));
 
-const infoItem = {
-  HDD: props.item.device.specification?.volume,
-  SSD: props.item.device.specification?.volume,
-  CPU: props.item.device.specification?.model,
-  GPU: props.item.device.specification?.model,
-  NVMe: props.item.device.specification?.volume,
-  networkCard: props.item.device.specification?.connector,
-  raidController: props.item.device.specification?.model,
-  DRAM: props.item.device.specification?.volume,
-};
-
 const router = useRouter();
-const toItem = (id: number) => router.push(`/items/${id}`);
-const itemInfo = (type: string) => infoItem[type as keyof typeof infoItem] || "None";
+const toItem = (id) => {
+  router.push(`/items/${id}`);
+};
+const itemInfo = (item) => {
+  const info = {
+    HDD: item.device.specification?.volume,
+    SSD: item.device.specification?.volume,
+    CPU: item.device.specification?.model,
+    GPU: item.device.specification?.model,
+    NVMe: item.device.specification?.volume,
+    networkCard: item.device.specification?.connector,
+    raidController: item.device.specification?.model,
+    DRAM: item.device.specification?.volume,
+  };
+  return info[item.device.type] || "None";
+};
 </script>
 
 <style scoped>

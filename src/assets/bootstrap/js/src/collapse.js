@@ -78,7 +78,9 @@ class Collapse extends BaseComponent {
     for (let i = 0, len = toggleList.length; i < len; i++) {
       const elem = toggleList[i];
       const selector = getSelectorFromElement(elem);
-      const filterElement = SelectorEngine.find(selector).filter((foundElem) => foundElem === this._element);
+      const filterElement = SelectorEngine.find(selector).filter(
+        (foundElem) => foundElem === this._element
+      );
 
       if (selector !== null && filterElement.length) {
         this._selector = selector;
@@ -126,14 +128,22 @@ class Collapse extends BaseComponent {
     let activesData;
 
     if (this._config.parent) {
-      const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
-      actives = SelectorEngine.find(SELECTOR_ACTIVES, this._config.parent).filter((elem) => !children.includes(elem)); // remove children if greater depth
+      const children = SelectorEngine.find(
+        CLASS_NAME_DEEPER_CHILDREN,
+        this._config.parent
+      );
+      actives = SelectorEngine.find(
+        SELECTOR_ACTIVES,
+        this._config.parent
+      ).filter((elem) => !children.includes(elem)); // remove children if greater depth
     }
 
     const container = SelectorEngine.findOne(this._selector);
     if (actives.length) {
       const tempActiveData = actives.find((elem) => container !== elem);
-      activesData = tempActiveData ? Collapse.getInstance(tempActiveData) : null;
+      activesData = tempActiveData
+        ? Collapse.getInstance(tempActiveData)
+        : null;
 
       if (activesData && activesData._isTransitioning) {
         return;
@@ -176,7 +186,8 @@ class Collapse extends BaseComponent {
       EventHandler.trigger(this._element, EVENT_SHOWN);
     };
 
-    const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
+    const capitalizedDimension =
+      dimension[0].toUpperCase() + dimension.slice(1);
     const scrollSize = `scroll${capitalizedDimension}`;
 
     this._queueCallback(complete, this._element, true);
@@ -195,7 +206,9 @@ class Collapse extends BaseComponent {
 
     const dimension = this._getDimension();
 
-    this._element.style[dimension] = `${this._element.getBoundingClientRect()[dimension]}px`;
+    this._element.style[dimension] = `${
+      this._element.getBoundingClientRect()[dimension]
+    }px`;
 
     reflow(this._element);
 
@@ -245,7 +258,9 @@ class Collapse extends BaseComponent {
   }
 
   _getDimension() {
-    return this._element.classList.contains(CLASS_NAME_HORIZONTAL) ? WIDTH : HEIGHT;
+    return this._element.classList.contains(CLASS_NAME_HORIZONTAL)
+      ? WIDTH
+      : HEIGHT;
   }
 
   _initializeChildren() {
@@ -253,7 +268,10 @@ class Collapse extends BaseComponent {
       return;
     }
 
-    const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
+    const children = SelectorEngine.find(
+      CLASS_NAME_DEEPER_CHILDREN,
+      this._config.parent
+    );
     SelectorEngine.find(SELECTOR_DATA_TOGGLE, this._config.parent)
       .filter((elem) => !children.includes(elem))
       .forEach((element) => {
@@ -309,19 +327,27 @@ class Collapse extends BaseComponent {
  * ------------------------------------------------------------------------
  */
 
-EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-  // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
-  if (event.target.tagName === "A" || (event.delegateTarget && event.delegateTarget.tagName === "A")) {
-    event.preventDefault();
+EventHandler.on(
+  document,
+  EVENT_CLICK_DATA_API,
+  SELECTOR_DATA_TOGGLE,
+  function (event) {
+    // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
+    if (
+      event.target.tagName === "A" ||
+      (event.delegateTarget && event.delegateTarget.tagName === "A")
+    ) {
+      event.preventDefault();
+    }
+
+    const selector = getSelectorFromElement(this);
+    const selectorElements = SelectorEngine.find(selector);
+
+    selectorElements.forEach((element) => {
+      Collapse.getOrCreateInstance(element, { toggle: false }).toggle();
+    });
   }
-
-  const selector = getSelectorFromElement(this);
-  const selectorElements = SelectorEngine.find(selector);
-
-  selectorElements.forEach((element) => {
-    Collapse.getOrCreateInstance(element, { toggle: false }).toggle();
-  });
-});
+);
 
 /**
  * ------------------------------------------------------------------------

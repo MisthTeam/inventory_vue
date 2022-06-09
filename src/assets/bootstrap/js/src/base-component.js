@@ -49,7 +49,10 @@ class BaseComponent {
   }
 
   static getOrCreateInstance(element, config = {}) {
-    return this.getInstance(element) || new this(element, typeof config === "object" ? config : null);
+    return (
+      this.getInstance(element) ||
+      new this(element, typeof config === "object" ? config : null)
+    );
   }
 
   static get VERSION() {
@@ -57,7 +60,9 @@ class BaseComponent {
   }
 
   static get NAME() {
-    throw new Error('You have to implement the static method "NAME", for each component!');
+    throw new Error(
+      'You have to implement the static method "NAME", for each component!'
+    );
   }
 
   static get DATA_KEY() {

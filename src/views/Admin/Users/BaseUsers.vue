@@ -23,10 +23,10 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { useRouter } from "vue-router";
 const router = useRouter();
-const toUser = (id: number) => router.push(`/admin/users/${id}`);
+const toUser = (id) => router.push(`/admin/users/${id}`);
 </script>
 <style scoped>
 tbody tr:hover {

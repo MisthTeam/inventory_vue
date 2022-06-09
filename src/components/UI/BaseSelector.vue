@@ -1,5 +1,10 @@
 <template>
-  <select class="form-select" :disabled="disabled" :value="modelValue" @change="changeOption">
+  <select
+    class="form-select"
+    :disabled="disabled"
+    :value="modelValue"
+    @change="changeOption"
+  >
     <option selected value=""><slot>Все</slot></option>
     <option v-for="option in options" :key="option" :value="option">
       {{ option }}
@@ -7,24 +12,28 @@
   </select>
 </template>
 
-<script setup lang="ts">
-interface Props {
-  modelValue: string;
-  options: Array<string>;
-  disabled?: boolean;
-}
-withDefaults(defineProps<Props>(), {
-  options: () => [],
-  disabled: false,
+<script setup>
+defineProps({
+  modelValue: String,
+  options: {
+    type: Array,
+    required: true,
+    default: () => [],
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
-const changeOption = (event: Event) => {
-  emit("update:modelValue", (event.target as HTMLSelectElement).value);
+const changeOption = (event) => {
+  emit("update:modelValue", event.target.value);
 };
 </script>
 
-<script lang="ts">
+<script>
 export default { name: "BaseSelector" };
 </script>

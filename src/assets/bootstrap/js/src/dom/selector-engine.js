@@ -17,7 +17,9 @@ const NODE_TEXT = 3;
 
 const SelectorEngine = {
   find(selector, element = document.documentElement) {
-    return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
+    return [].concat(
+      ...Element.prototype.querySelectorAll.call(element, selector)
+    );
   },
 
   findOne(selector, element = document.documentElement) {
@@ -25,7 +27,9 @@ const SelectorEngine = {
   },
 
   children(element, selector) {
-    return [].concat(...element.children).filter((child) => child.matches(selector));
+    return []
+      .concat(...element.children)
+      .filter((child) => child.matches(selector));
   },
 
   parents(element, selector) {
@@ -33,7 +37,11 @@ const SelectorEngine = {
 
     let ancestor = element.parentNode;
 
-    while (ancestor && ancestor.nodeType === Node.ELEMENT_NODE && ancestor.nodeType !== NODE_TEXT) {
+    while (
+      ancestor &&
+      ancestor.nodeType === Node.ELEMENT_NODE &&
+      ancestor.nodeType !== NODE_TEXT
+    ) {
       if (ancestor.matches(selector)) {
         parents.push(ancestor);
       }
@@ -86,7 +94,9 @@ const SelectorEngine = {
       .map((selector) => `${selector}:not([tabindex^="-"])`)
       .join(", ");
 
-    return this.find(focusables, element).filter((el) => !isDisabled(el) && isVisible(el));
+    return this.find(focusables, element).filter(
+      (el) => !isDisabled(el) && isVisible(el)
+    );
   },
 };
 

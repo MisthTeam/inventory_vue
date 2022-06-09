@@ -6,7 +6,13 @@
  */
 
 import EventHandler from "../dom/event-handler";
-import { execute, executeAfterTransition, getElement, reflow, typeCheckConfig } from "./index";
+import {
+  execute,
+  executeAfterTransition,
+  getElement,
+  reflow,
+  typeCheckConfig,
+} from "./index";
 
 const Default = {
   className: "modal-backdrop",
@@ -123,7 +129,11 @@ class Backdrop {
   }
 
   _emulateAnimation(callback) {
-    executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
+    executeAfterTransition(
+      callback,
+      this._getElement(),
+      this._config.isAnimated
+    );
   }
 }
 

@@ -48,8 +48,12 @@ class FocusTrap {
     }
 
     EventHandler.off(document, EVENT_KEY); // guard against infinite focus loop
-    EventHandler.on(document, EVENT_FOCUSIN, (event) => this._handleFocusin(event));
-    EventHandler.on(document, EVENT_KEYDOWN_TAB, (event) => this._handleKeydown(event));
+    EventHandler.on(document, EVENT_FOCUSIN, (event) =>
+      this._handleFocusin(event)
+    );
+    EventHandler.on(document, EVENT_KEYDOWN_TAB, (event) =>
+      this._handleKeydown(event)
+    );
 
     this._isActive = true;
   }
@@ -69,7 +73,11 @@ class FocusTrap {
     const { target } = event;
     const { trapElement } = this._config;
 
-    if (target === document || target === trapElement || trapElement.contains(target)) {
+    if (
+      target === document ||
+      target === trapElement ||
+      trapElement.contains(target)
+    ) {
       return;
     }
 
@@ -89,7 +97,9 @@ class FocusTrap {
       return;
     }
 
-    this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
+    this._lastTabNavDirection = event.shiftKey
+      ? TAB_NAV_BACKWARD
+      : TAB_NAV_FORWARD;
   }
 
   _getConfig(config) {

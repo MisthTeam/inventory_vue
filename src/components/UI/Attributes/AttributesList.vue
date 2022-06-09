@@ -1,27 +1,38 @@
 <template>
-  <div v-for="attribute in attributes" :key="attribute.id" class="form-floating mb-3">
-    <AttributeItem :disabled="disabled" :attribute="attribute" @updateAttr="(v) => $emit('updateAttr', v)" />
+  <div
+    v-for="attribute in attributes"
+    :key="attribute.id"
+    class="form-floating mb-3"
+  >
+    <AttributeField
+      @updateAttr="(v) => $emit('updateAttr', v)"
+      :disabled="disabled"
+      :attribute="attribute"
+    />
   </div>
 </template>
 
-<script setup lang="ts">
-import { UpdateAttr } from "@/stores/devices/types";
-import { AttributeField } from "@/stores/items/types";
+<script setup>
+import AttributeField from "./AttributeField.vue";
+defineProps({
+  attributes: {
+    type: Array,
+    requried: true,
+    default: () => [],
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 
-import AttributeItem from "./AttributeField.vue";
-
-interface Props {
-  attributes?: Array<AttributeField>;
-  disabled?: boolean;
-}
-defineProps<Props>();
-
-defineEmits<{
-  (e: "updateAttr", value: UpdateAttr): void;
-}>();
+defineEmits({
+  updateAttr: null,
+});
 </script>
 
-<script lang="ts">
+<script>
 export default {
   name: "AttributesList",
 };

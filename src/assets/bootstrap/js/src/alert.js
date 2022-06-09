@@ -50,7 +50,11 @@ class Alert extends BaseComponent {
     this._element.classList.remove(CLASS_NAME_SHOW);
 
     const isAnimated = this._element.classList.contains(CLASS_NAME_FADE);
-    this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
+    this._queueCallback(
+      () => this._destroyElement(),
+      this._element,
+      isAnimated
+    );
   }
 
   // Private
@@ -70,7 +74,11 @@ class Alert extends BaseComponent {
         return;
       }
 
-      if (data[config] === undefined || config.startsWith("_") || config === "constructor") {
+      if (
+        data[config] === undefined ||
+        config.startsWith("_") ||
+        config === "constructor"
+      ) {
         throw new TypeError(`No method named "${config}"`);
       }
 

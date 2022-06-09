@@ -127,7 +127,9 @@ const TRIGGER_MANUAL = "manual";
 class Tooltip extends BaseComponent {
   constructor(element, config) {
     if (typeof Popper === "undefined") {
-      throw new TypeError("Bootstrap's tooltips require Popper (https://popper.js.org)");
+      throw new TypeError(
+        "Bootstrap's tooltips require Popper (https://popper.js.org)"
+      );
     }
 
     super(element);
@@ -206,7 +208,11 @@ class Tooltip extends BaseComponent {
   dispose() {
     clearTimeout(this._timeout);
 
-    EventHandler.off(this._element.closest(SELECTOR_MODAL), EVENT_MODAL_HIDE, this._hideModalHandler);
+    EventHandler.off(
+      this._element.closest(SELECTOR_MODAL),
+      EVENT_MODAL_HIDE,
+      this._hideModalHandler
+    );
 
     if (this.tip) {
       this.tip.remove();
@@ -225,7 +231,10 @@ class Tooltip extends BaseComponent {
       return;
     }
 
-    const showEvent = EventHandler.trigger(this._element, this.constructor.Event.SHOW);
+    const showEvent = EventHandler.trigger(
+      this._element,
+      this.constructor.Event.SHOW
+    );
     const shadowRoot = findShadowRoot(this._element);
     const isInTheDom =
       shadowRoot === null
@@ -241,7 +250,8 @@ class Tooltip extends BaseComponent {
     if (
       this.constructor.NAME === "tooltip" &&
       this.tip &&
-      this.getTitle() !== this.tip.querySelector(SELECTOR_TOOLTIP_INNER).innerHTML
+      this.getTitle() !==
+        this.tip.querySelector(SELECTOR_TOOLTIP_INNER).innerHTML
     ) {
       this._disposePopper();
       this.tip.remove();
@@ -277,7 +287,11 @@ class Tooltip extends BaseComponent {
     if (this._popper) {
       this._popper.update();
     } else {
-      this._popper = Popper.createPopper(this._element, tip, this._getPopperConfig(attachment));
+      this._popper = Popper.createPopper(
+        this._element,
+        tip,
+        this._getPopperConfig(attachment)
+      );
     }
 
     tip.classList.add(CLASS_NAME_SHOW);
@@ -334,7 +348,10 @@ class Tooltip extends BaseComponent {
       this._disposePopper();
     };
 
-    const hideEvent = EventHandler.trigger(this._element, this.constructor.Event.HIDE);
+    const hideEvent = EventHandler.trigger(
+      this._element,
+      this.constructor.Event.HIDE
+    );
     if (hideEvent.defaultPrevented) {
       return;
     }
@@ -344,7 +361,9 @@ class Tooltip extends BaseComponent {
     // If this is a touch-enabled device we remove the extra
     // empty mouseover listeners we added for iOS support
     if ("ontouchstart" in document.documentElement) {
-      [].concat(...document.body.children).forEach((element) => EventHandler.off(element, "mouseover", noop));
+      []
+        .concat(...document.body.children)
+        .forEach((element) => EventHandler.off(element, "mouseover", noop));
     }
 
     this._activeTrigger[TRIGGER_CLICK] = false;
@@ -423,7 +442,11 @@ class Tooltip extends BaseComponent {
 
     if (this._config.html) {
       if (this._config.sanitize) {
-        content = sanitizeHtml(content, this._config.allowList, this._config.sanitizeFn);
+        content = sanitizeHtml(
+          content,
+          this._config.allowList,
+          this._config.sanitizeFn
+        );
       }
 
       element.innerHTML = content;
@@ -433,7 +456,9 @@ class Tooltip extends BaseComponent {
   }
 
   getTitle() {
-    const title = this._element.getAttribute("data-bs-original-title") || this._config.title;
+    const title =
+      this._element.getAttribute("data-bs-original-title") ||
+      this._config.title;
 
     return this._resolvePossibleFunction(title);
   }
@@ -453,7 +478,13 @@ class Tooltip extends BaseComponent {
   // Private
 
   _initializeOnDelegatedTarget(event, context) {
-    return context || this.constructor.getOrCreateInstance(event.delegateTarget, this._getDelegateConfig());
+    return (
+      context ||
+      this.constructor.getOrCreateInstance(
+        event.delegateTarget,
+        this._getDelegateConfig()
+      )
+    );
   }
 
   _getOffset() {
@@ -471,7 +502,9 @@ class Tooltip extends BaseComponent {
   }
 
   _resolvePossibleFunction(content) {
-    return typeof content === "function" ? content.call(this._element) : content;
+    return typeof content === "function"
+      ? content.call(this._element)
+      : content;
   }
 
   _getPopperConfig(attachment) {
@@ -525,7 +558,9 @@ class Tooltip extends BaseComponent {
   }
 
   _addAttachmentClass(attachment) {
-    this.getTipElement().classList.add(`${this._getBasicClassPrefix()}-${this.updateAttachment(attachment)}`);
+    this.getTipElement().classList.add(
+      `${this._getBasicClassPrefix()}-${this.updateAttachment(attachment)}`
+    );
   }
 
   _getAttachment(placement) {
@@ -537,16 +572,34 @@ class Tooltip extends BaseComponent {
 
     triggers.forEach((trigger) => {
       if (trigger === "click") {
-        EventHandler.on(this._element, this.constructor.Event.CLICK, this._config.selector, (event) =>
-          this.toggle(event),
+        EventHandler.on(
+          this._element,
+          this.constructor.Event.CLICK,
+          this._config.selector,
+          (event) => this.toggle(event)
         );
       } else if (trigger !== TRIGGER_MANUAL) {
-        const eventIn = trigger === TRIGGER_HOVER ? this.constructor.Event.MOUSEENTER : this.constructor.Event.FOCUSIN;
+        const eventIn =
+          trigger === TRIGGER_HOVER
+            ? this.constructor.Event.MOUSEENTER
+            : this.constructor.Event.FOCUSIN;
         const eventOut =
-          trigger === TRIGGER_HOVER ? this.constructor.Event.MOUSELEAVE : this.constructor.Event.FOCUSOUT;
+          trigger === TRIGGER_HOVER
+            ? this.constructor.Event.MOUSELEAVE
+            : this.constructor.Event.FOCUSOUT;
 
-        EventHandler.on(this._element, eventIn, this._config.selector, (event) => this._enter(event));
-        EventHandler.on(this._element, eventOut, this._config.selector, (event) => this._leave(event));
+        EventHandler.on(
+          this._element,
+          eventIn,
+          this._config.selector,
+          (event) => this._enter(event)
+        );
+        EventHandler.on(
+          this._element,
+          eventOut,
+          this._config.selector,
+          (event) => this._leave(event)
+        );
       }
     });
 
@@ -556,7 +609,11 @@ class Tooltip extends BaseComponent {
       }
     };
 
-    EventHandler.on(this._element.closest(SELECTOR_MODAL), EVENT_MODAL_HIDE, this._hideModalHandler);
+    EventHandler.on(
+      this._element.closest(SELECTOR_MODAL),
+      EVENT_MODAL_HIDE,
+      this._hideModalHandler
+    );
 
     if (this._config.selector) {
       this._config = {
@@ -571,11 +628,17 @@ class Tooltip extends BaseComponent {
 
   _fixTitle() {
     const title = this._element.getAttribute("title");
-    const originalTitleType = typeof this._element.getAttribute("data-bs-original-title");
+    const originalTitleType = typeof this._element.getAttribute(
+      "data-bs-original-title"
+    );
 
     if (title || originalTitleType !== "string") {
       this._element.setAttribute("data-bs-original-title", title || "");
-      if (title && !this._element.getAttribute("aria-label") && !this._element.textContent) {
+      if (
+        title &&
+        !this._element.getAttribute("aria-label") &&
+        !this._element.textContent
+      ) {
         this._element.setAttribute("aria-label", title);
       }
 
@@ -587,10 +650,15 @@ class Tooltip extends BaseComponent {
     context = this._initializeOnDelegatedTarget(event, context);
 
     if (event) {
-      context._activeTrigger[event.type === "focusin" ? TRIGGER_FOCUS : TRIGGER_HOVER] = true;
+      context._activeTrigger[
+        event.type === "focusin" ? TRIGGER_FOCUS : TRIGGER_HOVER
+      ] = true;
     }
 
-    if (context.getTipElement().classList.contains(CLASS_NAME_SHOW) || context._hoverState === HOVER_STATE_SHOW) {
+    if (
+      context.getTipElement().classList.contains(CLASS_NAME_SHOW) ||
+      context._hoverState === HOVER_STATE_SHOW
+    ) {
       context._hoverState = HOVER_STATE_SHOW;
       return;
     }
@@ -615,9 +683,9 @@ class Tooltip extends BaseComponent {
     context = this._initializeOnDelegatedTarget(event, context);
 
     if (event) {
-      context._activeTrigger[event.type === "focusout" ? TRIGGER_FOCUS : TRIGGER_HOVER] = context._element.contains(
-        event.relatedTarget,
-      );
+      context._activeTrigger[
+        event.type === "focusout" ? TRIGGER_FOCUS : TRIGGER_HOVER
+      ] = context._element.contains(event.relatedTarget);
     }
 
     if (context._isWithActiveTrigger()) {
@@ -665,7 +733,8 @@ class Tooltip extends BaseComponent {
       ...(typeof config === "object" && config ? config : {}),
     };
 
-    config.container = config.container === false ? document.body : getElement(config.container);
+    config.container =
+      config.container === false ? document.body : getElement(config.container);
 
     if (typeof config.delay === "number") {
       config.delay = {
@@ -685,7 +754,11 @@ class Tooltip extends BaseComponent {
     typeCheckConfig(NAME, config, this.constructor.DefaultType);
 
     if (config.sanitize) {
-      config.template = sanitizeHtml(config.template, config.allowList, config.sanitizeFn);
+      config.template = sanitizeHtml(
+        config.template,
+        config.allowList,
+        config.sanitizeFn
+      );
     }
 
     return config;
@@ -708,10 +781,15 @@ class Tooltip extends BaseComponent {
 
   _cleanTipClass() {
     const tip = this.getTipElement();
-    const basicClassPrefixRegex = new RegExp(`(^|\\s)${this._getBasicClassPrefix()}\\S+`, "g");
+    const basicClassPrefixRegex = new RegExp(
+      `(^|\\s)${this._getBasicClassPrefix()}\\S+`,
+      "g"
+    );
     const tabClass = tip.getAttribute("class").match(basicClassPrefixRegex);
     if (tabClass !== null && tabClass.length > 0) {
-      tabClass.map((token) => token.trim()).forEach((tClass) => tip.classList.remove(tClass));
+      tabClass
+        .map((token) => token.trim())
+        .forEach((tClass) => tip.classList.remove(tClass));
     }
   }
 

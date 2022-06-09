@@ -1,9 +1,12 @@
 <template>
-  <div class="col-1 p-0 justify-content-center navbar-light bg-light fixed-top mt-5" style="width: 55px; height: 100vh">
+  <div
+    class="col-1 p-0 justify-content-center navbar-light bg-light fixed-top mt-5"
+    style="width: 55px; height: 100vh"
+  >
     <nav class="sidebar-sticky">
-      <div id="navbarSupportedContent" class="navbar-collapse">
+      <div class="navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav text-center flex-column">
-          <li v-for="(_, page) in adminPages" :key="page" class="nav-item">
+          <li class="nav-item" v-for="(_, page) in adminPages" :key="page">
             <router-link
               :to="{ path: `/admin/${page}` }"
               :class="[
@@ -23,19 +26,21 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { adminPages } from "@/utils/helpers";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
-interface Props {
-  currentPage?: string;
-  disabled?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  currentPage: "device",
-  disabled: false,
+const props = defineProps({
+  currentPage: {
+    type: String,
+    default: "device",
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 const route = useRoute();
 

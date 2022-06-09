@@ -1,13 +1,24 @@
 <template>
   <ul class="pagination justify-content-center">
     <li class="page-item" :class="{ disabled: modelValue === 1 }">
-      <a href="#" class="page-link" @click.prevent="changePage(modelValue - 1)"> Назад </a>
+      <a href="#" class="page-link" @click.prevent="changePage(modelValue - 1)">
+        Назад
+      </a>
     </li>
-    <li v-for="(item, index) in items" :key="index" class="page-item" :class="item.class">
-      <a href="#" class="page-link" @click.prevent="changePage(item.page!)"> {{ item.page || "..." }}</a>
+    <li
+      class="page-item"
+      v-for="(item, index) in items"
+      :key="index"
+      :class="item.class"
+    >
+      <a href="#" class="page-link" @click.prevent="changePage(item.page)">
+        {{ item.page || "..." }}</a
+      >
     </li>
     <li class="page-item" :class="{ disabled: modelValue === totalPages }">
-      <a href="#" class="page-link" @click.prevent="changePage(modelValue + 1)"> Вперёд </a>
+      <a href="#" class="page-link" @click.prevent="changePage(modelValue + 1)">
+        Вперёд
+      </a>
     </li>
   </ul>
 </template>
@@ -20,20 +31,14 @@ export default {
 
 <script setup lang="ts">
 import { computed } from "vue";
-
-interface Props {
-  modelValue?: number;
-  totalPages: number;
-}
-
-type itemPageType = {
-  page?: number;
-  class: "active" | "" | "disabled";
-};
-
-const props = withDefaults(defineProps<Props>(), {
-  totalPages: 1,
-  modelValue: 1,
+const props = defineProps({
+  modelValue: {
+    type: Number,
+  },
+  totalPages: {
+    type: Number,
+    required: true,
+  },
 });
 
 const emit = defineEmits<{
@@ -41,7 +46,7 @@ const emit = defineEmits<{
 }>();
 
 const items = computed(() => {
-  var items: Array<itemPageType> = [];
+  var items = [];
   if (props.totalPages > 6) {
     if (props.modelValue < 4) {
       for (let i = 1; i <= 3; i++) {
@@ -87,7 +92,7 @@ const items = computed(() => {
   return items;
 });
 
-const changePage = (page: number | null) => {
+const changePage = (page: number) => {
   if (page) emit("update:modelValue", page);
 };
 </script>

@@ -8,22 +8,20 @@
       </tr>
     </thead>
     <tbody>
-      <BaseItem v-for="item in items" :key="item.id" :item="item" />
+      <Item v-for="item in items" :key="item.id" :item="item" />
     </tbody>
   </table>
   <div v-else class="text-center">
     <h5>Комплектующих нету</h5>
   </div>
 </template>
-<script setup lang="ts">
-import BaseItem from "./Item.vue";
-import { Item } from "@/stores/items/types";
-
-interface Props {
-  items: Array<Item>;
-}
-
-withDefaults(defineProps<Props>(), {
-  items: () => [],
+<script setup>
+import Item from "./Item.vue";
+defineProps({
+  items: {
+    type: Array,
+    required: true,
+    default: () => [],
+  },
 });
 </script>

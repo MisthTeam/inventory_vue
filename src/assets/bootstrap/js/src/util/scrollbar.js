@@ -9,7 +9,8 @@ import SelectorEngine from "../dom/selector-engine";
 import Manipulator from "../dom/manipulator";
 import { isElement } from "./index";
 
-const SELECTOR_FIXED_CONTENT = ".fixed-top, .fixed-bottom, .is-fixed, .sticky-top";
+const SELECTOR_FIXED_CONTENT =
+  ".fixed-top, .fixed-bottom, .is-fixed, .sticky-top";
 const SELECTOR_STICKY_CONTENT = ".sticky-top";
 
 class ScrollBarHelper {
@@ -27,10 +28,22 @@ class ScrollBarHelper {
     const width = this.getWidth();
     this._disableOverFlow();
     // give padding to element to balance the hidden scrollbar width
-    this._setElementAttributes(this._element, "paddingRight", (calculatedValue) => calculatedValue + width);
+    this._setElementAttributes(
+      this._element,
+      "paddingRight",
+      (calculatedValue) => calculatedValue + width
+    );
     // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
-    this._setElementAttributes(SELECTOR_FIXED_CONTENT, "paddingRight", (calculatedValue) => calculatedValue + width);
-    this._setElementAttributes(SELECTOR_STICKY_CONTENT, "marginRight", (calculatedValue) => calculatedValue - width);
+    this._setElementAttributes(
+      SELECTOR_FIXED_CONTENT,
+      "paddingRight",
+      (calculatedValue) => calculatedValue + width
+    );
+    this._setElementAttributes(
+      SELECTOR_STICKY_CONTENT,
+      "marginRight",
+      (calculatedValue) => calculatedValue - width
+    );
   }
 
   _disableOverFlow() {
@@ -41,13 +54,18 @@ class ScrollBarHelper {
   _setElementAttributes(selector, styleProp, callback) {
     const scrollbarWidth = this.getWidth();
     const manipulationCallBack = (element) => {
-      if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
+      if (
+        element !== this._element &&
+        window.innerWidth > element.clientWidth + scrollbarWidth
+      ) {
         return;
       }
 
       this._saveInitialAttribute(element, styleProp);
       const calculatedValue = window.getComputedStyle(element)[styleProp];
-      element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
+      element.style[styleProp] = `${callback(
+        Number.parseFloat(calculatedValue)
+      )}px`;
     };
 
     this._applyManipulationCallback(selector, manipulationCallBack);

@@ -13,7 +13,6 @@ module.exports = {
   plugins: ["prettier", "@typescript-eslint"],
   rules: {
     "vue/valid-attribute-name": "off",
-    "vue/require-default-prop": "off",
     "prettier/prettier": "warn",
     "no-unused-vars": "off",
     "vue/v-on-event-hyphenation": "off",

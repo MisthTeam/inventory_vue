@@ -30,6 +30,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   item: null,
+  modelValue: "",
   disabled: false,
 });
 defineEmits(["update:modelValue"]);

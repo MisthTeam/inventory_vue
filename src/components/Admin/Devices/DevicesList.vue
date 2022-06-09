@@ -22,35 +22,37 @@
       </div>
     </tbody>
   </table>
-  <BaseModal name="Изменение устройства" :isOpen="isOpenModal" @close="modalCancel" @ok="modalOk">
-    <template v-if="isOpenModal" #default>
-      <template v-if="dto">
-        <div class="form-floating mb-3">
-          <input id="floatingInput2" v-model="dto.pn" type="text" class="form-control" placeholder="P/N" />
+  <teleport to="body">
+    <BaseModal name="Изменение устройства" :isOpen="isOpenModal" @close="modalCancel" @ok="modalOk">
+      <template v-if="isOpenModal" #default>
+        <template v-if="dto">
+          <div class="form-floating mb-3">
+            <input id="floatingInput2" v-model="dto.pn" type="text" class="form-control" placeholder="P/N" />
 
-          <label for="floatingInput2">P/N</label>
-        </div>
+            <label for="floatingInput2">P/N</label>
+          </div>
 
-        <div class="form-floating mb-3">
-          <select v-model="dto.type" class="form-select" aria-label="Device type">
-            <option
-              v-for="_type in deviceTypes"
-              :key="_type.id"
-              :value="_type.type"
-              :selected="_type.type === dto.type"
-            >
-              {{ _type.type }}
-            </option>
-          </select>
-          <label for="floatingInput">Device type</label>
-        </div>
+          <div class="form-floating mb-3">
+            <select v-model="dto.type" class="form-select" aria-label="Device type">
+              <option
+                v-for="_type in deviceTypes"
+                :key="_type.id"
+                :value="_type.type"
+                :selected="_type.type === dto.type"
+              >
+                {{ _type.type }}
+              </option>
+            </select>
+            <label for="floatingInput">Device type</label>
+          </div>
 
-        <div class="input-group justify-content-between mb-3">
-          <SpecificationsList :type="dto.type" :device="dto" @editSpecification="changeSpecification" />
-        </div>
+          <div class="input-group justify-content-between mb-3">
+            <SpecificationsList :type="dto.type" :device="dto" @editSpecification="changeSpecification" />
+          </div>
+        </template>
       </template>
-    </template>
-  </BaseModal>
+    </BaseModal>
+  </teleport>
 </template>
 <script setup lang="ts">
 import { ref, watch } from "vue";

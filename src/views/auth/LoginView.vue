@@ -1,19 +1,9 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useLogin } from "@/hooks/auth";
-import { loginUserParams } from "@/stores/user/types";
-import { Form, Field, ErrorMessage } from "vee-validate";
-import { useForm } from "vee-validate";
-import * as yup from "yup";
-const ValidSchema = yup.object({
-  login: yup.string().required("Введите логин"),
-  password: yup.string().required("Введите пароль"),
-});
 const { isLoading, onSubmit } = useLogin();
-const { handleSubmit } = useForm();
-
-// const onSubmit = async (params) => {
-//   console.log(params);
-// };
+const login = ref("");
+const password = ref("");
 </script>
 
 <template>
@@ -23,19 +13,17 @@ const { handleSubmit } = useForm();
         <div class="card shadow-lg">
           <div class="card-body">
             <h4 class="card-title text-center">Вход</h4>
-            <Form :validation-schema="ValidSchema" @submit="onSubmit">
+            <form @submit.prevent="onSubmit({ login, password })">
               <div class="form-group">
                 <label class="form-label">Логин</label>
-                <Field type="text" class="form-control" name="login" />
-                <ErrorMessage name="login" />
+                <input v-model="login" type="text" class="form-control" required name="login" />
               </div>
               <div class="form-group mt-2">
                 <label class="form-label">Password</label>
-                <Field type="password" class="form-control" name="password" />
-                <ErrorMessage name="password" />
+                <input v-model="password" type="password" class="form-control" required name="password" />
               </div>
               <BaseButton type="submit" :disabled="isLoading" class="btn-primary w-100 mt-3"> Войти </BaseButton>
-            </Form>
+            </form>
           </div>
         </div>
       </div>

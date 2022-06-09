@@ -52,11 +52,7 @@ watch([page, sortedValue, searchQuery], () => {
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <LoadingSpinner v-if="isLoading" />
         <ItemsList v-else :items="itemsRef.data" />
-        <BasePagination
-          v-model="page"
-          :current-page="page"
-          :totalPages="itemsRef.meta?.last_page || 1"
-        ></BasePagination>
+        <BasePagination v-model="page" :current-page="page" :totalPages="itemsRef.meta?.last_page || 1" />
       </div>
     </div>
   </div>

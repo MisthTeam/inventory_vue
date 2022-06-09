@@ -44,7 +44,7 @@ watch([page, sortedValue, searchQuery], () => {
       <div class="col-xl- col-lg-8 col-md-12 col-12 mt-2">
         <LoadingSpinner v-if="isLoading" />
         <DeviceList v-else :devices="devices.data" @deleteDevice="deleteDevice" />
-        <BasePagination v-model="page" :current-page="page" :totalPages="devices.meta?.last_page || 1"></BasePagination>
+        <BasePagination v-model="page" :current-page="page" :totalPages="devices.meta?.last_page || 1" />
       </div>
     </div>
   </div>

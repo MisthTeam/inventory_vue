@@ -37,12 +37,13 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
 import params from "@/components/Admin/User/UserParams.vue";
 import roles from "@/components/Admin/User/UserRoles.vue";
 import { ref } from "vue";
-const currentUserPage = ref("params");
+
+const currentUserPage = ref<keyof typeof userComponents>("params");
 
 const userComponents = {
   params: "Параметры",

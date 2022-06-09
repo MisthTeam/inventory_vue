@@ -49,8 +49,7 @@ const Manipulator = {
       .filter((key) => key.startsWith("bs"))
       .forEach((key) => {
         let pureKey = key.replace(/^bs/, "");
-        pureKey =
-          pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
+        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
         attributes[pureKey] = normalizeData(element.dataset[key]);
       });
 
@@ -58,9 +57,7 @@ const Manipulator = {
   },
 
   getDataAttribute(element, key) {
-    return normalizeData(
-      element.getAttribute(`data-bs-${normalizeDataKey(key)}`)
-    );
+    return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
   },
 
   offset(element) {

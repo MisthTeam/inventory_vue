@@ -1,20 +1,10 @@
 <template>
-  <button
-    :type="type"
-    class="btn"
-    :disabled="disabled"
-    @click="$emit('clickButton')"
-  >
-    <span
-      v-if="disabled"
-      class="spinner-border spinner-border-sm"
-      role="status"
-      aria-hidden="true"
-    />
+  <button :type="type" class="btn" :disabled="disabled" @click="$emit('clickButton')">
+    <span v-if="disabled" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
     <b> <slot /> </b>
   </button>
 </template>
-<script>
+<script lang="ts">
 export default {
   name: "BaseButton",
   props: {

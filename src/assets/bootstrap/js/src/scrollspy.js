@@ -5,12 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import {
-  defineJQueryPlugin,
-  getElement,
-  getSelectorFromElement,
-  typeCheckConfig,
-} from "./util/index";
+import { defineJQueryPlugin, getElement, getSelectorFromElement, typeCheckConfig } from "./util/index";
 import EventHandler from "./dom/event-handler";
 import Manipulator from "./dom/manipulator";
 import SelectorEngine from "./dom/selector-engine";
@@ -67,8 +62,7 @@ const METHOD_POSITION = "position";
 class ScrollSpy extends BaseComponent {
   constructor(element, config) {
     super(element);
-    this._scrollElement =
-      this._element.tagName === "BODY" ? window : this._element;
+    this._scrollElement = this._element.tagName === "BODY" ? window : this._element;
     this._config = this._getConfig(config);
     this._offsets = [];
     this._targets = [];
@@ -94,40 +88,27 @@ class ScrollSpy extends BaseComponent {
   // Public
 
   refresh() {
-    const autoMethod =
-      this._scrollElement === this._scrollElement.window
-        ? METHOD_OFFSET
-        : METHOD_POSITION;
+    const autoMethod = this._scrollElement === this._scrollElement.window ? METHOD_OFFSET : METHOD_POSITION;
 
-    const offsetMethod =
-      this._config.method === "auto" ? autoMethod : this._config.method;
+    const offsetMethod = this._config.method === "auto" ? autoMethod : this._config.method;
 
-    const offsetBase =
-      offsetMethod === METHOD_POSITION ? this._getScrollTop() : 0;
+    const offsetBase = offsetMethod === METHOD_POSITION ? this._getScrollTop() : 0;
 
     this._offsets = [];
     this._targets = [];
     this._scrollHeight = this._getScrollHeight();
 
-    const targets = SelectorEngine.find(
-      SELECTOR_LINK_ITEMS,
-      this._config.target
-    );
+    const targets = SelectorEngine.find(SELECTOR_LINK_ITEMS, this._config.target);
 
     targets
       .map((element) => {
         const targetSelector = getSelectorFromElement(element);
-        const target = targetSelector
-          ? SelectorEngine.findOne(targetSelector)
-          : null;
+        const target = targetSelector ? SelectorEngine.findOne(targetSelector) : null;
 
         if (target) {
           const targetBCR = target.getBoundingClientRect();
           if (targetBCR.width || targetBCR.height) {
-            return [
-              Manipulator[offsetMethod](target).top + offsetBase,
-              targetSelector,
-            ];
+            return [Manipulator[offsetMethod](target).top + offsetBase, targetSelector];
           }
         }
 
@@ -163,32 +144,23 @@ class ScrollSpy extends BaseComponent {
   }
 
   _getScrollTop() {
-    return this._scrollElement === window
-      ? this._scrollElement.pageYOffset
-      : this._scrollElement.scrollTop;
+    return this._scrollElement === window ? this._scrollElement.pageYOffset : this._scrollElement.scrollTop;
   }
 
   _getScrollHeight() {
     return (
-      this._scrollElement.scrollHeight ||
-      Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight
-      )
+      this._scrollElement.scrollHeight || Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
     );
   }
 
   _getOffsetHeight() {
-    return this._scrollElement === window
-      ? window.innerHeight
-      : this._scrollElement.getBoundingClientRect().height;
+    return this._scrollElement === window ? window.innerHeight : this._scrollElement.getBoundingClientRect().height;
   }
 
   _process() {
     const scrollTop = this._getScrollTop() + this._config.offset;
     const scrollHeight = this._getScrollHeight();
-    const maxScroll =
-      this._config.offset + scrollHeight - this._getOffsetHeight();
+    const maxScroll = this._config.offset + scrollHeight - this._getOffsetHeight();
 
     if (this._scrollHeight !== scrollHeight) {
       this.refresh();
@@ -204,11 +176,7 @@ class ScrollSpy extends BaseComponent {
       return;
     }
 
-    if (
-      this._activeTarget &&
-      scrollTop < this._offsets[0] &&
-      this._offsets[0] > 0
-    ) {
+    if (this._activeTarget && scrollTop < this._offsets[0] && this._offsets[0] > 0) {
       this._activeTarget = null;
       this._clear();
       return;
@@ -218,8 +186,7 @@ class ScrollSpy extends BaseComponent {
       const isActiveTarget =
         this._activeTarget !== this._targets[i] &&
         scrollTop >= this._offsets[i] &&
-        (typeof this._offsets[i + 1] === "undefined" ||
-          scrollTop < this._offsets[i + 1]);
+        (typeof this._offsets[i + 1] === "undefined" || scrollTop < this._offsets[i + 1]);
 
       if (isActiveTarget) {
         this._activate(this._targets[i]);
@@ -233,38 +200,29 @@ class ScrollSpy extends BaseComponent {
     this._clear();
 
     const queries = SELECTOR_LINK_ITEMS.split(",").map(
-      (selector) =>
-        `${selector}[data-bs-target="${target}"],${selector}[href="${target}"]`
+      (selector) => `${selector}[data-bs-target="${target}"],${selector}[href="${target}"]`,
     );
 
     const link = SelectorEngine.findOne(queries.join(","), this._config.target);
 
     link.classList.add(CLASS_NAME_ACTIVE);
     if (link.classList.contains(CLASS_NAME_DROPDOWN_ITEM)) {
-      SelectorEngine.findOne(
-        SELECTOR_DROPDOWN_TOGGLE,
-        link.closest(SELECTOR_DROPDOWN)
-      ).classList.add(CLASS_NAME_ACTIVE);
-    } else {
-      SelectorEngine.parents(link, SELECTOR_NAV_LIST_GROUP).forEach(
-        (listGroup) => {
-          // Set triggered links parents as active
-          // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
-          SelectorEngine.prev(
-            listGroup,
-            `${SELECTOR_NAV_LINKS}, ${SELECTOR_LIST_ITEMS}`
-          ).forEach((item) => item.classList.add(CLASS_NAME_ACTIVE));
-
-          // Handle special case when .nav-link is inside .nav-item
-          SelectorEngine.prev(listGroup, SELECTOR_NAV_ITEMS).forEach(
-            (navItem) => {
-              SelectorEngine.children(navItem, SELECTOR_NAV_LINKS).forEach(
-                (item) => item.classList.add(CLASS_NAME_ACTIVE)
-              );
-            }
-          );
-        }
+      SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE, link.closest(SELECTOR_DROPDOWN)).classList.add(
+        CLASS_NAME_ACTIVE,
       );
+    } else {
+      SelectorEngine.parents(link, SELECTOR_NAV_LIST_GROUP).forEach((listGroup) => {
+        // Set triggered links parents as active
+        // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
+        SelectorEngine.prev(listGroup, `${SELECTOR_NAV_LINKS}, ${SELECTOR_LIST_ITEMS}`).forEach((item) =>
+          item.classList.add(CLASS_NAME_ACTIVE),
+        );
+
+        // Handle special case when .nav-link is inside .nav-item
+        SelectorEngine.prev(listGroup, SELECTOR_NAV_ITEMS).forEach((navItem) => {
+          SelectorEngine.children(navItem, SELECTOR_NAV_LINKS).forEach((item) => item.classList.add(CLASS_NAME_ACTIVE));
+        });
+      });
     }
 
     EventHandler.trigger(this._scrollElement, EVENT_ACTIVATE, {

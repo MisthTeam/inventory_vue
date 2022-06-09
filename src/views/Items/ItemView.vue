@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { deleteItem, editItem, getItem, getStatused } from "@/hooks/items";
 import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
@@ -9,7 +9,7 @@ const route = useRoute();
 const userStore = useUserStore();
 const isEditing = ref(false);
 
-const { item, isLoading } = getItem(route.params.id);
+const { item, isLoading } = getItem(route.params.id as string);
 const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
 const { deleteIt, isDeleteLoading } = deleteItem();
 const { isUpdateLoading, editIt } = editItem(isEditing);
@@ -18,47 +18,29 @@ const { statusList } = getStatused();
 <template>
   <LoadingSpinner v-if="isLoading" />
   <div v-else class="container">
-    <div
-      v-if="item && statusList"
-      class="row justify-content-center align-items-center vh-100"
-    >
+    <div v-if="item && statusList" class="row justify-content-center align-items-center vh-100">
       <div v-if="isHasRole" class="row justify-content-center">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
-          <BaseButton
-            v-if="!isEditing"
-            @clickButton="() => (isEditing = !isEditing)"
-            class="w-100 btn-warning"
-          >
+          <BaseButton v-if="!isEditing" class="w-100 btn-warning" @clickButton="() => (isEditing = !isEditing)">
             Изменить
           </BaseButton>
           <BaseButton
             v-else
             :disabled="isUpdateLoading"
-            @clickButton="editIt(item.id, item)"
             class="w-100 btn-success"
+            @clickButton="editIt(item!.id, item!)"
           >
             Сохранить
           </BaseButton>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-md-0 mt-2">
-          <BaseButton
-            :disabled="isDeleteLoading"
-            @clickButton="deleteIt(item.id)"
-            class="w-100 btn-danger"
-          >
+          <BaseButton :disabled="isDeleteLoading" class="w-100 btn-danger" @clickButton="deleteIt(item!.id)">
             Удалить
           </BaseButton>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-3">
-          <ItemsFields
-            v-model="item.meta.name"
-            :item="item"
-            :disabled="!isEditing"
-          />
-          <AttributesList
-            :attributes="item.attributes"
-            :disabled="!isEditing"
-          />
+          <ItemsFields v-model="item.meta.name" :item="item" :disabled="!isEditing" />
+          <AttributesList :attributes="item.attributes" :disabled="!isEditing" />
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
@@ -71,20 +53,11 @@ const { statusList } = getStatused();
           </div>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <SpecificationsList
-            disabled
-            :type="item.device.type"
-            :device="item.device"
-          />
+          <SpecificationsList disabled :type="item.device.type" :device="item.device" />
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
-            <select
-              class="form-select"
-              :disabled="!isEditing"
-              aria-label="Change status"
-              v-model="item.status.id"
-            >
+            <select v-model="item.status.id" class="form-select" :disabled="!isEditing" aria-label="Change status">
               <option
                 v-for="status in statusList"
                 :key="status.id"

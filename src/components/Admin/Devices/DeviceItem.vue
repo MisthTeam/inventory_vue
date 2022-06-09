@@ -5,11 +5,7 @@
     <td class="">misthntism</td>
     <td class="">{{ convertTime(device.created_at) }}</td>
     <td class="text-end">
-      <BaseButton
-        @clickButton="deleteDev"
-        :disabled="isDeleteLoading"
-        class="btn-danger"
-      >
+      <BaseButton class="btn-danger" :disabled="isDeleteLoading" @clickButton="deleteDev">
         <i class="bi bi-trash-fill" />
       </BaseButton>
       <BaseButton
@@ -24,22 +20,26 @@
     </td>
   </tr>
 </template>
-<script setup>
+<script setup lang="ts">
 import { deleteDevice } from "@/hooks/devices/deleteDevice";
 import { convertTime } from "@/utils/helpers";
+import { Device } from "@/stores/devices/types";
 
-const props = defineProps({
-  device: {
-    type: Object,
-    required: true,
-  },
-});
-const emit = defineEmits(["deleteDevice", "openModal"]);
+interface Props {
+  device: Device;
+}
+
+const props = defineProps<Props>();
+
+const emit = defineEmits<{
+  (event: "deleteDevice", value: Device): void;
+  (event: "openModal", value: Device): void;
+}>();
 
 const { isDeleteLoading, deleting: deleteItem } = deleteDevice(props.device.id);
 
 const deleteDev = async () => {
-  deleteItem().then(emit("deleteDevice"));
+  deleteItem().then((v) => emit("deleteDevice", v));
 };
 const openModal = () => emit("openModal", props.device);
 </script>

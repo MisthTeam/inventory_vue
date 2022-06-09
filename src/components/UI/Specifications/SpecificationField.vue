@@ -1,14 +1,11 @@
-<script setup>
-defineProps({
-  specification: {
-    type: String,
-    required: false,
-  },
-  nameSpec: {
-    type: String,
-    required: false,
-    default: "",
-  },
+<script setup lang="ts">
+interface Props {
+  specification?: string;
+  nameSpec: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  nameSpec: "",
 });
 
 defineEmits({
@@ -26,7 +23,7 @@ defineEmits({
     :aria-label="nameSpec"
     @input="
       $emit('editSpecification', {
-        value: $event.target.value,
+        value: ($event.target as HTMLInputElement).value,
         target: nameSpec,
       })
     "

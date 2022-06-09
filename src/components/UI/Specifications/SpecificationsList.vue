@@ -1,40 +1,30 @@
-<script setup>
+<script setup lang="ts">
+import { Device } from "@/stores/devices/types";
 import { deviceTypes } from "@/utils/helpers";
 import { computed } from "vue";
 import SpecificationField from "./SpecificationField.vue";
 
-const props = defineProps({
-  type: {
-    type: String,
-    required: true,
-  },
-  disabled: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-  device: {
-    type: Object,
-    required: false,
-    default: null,
-  },
-  dto: {
-    type: Object,
-    required: false,
-    default: () => ({}),
-  },
+interface Props {
+  type: string;
+  disabled?: boolean;
+  device?: Device | null;
+  dto?: any;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  disabled: false,
+  device: null,
+  dto: () => ({}),
 });
 
 defineEmits({
   editSpecification: null,
 });
 
-const deviceType = computed(() =>
-  deviceTypes.find((d) => d.type === props.type)
-);
+const deviceType = computed(() => deviceTypes.find((d) => d.type === props.type));
 </script>
 
-<script>
+<script lang="ts">
 export default {
   name: "SpecificationsList",
 };
@@ -43,14 +33,10 @@ export default {
 <template>
   <div v-if="deviceType" class="input-group justify-content-between mb-3">
     <SpecificationField
-      :disabled="disabled"
       v-for="(specification, i) of deviceType.specification"
       :key="i"
-      :specification="
-        device?.specification[specification] ||
-        dto.device?.specification[specification] ||
-        null
-      "
+      :disabled="disabled"
+      :specification="device?.specification[specification] || dto.device?.specification[specification] || null"
       :nameSpec="specification"
       @editSpecification="(v) => $emit('editSpecification', v)"
     />

@@ -5,13 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import {
-  defineJQueryPlugin,
-  getElementFromSelector,
-  isDisabled,
-  isVisible,
-  typeCheckConfig,
-} from "./util/index";
+import { defineJQueryPlugin, getElementFromSelector, isDisabled, isVisible, typeCheckConfig } from "./util/index";
 import ScrollBarHelper from "./util/scrollbar";
 import EventHandler from "./dom/event-handler";
 import BaseComponent from "./base-component";
@@ -215,11 +209,7 @@ class Offcanvas extends BaseComponent {
         return;
       }
 
-      if (
-        data[config] === undefined ||
-        config.startsWith("_") ||
-        config === "constructor"
-      ) {
+      if (data[config] === undefined || config.startsWith("_") || config === "constructor") {
         throw new TypeError(`No method named "${config}"`);
       }
 
@@ -234,43 +224,36 @@ class Offcanvas extends BaseComponent {
  * ------------------------------------------------------------------------
  */
 
-EventHandler.on(
-  document,
-  EVENT_CLICK_DATA_API,
-  SELECTOR_DATA_TOGGLE,
-  function (event) {
-    const target = getElementFromSelector(this);
+EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+  const target = getElementFromSelector(this);
 
-    if (["A", "AREA"].includes(this.tagName)) {
-      event.preventDefault();
-    }
-
-    if (isDisabled(this)) {
-      return;
-    }
-
-    EventHandler.one(target, EVENT_HIDDEN, () => {
-      // focus on trigger when it is closed
-      if (isVisible(this)) {
-        this.focus();
-      }
-    });
-
-    // avoid conflict when clicking a toggler of an offcanvas, while another is open
-    const allReadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
-    if (allReadyOpen && allReadyOpen !== target) {
-      Offcanvas.getInstance(allReadyOpen).hide();
-    }
-
-    const data = Offcanvas.getOrCreateInstance(target);
-    data.toggle(this);
+  if (["A", "AREA"].includes(this.tagName)) {
+    event.preventDefault();
   }
-);
+
+  if (isDisabled(this)) {
+    return;
+  }
+
+  EventHandler.one(target, EVENT_HIDDEN, () => {
+    // focus on trigger when it is closed
+    if (isVisible(this)) {
+      this.focus();
+    }
+  });
+
+  // avoid conflict when clicking a toggler of an offcanvas, while another is open
+  const allReadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
+  if (allReadyOpen && allReadyOpen !== target) {
+    Offcanvas.getInstance(allReadyOpen).hide();
+  }
+
+  const data = Offcanvas.getOrCreateInstance(target);
+  data.toggle(this);
+});
 
 EventHandler.on(window, EVENT_LOAD_DATA_API, () =>
-  SelectorEngine.find(OPEN_SELECTOR).forEach((el) =>
-    Offcanvas.getOrCreateInstance(el).show()
-  )
+  SelectorEngine.find(OPEN_SELECTOR).forEach((el) => Offcanvas.getOrCreateInstance(el).show()),
 );
 
 enableDismissTrigger(Offcanvas);

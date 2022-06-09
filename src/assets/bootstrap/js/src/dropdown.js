@@ -42,9 +42,7 @@ const ARROW_UP_KEY = "ArrowUp";
 const ARROW_DOWN_KEY = "ArrowDown";
 const RIGHT_MOUSE_BUTTON = 2; // MouseEvent.button value for the secondary button, usually the right button
 
-const REGEXP_KEYDOWN = new RegExp(
-  `${ARROW_UP_KEY}|${ARROW_DOWN_KEY}|${ESCAPE_KEY}`
-);
+const REGEXP_KEYDOWN = new RegExp(`${ARROW_UP_KEY}|${ARROW_DOWN_KEY}|${ESCAPE_KEY}`);
 
 const EVENT_HIDE = `hide${EVENT_KEY}`;
 const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
@@ -63,8 +61,7 @@ const CLASS_NAME_NAVBAR = "navbar";
 const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="dropdown"]';
 const SELECTOR_MENU = ".dropdown-menu";
 const SELECTOR_NAVBAR_NAV = ".navbar-nav";
-const SELECTOR_VISIBLE_ITEMS =
-  ".dropdown-menu .dropdown-item:not(.disabled):not(:disabled)";
+const SELECTOR_VISIBLE_ITEMS = ".dropdown-menu .dropdown-item:not(.disabled):not(:disabled)";
 
 const PLACEMENT_TOP = isRTL() ? "top-end" : "top-start";
 const PLACEMENT_TOPEND = isRTL() ? "top-start" : "top-end";
@@ -136,11 +133,7 @@ class Dropdown extends BaseComponent {
       relatedTarget: this._element,
     };
 
-    const showEvent = EventHandler.trigger(
-      this._element,
-      EVENT_SHOW,
-      relatedTarget
-    );
+    const showEvent = EventHandler.trigger(this._element, EVENT_SHOW, relatedTarget);
 
     if (showEvent.defaultPrevented) {
       return;
@@ -158,13 +151,8 @@ class Dropdown extends BaseComponent {
     // empty mouseover listeners to the body's immediate children;
     // only needed because of broken event delegation on iOS
     // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
-    if (
-      "ontouchstart" in document.documentElement &&
-      !parent.closest(SELECTOR_NAVBAR_NAV)
-    ) {
-      []
-        .concat(...document.body.children)
-        .forEach((elem) => EventHandler.on(elem, "mouseover", noop));
+    if ("ontouchstart" in document.documentElement && !parent.closest(SELECTOR_NAVBAR_NAV)) {
+      [].concat(...document.body.children).forEach((elem) => EventHandler.on(elem, "mouseover", noop));
     }
 
     this._element.focus();
@@ -205,11 +193,7 @@ class Dropdown extends BaseComponent {
   // Private
 
   _completeHide(relatedTarget) {
-    const hideEvent = EventHandler.trigger(
-      this._element,
-      EVENT_HIDE,
-      relatedTarget
-    );
+    const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE, relatedTarget);
     if (hideEvent.defaultPrevented) {
       return;
     }
@@ -217,9 +201,7 @@ class Dropdown extends BaseComponent {
     // If this is a touch-enabled device we remove the extra
     // empty mouseover listeners we added for iOS support
     if ("ontouchstart" in document.documentElement) {
-      []
-        .concat(...document.body.children)
-        .forEach((elem) => EventHandler.off(elem, "mouseover", noop));
+      [].concat(...document.body.children).forEach((elem) => EventHandler.off(elem, "mouseover", noop));
     }
 
     if (this._popper) {
@@ -249,7 +231,7 @@ class Dropdown extends BaseComponent {
     ) {
       // Popper virtual elements require a getBoundingClientRect method
       throw new TypeError(
-        `${NAME.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`
+        `${NAME.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`,
       );
     }
 
@@ -258,9 +240,7 @@ class Dropdown extends BaseComponent {
 
   _createPopper(parent) {
     if (typeof Popper === "undefined") {
-      throw new TypeError(
-        "Bootstrap's dropdowns require Popper (https://popper.js.org)"
-      );
+      throw new TypeError("Bootstrap's dropdowns require Popper (https://popper.js.org)");
     }
 
     let referenceElement = this._element;
@@ -275,15 +255,10 @@ class Dropdown extends BaseComponent {
 
     const popperConfig = this._getPopperConfig();
     const isDisplayStatic = popperConfig.modifiers.find(
-      (modifier) =>
-        modifier.name === "applyStyles" && modifier.enabled === false
+      (modifier) => modifier.name === "applyStyles" && modifier.enabled === false,
     );
 
-    this._popper = Popper.createPopper(
-      referenceElement,
-      this._menu,
-      popperConfig
-    );
+    this._popper = Popper.createPopper(referenceElement, this._menu, popperConfig);
 
     if (isDisplayStatic) {
       Manipulator.setDataAttribute(this._menu, "popper", "static");
@@ -310,9 +285,7 @@ class Dropdown extends BaseComponent {
     }
 
     // We need to trim the value because custom properties can also include spaces
-    const isEnd =
-      getComputedStyle(this._menu).getPropertyValue("--bs-position").trim() ===
-      "end";
+    const isEnd = getComputedStyle(this._menu).getPropertyValue("--bs-position").trim() === "end";
 
     if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
       return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
@@ -377,10 +350,7 @@ class Dropdown extends BaseComponent {
   }
 
   _selectMenuItem({ key, target }) {
-    const items = SelectorEngine.find(
-      SELECTOR_VISIBLE_ITEMS,
-      this._menu
-    ).filter(isVisible);
+    const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(isVisible);
 
     if (!items.length) {
       return;
@@ -388,12 +358,7 @@ class Dropdown extends BaseComponent {
 
     // if target isn't included in items (e.g. when expanding the dropdown)
     // allow cycling to get the last item in case key equals ARROW_UP_KEY
-    getNextActiveElement(
-      items,
-      target,
-      key === ARROW_DOWN_KEY,
-      !items.includes(target)
-    ).focus();
+    getNextActiveElement(items, target, key === ARROW_DOWN_KEY, !items.includes(target)).focus();
   }
 
   // Static
@@ -415,11 +380,7 @@ class Dropdown extends BaseComponent {
   }
 
   static clearMenus(event) {
-    if (
-      event &&
-      (event.button === RIGHT_MOUSE_BUTTON ||
-        (event.type === "keyup" && event.key !== TAB_KEY))
-    ) {
+    if (event && (event.button === RIGHT_MOUSE_BUTTON || (event.type === "keyup" && event.key !== TAB_KEY))) {
       return;
     }
 
@@ -484,8 +445,7 @@ class Dropdown extends BaseComponent {
       /input|textarea/i.test(event.target.tagName)
         ? event.key === SPACE_KEY ||
           (event.key !== ESCAPE_KEY &&
-            ((event.key !== ARROW_DOWN_KEY && event.key !== ARROW_UP_KEY) ||
-              event.target.closest(SELECTOR_MENU)))
+            ((event.key !== ARROW_DOWN_KEY && event.key !== ARROW_UP_KEY) || event.target.closest(SELECTOR_MENU)))
         : !REGEXP_KEYDOWN.test(event.key)
     ) {
       return;
@@ -535,29 +495,14 @@ class Dropdown extends BaseComponent {
  * ------------------------------------------------------------------------
  */
 
-EventHandler.on(
-  document,
-  EVENT_KEYDOWN_DATA_API,
-  SELECTOR_DATA_TOGGLE,
-  Dropdown.dataApiKeydownHandler
-);
-EventHandler.on(
-  document,
-  EVENT_KEYDOWN_DATA_API,
-  SELECTOR_MENU,
-  Dropdown.dataApiKeydownHandler
-);
+EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE, Dropdown.dataApiKeydownHandler);
+EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
 EventHandler.on(document, EVENT_CLICK_DATA_API, Dropdown.clearMenus);
 EventHandler.on(document, EVENT_KEYUP_DATA_API, Dropdown.clearMenus);
-EventHandler.on(
-  document,
-  EVENT_CLICK_DATA_API,
-  SELECTOR_DATA_TOGGLE,
-  function (event) {
-    event.preventDefault();
-    Dropdown.getOrCreateInstance(this).toggle();
-  }
-);
+EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+  event.preventDefault();
+  Dropdown.getOrCreateInstance(this).toggle();
+});
 
 /**
  * ------------------------------------------------------------------------

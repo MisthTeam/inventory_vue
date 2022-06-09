@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <div
-      class="row justify-content-center align-items-center"
-      style="height: 100vh"
-    >
+    <div class="row justify-content-center align-items-center" style="height: 100vh">
       <div class="col-4">
         <div class="card shadow-lg">
           <div class="card-body">
@@ -14,7 +11,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 export default {
   name: "NotFound",
 };

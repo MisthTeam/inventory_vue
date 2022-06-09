@@ -71,7 +71,7 @@ defineEmits(["deleteDevice"]);
 const { editing } = editDevice();
 
 const isOpenModal = ref(false);
-const dto = ref<Device | null>(null);
+const dto = ref<Device>({} as Device);
 
 const openModal = (device: Device) => {
   dto.value = { ...device };
@@ -80,7 +80,7 @@ const openModal = (device: Device) => {
 
 const modalCancel = () => {
   isOpenModal.value = false;
-  dto.value = null;
+  dto.value = {} as Device;
 };
 
 const modalOk = () => dto.value && editing(dto.value); // Изменение девайса

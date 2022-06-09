@@ -107,11 +107,7 @@ function bootstrapDelegationHandler(element, selector, fn) {
   return function handler(event) {
     const domElements = element.querySelectorAll(selector);
 
-    for (
-      let { target } = event;
-      target && target !== this;
-      target = target.parentNode
-    ) {
+    for (let { target } = event; target && target !== this; target = target.parentNode) {
       for (let i = domElements.length; i--; ) {
         if (domElements[i] === target) {
           event.delegateTarget = target;
@@ -136,10 +132,7 @@ function findHandler(events, handler, delegationSelector = null) {
   for (let i = 0, len = uidEventList.length; i < len; i++) {
     const event = events[uidEventList[i]];
 
-    if (
-      event.originalHandler === handler &&
-      event.delegationSelector === delegationSelector
-    ) {
+    if (event.originalHandler === handler && event.delegationSelector === delegationSelector) {
       return event;
     }
   }
@@ -178,8 +171,7 @@ function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
       return function (event) {
         if (
           !event.relatedTarget ||
-          (event.relatedTarget !== event.delegateTarget &&
-            !event.delegateTarget.contains(event.relatedTarget))
+          (event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget))
         ) {
           return fn.call(this, event);
         }
@@ -193,18 +185,10 @@ function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
     }
   }
 
-  const [delegation, originalHandler, typeEvent] = normalizeParams(
-    originalTypeEvent,
-    handler,
-    delegationFn
-  );
+  const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
   const events = getEvent(element);
   const handlers = events[typeEvent] || (events[typeEvent] = {});
-  const previousFn = findHandler(
-    handlers,
-    originalHandler,
-    delegation ? handler : null
-  );
+  const previousFn = findHandler(handlers, originalHandler, delegation ? handler : null);
 
   if (previousFn) {
     previousFn.oneOff = previousFn.oneOff && oneOff;
@@ -212,10 +196,7 @@ function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
     return;
   }
 
-  const uid = getUidEvent(
-    originalHandler,
-    originalTypeEvent.replace(namespaceRegex, "")
-  );
+  const uid = getUidEvent(originalHandler, originalTypeEvent.replace(namespaceRegex, ""));
   const fn = delegation
     ? bootstrapDelegationHandler(element, handler, delegationFn)
     : bootstrapHandler(element, handler);
@@ -229,13 +210,7 @@ function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
   element.addEventListener(typeEvent, fn, delegation);
 }
 
-function removeHandler(
-  element,
-  events,
-  typeEvent,
-  handler,
-  delegationSelector
-) {
+function removeHandler(element, events, typeEvent, handler, delegationSelector) {
   const fn = findHandler(events[typeEvent], handler, delegationSelector);
 
   if (!fn) {
@@ -253,13 +228,7 @@ function removeNamespacedHandlers(element, events, typeEvent, namespace) {
     if (handlerKey.includes(namespace)) {
       const event = storeElementEvent[handlerKey];
 
-      removeHandler(
-        element,
-        events,
-        typeEvent,
-        event.originalHandler,
-        event.delegationSelector
-      );
+      removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
     }
   });
 }
@@ -284,11 +253,7 @@ const EventHandler = {
       return;
     }
 
-    const [delegation, originalHandler, typeEvent] = normalizeParams(
-      originalTypeEvent,
-      handler,
-      delegationFn
-    );
+    const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
     const inNamespace = typeEvent !== originalTypeEvent;
     const events = getEvent(element);
     const isNamespace = originalTypeEvent.startsWith(".");
@@ -299,24 +264,13 @@ const EventHandler = {
         return;
       }
 
-      removeHandler(
-        element,
-        events,
-        typeEvent,
-        originalHandler,
-        delegation ? handler : null
-      );
+      removeHandler(element, events, typeEvent, originalHandler, delegation ? handler : null);
       return;
     }
 
     if (isNamespace) {
       Object.keys(events).forEach((elementEvent) => {
-        removeNamespacedHandlers(
-          element,
-          events,
-          elementEvent,
-          originalTypeEvent.slice(1)
-        );
+        removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
       });
     }
 
@@ -327,13 +281,7 @@ const EventHandler = {
       if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
         const event = storeElementEvent[keyHandlers];
 
-        removeHandler(
-          element,
-          events,
-          typeEvent,
-          event.originalHandler,
-          event.delegationSelector
-        );
+        removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
       }
     });
   },

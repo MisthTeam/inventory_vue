@@ -1,11 +1,13 @@
-<script setup>
-import { deviceTypes } from "../../utils/helpers";
-import { ref, watch } from "vue";
-import { getAttributeByType } from "../../hooks/attributes";
-import { getDevice } from "../../hooks/devices";
-import { addItem } from "../../hooks/items";
+<script setup lang="ts">
+import { deviceTypes } from "@/utils/helpers";
+import { Ref, ref, watch } from "vue";
+import { getAttributesByType } from "@/hooks/attributes";
+import { getDevice } from "@/hooks/devices";
+import { addItem } from "@/hooks/items";
+import { Attr, Specification, UpdateAttr } from "@/stores/devices/types";
+import { addItemParams } from "@/stores/items/types";
 
-const dto = ref({
+const dto: Ref<addItemParams> = ref({
   pn: "",
   device: { specification: {}, type: "HDD" },
   item: {
@@ -15,7 +17,7 @@ const dto = ref({
 }); // DTO для отправки на сервер
 
 // Хуки
-const { isLoadingAttribute, getAttribute, attributes } = getAttributeByType();
+const { isLoadingAttribute, getAttribute, attributes } = getAttributesByType();
 const { addIt, isAddLoading } = addItem(dto);
 const { onSubmit, isLoadingDevice, responseRec, device } = getDevice(dto);
 
@@ -26,19 +28,19 @@ watch(
     if (value) await getAttribute(value);
     if (!device.value) dto.value.device.specification = {};
   },
-  { deep: true }
+  { deep: true },
 );
 
 // Изменение спецификации
-const changeSpecification = ({ target, value }) =>
+const changeSpecification = ({ target, value }: Specification) =>
   Object.assign(dto.value.device.specification, {
     [target]: value,
   });
 
 // Изменение атрибутов
-const changeAttributes = ({ attr, value }) => {
-  Object.assign(dto.value.attr, {
-    [attr.id]: { value },
+const changeAttributes = ({ attrId, value }: UpdateAttr) => {
+  return Object.assign(dto.value.attr, {
+    [attrId]: { value },
   });
 };
 </script>
@@ -49,18 +51,14 @@ const changeAttributes = ({ attr, value }) => {
       <div class="input-group mb-3">
         <input
           v-model="dto.pn"
+          v-focus
           type="text"
           class="form-control"
           required
           placeholder="enter pn"
-          v-focus
           :disabled="isLoadingDevice || isLoadingAttribute"
         />
-        <BaseButton
-          :disabled="isLoadingDevice || isLoadingAttribute"
-          class="btn-outline-secondary"
-          type="submit"
-        >
+        <BaseButton :disabled="isLoadingDevice || isLoadingAttribute" class="btn-outline-secondary" type="submit">
           Проверить
         </BaseButton>
       </div>
@@ -95,23 +93,11 @@ const changeAttributes = ({ attr, value }) => {
           @editSpecification="changeSpecification"
         />
 
-        <AttributesList
-          @updateAttr="changeAttributes"
-          :attributes="attributes"
-        />
+        <AttributesList :attributes="attributes" @updateAttr="changeAttributes" />
 
-        <ItemsFields
-          v-model="dto.item.name"
-          :disabled="isAddLoading || isLoadingAttribute"
-        />
+        <ItemsFields v-model="dto.item.name" :disabled="isAddLoading || isLoadingAttribute" />
 
-        <BaseButton
-          :disabled="isAddLoading"
-          class="btn-outline-secondary"
-          type="submit"
-        >
-          Добавить
-        </BaseButton>
+        <BaseButton :disabled="isAddLoading" class="btn-outline-secondary" type="submit"> Добавить </BaseButton>
       </template>
     </form>
   </div>

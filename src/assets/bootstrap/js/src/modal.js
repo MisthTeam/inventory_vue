@@ -5,14 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import {
-  defineJQueryPlugin,
-  getElementFromSelector,
-  isRTL,
-  isVisible,
-  reflow,
-  typeCheckConfig,
-} from "./util/index";
+import { defineJQueryPlugin, getElementFromSelector, isRTL, isVisible, reflow, typeCheckConfig } from "./util/index";
 import EventHandler from "./dom/event-handler";
 import Manipulator from "./dom/manipulator";
 import SelectorEngine from "./dom/selector-engine";
@@ -175,9 +168,7 @@ class Modal extends BaseComponent {
   }
 
   dispose() {
-    [window, this._dialog].forEach((htmlElement) =>
-      EventHandler.off(htmlElement, EVENT_KEY)
-    );
+    [window, this._dialog].forEach((htmlElement) => EventHandler.off(htmlElement, EVENT_KEY));
 
     this._backdrop.dispose();
     this._focustrap.deactivate();
@@ -217,10 +208,7 @@ class Modal extends BaseComponent {
     const isAnimated = this._isAnimated();
     const modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
 
-    if (
-      !this._element.parentNode ||
-      this._element.parentNode.nodeType !== Node.ELEMENT_NODE
-    ) {
+    if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
       // Don't move modal's DOM position
       document.body.append(this._element);
     }
@@ -324,14 +312,10 @@ class Modal extends BaseComponent {
     }
 
     const { classList, scrollHeight, style } = this._element;
-    const isModalOverflowing =
-      scrollHeight > document.documentElement.clientHeight;
+    const isModalOverflowing = scrollHeight > document.documentElement.clientHeight;
 
     // return if the following background transition hasn't yet completed
-    if (
-      (!isModalOverflowing && style.overflowY === "hidden") ||
-      classList.contains(CLASS_NAME_STATIC)
-    ) {
+    if ((!isModalOverflowing && style.overflowY === "hidden") || classList.contains(CLASS_NAME_STATIC)) {
       return;
     }
 
@@ -357,8 +341,7 @@ class Modal extends BaseComponent {
   // ----------------------------------------------------------------------
 
   _adjustDialog() {
-    const isModalOverflowing =
-      this._element.scrollHeight > document.documentElement.clientHeight;
+    const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
     const scrollbarWidth = this._scrollBar.getWidth();
     const isBodyOverflowing = scrollbarWidth > 0;
 
@@ -407,41 +390,36 @@ class Modal extends BaseComponent {
  * ------------------------------------------------------------------------
  */
 
-EventHandler.on(
-  document,
-  EVENT_CLICK_DATA_API,
-  SELECTOR_DATA_TOGGLE,
-  function (event) {
-    const target = getElementFromSelector(this);
+EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+  const target = getElementFromSelector(this);
 
-    if (["A", "AREA"].includes(this.tagName)) {
-      event.preventDefault();
-    }
-
-    EventHandler.one(target, EVENT_SHOW, (showEvent) => {
-      if (showEvent.defaultPrevented) {
-        // only register focus restorer if modal will actually get shown
-        return;
-      }
-
-      EventHandler.one(target, EVENT_HIDDEN, () => {
-        if (isVisible(this)) {
-          this.focus();
-        }
-      });
-    });
-
-    // avoid conflict when clicking moddal toggler while another one is open
-    const allReadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
-    if (allReadyOpen) {
-      Modal.getInstance(allReadyOpen).hide();
-    }
-
-    const data = Modal.getOrCreateInstance(target);
-
-    data.toggle(this);
+  if (["A", "AREA"].includes(this.tagName)) {
+    event.preventDefault();
   }
-);
+
+  EventHandler.one(target, EVENT_SHOW, (showEvent) => {
+    if (showEvent.defaultPrevented) {
+      // only register focus restorer if modal will actually get shown
+      return;
+    }
+
+    EventHandler.one(target, EVENT_HIDDEN, () => {
+      if (isVisible(this)) {
+        this.focus();
+      }
+    });
+  });
+
+  // avoid conflict when clicking moddal toggler while another one is open
+  const allReadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
+  if (allReadyOpen) {
+    Modal.getInstance(allReadyOpen).hide();
+  }
+
+  const data = Modal.getOrCreateInstance(target);
+
+  data.toggle(this);
+});
 
 enableDismissTrigger(Modal);
 

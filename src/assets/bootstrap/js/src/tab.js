@@ -5,12 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import {
-  defineJQueryPlugin,
-  getElementFromSelector,
-  isDisabled,
-  reflow,
-} from "./util/index";
+import { defineJQueryPlugin, getElementFromSelector, isDisabled, reflow } from "./util/index";
 import EventHandler from "./dom/event-handler";
 import SelectorEngine from "./dom/selector-engine";
 import BaseComponent from "./base-component";
@@ -41,8 +36,7 @@ const SELECTOR_DROPDOWN = ".dropdown";
 const SELECTOR_NAV_LIST_GROUP = ".nav, .list-group";
 const SELECTOR_ACTIVE = ".active";
 const SELECTOR_ACTIVE_UL = ":scope > li > .active";
-const SELECTOR_DATA_TOGGLE =
-  '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
+const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
 const SELECTOR_DROPDOWN_TOGGLE = ".dropdown-toggle";
 const SELECTOR_DROPDOWN_ACTIVE_CHILD = ":scope > .dropdown-menu .active";
 
@@ -76,9 +70,7 @@ class Tab extends BaseComponent {
 
     if (listElement) {
       const itemSelector =
-        listElement.nodeName === "UL" || listElement.nodeName === "OL"
-          ? SELECTOR_ACTIVE_UL
-          : SELECTOR_ACTIVE;
+        listElement.nodeName === "UL" || listElement.nodeName === "OL" ? SELECTOR_ACTIVE_UL : SELECTOR_ACTIVE;
       previous = SelectorEngine.find(itemSelector, listElement);
       previous = previous[previous.length - 1];
     }
@@ -93,10 +85,7 @@ class Tab extends BaseComponent {
       relatedTarget: previous,
     });
 
-    if (
-      showEvent.defaultPrevented ||
-      (hideEvent !== null && hideEvent.defaultPrevented)
-    ) {
+    if (showEvent.defaultPrevented || (hideEvent !== null && hideEvent.defaultPrevented)) {
       return;
     }
 
@@ -127,8 +116,7 @@ class Tab extends BaseComponent {
         : SelectorEngine.children(container, SELECTOR_ACTIVE);
 
     const active = activeElements[0];
-    const isTransitioning =
-      callback && active && active.classList.contains(CLASS_NAME_FADE);
+    const isTransitioning = callback && active && active.classList.contains(CLASS_NAME_FADE);
 
     const complete = () => this._transitionComplete(element, active, callback);
 
@@ -144,10 +132,7 @@ class Tab extends BaseComponent {
     if (active) {
       active.classList.remove(CLASS_NAME_ACTIVE);
 
-      const dropdownChild = SelectorEngine.findOne(
-        SELECTOR_DROPDOWN_ACTIVE_CHILD,
-        active.parentNode
-      );
+      const dropdownChild = SelectorEngine.findOne(SELECTOR_DROPDOWN_ACTIVE_CHILD, active.parentNode);
 
       if (dropdownChild) {
         dropdownChild.classList.remove(CLASS_NAME_ACTIVE);
@@ -178,8 +163,8 @@ class Tab extends BaseComponent {
       const dropdownElement = element.closest(SELECTOR_DROPDOWN);
 
       if (dropdownElement) {
-        SelectorEngine.find(SELECTOR_DROPDOWN_TOGGLE, dropdownElement).forEach(
-          (dropdown) => dropdown.classList.add(CLASS_NAME_ACTIVE)
+        SelectorEngine.find(SELECTOR_DROPDOWN_TOGGLE, dropdownElement).forEach((dropdown) =>
+          dropdown.classList.add(CLASS_NAME_ACTIVE),
         );
       }
 
@@ -214,23 +199,18 @@ class Tab extends BaseComponent {
  * ------------------------------------------------------------------------
  */
 
-EventHandler.on(
-  document,
-  EVENT_CLICK_DATA_API,
-  SELECTOR_DATA_TOGGLE,
-  function (event) {
-    if (["A", "AREA"].includes(this.tagName)) {
-      event.preventDefault();
-    }
-
-    if (isDisabled(this)) {
-      return;
-    }
-
-    const data = Tab.getOrCreateInstance(this);
-    data.show();
+EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+  if (["A", "AREA"].includes(this.tagName)) {
+    event.preventDefault();
   }
-);
+
+  if (isDisabled(this)) {
+    return;
+  }
+
+  const data = Tab.getOrCreateInstance(this);
+  data.show();
+});
 
 /**
  * ------------------------------------------------------------------------

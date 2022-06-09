@@ -1,8 +1,5 @@
 <template>
-  <nav
-    v-if="isLoggenIn"
-    class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm"
-  >
+  <nav v-if="isLoggenIn" class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/"> Inventory </router-link>
       <button
@@ -19,12 +16,10 @@
       <div id="navbarSupportedContent" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link to="/" aria-current="page" class="nav-link">
-              Главная
-            </router-link>
+            <router-link active-class="active" to="/" aria-current="page" class="nav-link"> Главная </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/items" aria-current="page" class="nav-link">
+            <router-link active-class="active" to="/items" aria-current="page" class="nav-link">
               Комплектующие
             </router-link>
           </li>
@@ -40,12 +35,9 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {{ user.login }}
+                {{ user?.login }}
               </a>
-              <ul
-                class="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <li>
                   <a class="dropdown-item" href="#">Профиль</a>
                 </li>
@@ -53,30 +45,19 @@
                   <a class="dropdown-item" href="#">Настройки</a>
                 </li>
                 <li>
-                  <router-link
-                    to="/admin/device"
-                    aria-current="page"
-                    class="dropdown-item"
-                  >
+                  <router-link to="/admin/device" aria-current="page" class="dropdown-item">
                     Панель администратора
                   </router-link>
                 </li>
                 <li>
-                  <router-link class="dropdown-item" to="/logout">
-                    Выход
-                  </router-link>
+                  <router-link class="dropdown-item" to="/logout"> Выход </router-link>
                 </li>
               </ul>
             </li>
           </ul>
         </div>
         <form class="d-flex">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Поиск"
-            aria-label="Search"
-          />
+          <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" />
           <button class="btn btn-outline-success" type="submit">Найти</button>
         </form>
       </div>
@@ -84,17 +65,17 @@
   </nav>
 </template>
 
-<script setup>
-defineProps({
-  user: {
-    type: Object || null,
-    required: false,
-    default: null,
+<script setup lang="ts">
+import { User } from "@/stores/user/types";
+
+withDefaults(
+  defineProps<{
+    user: User | null;
+    isLoggenIn: boolean;
+  }>(),
+  {
+    user: null,
+    isLoggenIn: false,
   },
-  isLoggenIn: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-});
+);
 </script>

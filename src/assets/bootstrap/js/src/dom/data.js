@@ -28,7 +28,7 @@ export default {
       console.error(
         `Bootstrap doesn't allow more than one instance per element. Bound instance: ${
           Array.from(instanceMap.keys())[0]
-        }.`
+        }.`,
       );
       return;
     }

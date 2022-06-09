@@ -82,8 +82,7 @@ const getTransitionDurationFromElement = (element) => {
   }
 
   // Get transition-duration of the element
-  let { transitionDuration, transitionDelay } =
-    window.getComputedStyle(element);
+  let { transitionDuration, transitionDelay } = window.getComputedStyle(element);
 
   const floatTransitionDuration = Number.parseFloat(transitionDuration);
   const floatTransitionDelay = Number.parseFloat(transitionDelay);
@@ -97,11 +96,7 @@ const getTransitionDurationFromElement = (element) => {
   transitionDuration = transitionDuration.split(",")[0];
   transitionDelay = transitionDelay.split(",")[0];
 
-  return (
-    (Number.parseFloat(transitionDuration) +
-      Number.parseFloat(transitionDelay)) *
-    MILLISECONDS_MULTIPLIER
-  );
+  return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
 };
 
 const triggerTransitionEnd = (element) => {
@@ -141,7 +136,7 @@ const typeCheckConfig = (componentName, config, configTypes) => {
 
     if (!new RegExp(expectedTypes).test(valueType)) {
       throw new TypeError(
-        `${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`
+        `${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`,
       );
     }
   });
@@ -168,10 +163,7 @@ const isDisabled = (element) => {
     return element.disabled;
   }
 
-  return (
-    element.hasAttribute("disabled") &&
-    element.getAttribute("disabled") !== "false"
-  );
+  return element.hasAttribute("disabled") && element.getAttribute("disabled") !== "false";
 };
 
 const findShadowRoot = (element) => {
@@ -264,19 +256,14 @@ const execute = (callback) => {
   }
 };
 
-const executeAfterTransition = (
-  callback,
-  transitionElement,
-  waitForTransition = true
-) => {
+const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
   if (!waitForTransition) {
     execute(callback);
     return;
   }
 
   const durationPadding = 5;
-  const emulatedDuration =
-    getTransitionDurationFromElement(transitionElement) + durationPadding;
+  const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
 
   let called = false;
 
@@ -307,12 +294,7 @@ const executeAfterTransition = (
  * @param isCycleAllowed
  * @return {Element|elem} The proper element
  */
-const getNextActiveElement = (
-  list,
-  activeElement,
-  shouldGetNext,
-  isCycleAllowed
-) => {
+const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
   let index = list.indexOf(activeElement);
 
   // if the element does not exist in the list return an element depending on the direction and if cycle is allowed

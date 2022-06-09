@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
 </script>
 

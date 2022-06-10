@@ -35,11 +35,6 @@ interface Props {
   rangeSize?: number;
 }
 
-type itemPageType = {
-  page?: number;
-  class: "active" | "" | "disabled";
-};
-
 const props = withDefaults(defineProps<Props>(), {
   totalPages: 1,
   modelValue: 1,

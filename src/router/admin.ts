@@ -21,6 +21,7 @@ export default [
         path: "users/:id",
         name: "AdminUser",
         component: () => import("@/views/Admin/User/ViewUser.vue"),
+        meta: { page: "users" },
       },
     ],
     redirect: () => {

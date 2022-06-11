@@ -27,7 +27,7 @@ const useItemsStore = defineStore({
       if (!params.search) {
         delete params.search;
       }
-      const response = await api.get<ApiResponse, ItemState>(`items/test?${stringify(params)}`);
+      const response = await api.get<ApiResponse, ItemState>(`items?${stringify(params)}`);
       return (this.items = response);
     },
 

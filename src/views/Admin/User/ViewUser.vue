@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <AdminNavbar currentPage="users" />
       <div class="col mt-6 ml-c">
         <div class="row justify-content-center">
           <div class="col-xl-3 col-lg-2 col-md-12 col-12 mt-2">
@@ -38,7 +37,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import AdminNavbar from "@/components/Admin/AdminNavbar.vue";
 import params from "@/components/Admin/User/UserParams.vue";
 import roles from "@/components/Admin/User/UserRoles.vue";
 import { ref } from "vue";

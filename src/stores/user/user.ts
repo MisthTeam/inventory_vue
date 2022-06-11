@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/interfaces/api.interface";
 import { api } from "@/utils/api";
 import { defineStore } from "pinia";
-import { loginUserParams, registerUserParams, User } from "./types";
+import { loginUserParams, registerUserParams, User, AuthResponse } from "./types";
 
 const useUserStore = defineStore({
   id: "user",
@@ -26,12 +26,14 @@ const useUserStore = defineStore({
     },
 
     async register(responseData: registerUserParams) {
-      const response = await api.post<ApiResponse, any>("auth/register", responseData);
+      const response = await api.post<ApiResponse, AuthResponse>("auth/register", responseData);
       this.setBearerToken(response.access_token);
+      return (this.user = response.user);
     },
     async login(responseData: loginUserParams) {
-      const response = await api.post<ApiResponse, any>("auth/login", responseData);
+      const response = await api.post<ApiResponse, AuthResponse>("auth/login", responseData);
       this.setBearerToken(response.access_token);
+      return (this.user = response.user);
     },
     async fetchUserData() {
       const response = await api.get<ApiResponse, User>("auth/me");

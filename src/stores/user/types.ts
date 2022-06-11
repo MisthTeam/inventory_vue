@@ -10,6 +10,11 @@ export type loginUserParams = {
   password: string;
 };
 
+export type AuthResponse = {
+  access_token: string;
+  user: User;
+};
+
 export type registerUserParams = {
   login: string;
   email: string;

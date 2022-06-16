@@ -4,7 +4,7 @@ import { Ref, ref, watch } from "vue";
 import { getAttributesByType } from "@/hooks/attributes";
 import { getDevice } from "@/hooks/devices";
 import { addItem } from "@/hooks/items";
-import { Attr, Specification, UpdateAttr } from "@/stores/devices/types";
+import { UpdateAttr, updateSpecification } from "@/stores/devices/types";
 import { addItemParams } from "@/stores/items/types";
 
 const dto: Ref<addItemParams> = ref({
@@ -32,7 +32,7 @@ watch(
 );
 
 // Изменение спецификации
-const changeSpecification = ({ target, value }: Specification) =>
+const changeSpecification = ({ target, value }: updateSpecification) =>
   Object.assign(dto.value.device.specification, {
     [target]: value,
   });

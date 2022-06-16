@@ -1,3 +1,5 @@
+import { Device, Specification } from "../devices/types";
+
 export type AttributeField = {
   id: number;
   name: string;
@@ -23,7 +25,7 @@ export type addItemParams = {
   pn: string;
   device: {
     type: string;
-    specification: { [key: string]: string };
+    specification: Specification;
   };
   item: {
     name: string;
@@ -67,14 +69,7 @@ export type Item = {
     name: string;
     badge: string;
   };
-  device: {
-    id: number;
-    pn: string;
-    type: string;
-    specification: {
-      [key: string]: string;
-    };
-  };
+  device: Device;
   meta: any;
   created_at: string;
 };

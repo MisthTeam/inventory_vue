@@ -17,6 +17,7 @@ export default function getDevice(dto: Ref<addItemParams>) {
       isLoading.value = true;
       device.value = await deviceStore.getDeviceByPn(dto.value.pn);
       if (device.value) dto.value.device = device.value;
+      else dto.value.device = { type: "HDD", specification: {} };
       responseRec.value = true;
     } catch (error) {
       console.error(error);

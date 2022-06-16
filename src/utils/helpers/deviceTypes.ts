@@ -12,12 +12,12 @@ const types = [
   {
     id: 3,
     type: "CPU",
-    specification: ["company", "model", "hz", "ddr", "socket", "cores"],
+    specification: ["company", "model", "hhz", "ddr", "socket", "cores"],
   },
   {
     id: 4,
     type: "GPU",
-    specification: ["company", "model", "volume", "hz"],
+    specification: ["company", "model", "volume", "hhz"],
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ const types = [
   {
     id: 8,
     type: "DRAM",
-    specification: ["company", "model", "volume", "hz", "reg"],
+    specification: ["company", "model", "volume", "hhz", "reg"],
   },
 ];
 

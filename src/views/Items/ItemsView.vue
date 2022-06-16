@@ -35,6 +35,7 @@ watch([page, sortedValue, searchQuery], () => {
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <BaseSelector v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
+        <BaseSelector v-if="sortedValue" :options="deviceTypes.map((t) => t.type)" />
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input

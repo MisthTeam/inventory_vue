@@ -13,9 +13,21 @@
 </template>
 
 <script setup lang="ts">
-import Navbar from "@/components/NavbarMenu.vue";
 import { useUserStore } from "@/stores";
 import { storeToRefs } from "pinia";
+import { useTitle } from "@vueuse/core";
+import { computed } from "vue";
+
+import Navbar from "@/components/NavbarMenu.vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+const title = computed((): string => {
+  return (route.meta?.title as string) ? (route.meta.title as string) : "Inventory";
+});
+
+useTitle(title);
 
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);

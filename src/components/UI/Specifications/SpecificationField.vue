@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { updateSpecification } from "@/stores/devices/types";
+
 interface Props {
   specification?: string;
   nameSpec: string;
@@ -9,19 +11,19 @@ withDefaults(defineProps<Props>(), {
   specification: "",
 });
 
-defineEmits({
-  editSpecification: null,
-});
+defineEmits<{
+  (e: "editSpecification", spec: updateSpecification): void;
+}>();
 </script>
 
 <template>
   <input
     type="text"
     required
-    class="form-control"
-    :value="specification"
     :placeholder="nameSpec"
     :aria-label="nameSpec"
+    class="form-control"
+    :value="specification"
     @input="
       $emit('editSpecification', {
         value: ($event.target as HTMLInputElement).value,

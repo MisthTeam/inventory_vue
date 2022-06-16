@@ -3,6 +3,7 @@ import { Device } from "@/stores/devices/types";
 import { deviceTypes } from "@/utils/helpers";
 import { computed } from "vue";
 import SpecificationField from "./SpecificationField.vue";
+import { updateSpecification } from "@/stores/devices/types";
 
 interface Props {
   type: string;
@@ -17,9 +18,9 @@ const props = withDefaults(defineProps<Props>(), {
   dto: () => ({}),
 });
 
-defineEmits({
-  editSpecification: null,
-});
+defineEmits<{
+  (e: "editSpecification", spec: updateSpecification): void;
+}>();
 
 const deviceType = computed(() => deviceTypes.find((d) => d.type === props.type));
 </script>

@@ -1,14 +1,15 @@
-import { deviceTypes } from "@/utils/helpers";
-
 export type Device = {
   id: number;
   pn: string;
   type: string;
-  specification: {
-    [key: string]: string;
-  };
+  specification: Specification;
   created_at: string;
 };
+
+export interface updateSpecification {
+  value: string | number;
+  target: string;
+}
 
 export type deviceDTOParams = {
   pn: string;
@@ -52,7 +53,9 @@ export type deviceSaveParams = {
   type: string;
 };
 
-export type Specification = { [key: string]: string };
+export type Specification = {
+  [key: string]: string | number;
+};
 export type Attr = {
   [key: number]: {
     value: string;

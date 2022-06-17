@@ -1,14 +1,12 @@
 import { useUserStore } from "@/stores";
 import { LocationQueryValue, useRoute, useRouter } from "vue-router";
 import { ref } from "vue";
-import { useToast } from "vue-toastification";
 import { loginUserParams } from "@/stores/user/types";
 
 export default function useLogin() {
   const userStore = useUserStore();
   const router = useRouter();
   const route = useRoute();
-  const toast = useToast();
   const isLoading = ref(false);
 
   const onSubmit = async (params: loginUserParams) => {

@@ -13,9 +13,8 @@ export default function deleteItem() {
     try {
       await itemsStore.deleteItem(id);
       route.push("/items");
-      toast.success("Комплектующий удален");
     } catch (error) {
-      console.error(error);
+      import.meta.env.DEV && console.error(error);
       toast.error("Произошла ошибка. Повторите позже");
     }
     isLoading.value = false;

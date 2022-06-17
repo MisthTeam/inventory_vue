@@ -15,7 +15,7 @@ export default function getAttributesByType() {
       attributes.value = await itemsStore.getAttributesByType(device_type);
     } catch (error) {
       toast.error("Произошла ошибка при получении данных атрибутов. Попробуйте позже");
-      console.log(error);
+      import.meta.env.DEV && console.error(error);
     }
     isLoading.value = false;
   };

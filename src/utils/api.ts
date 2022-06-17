@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import router from "@/router";
 import { useToast } from "vue-toastification";
-import { ApiResponse } from "@/interfaces/api.interface";
+import { ApiResponse, ApiResponseNotifyError, ApiResponseNotifySuccess } from "@/interfaces/api.interface";
 import nProgress from "nprogress";
 
 // аксиос клиент
@@ -17,15 +17,21 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+const toast = useToast();
+
 // перехват запросов
 api.interceptors.response.use(
   // обработка успешных запросов
   function (response: AxiosResponse<any, ApiResponse>): Promise<ApiResponse> {
     nProgress.done();
+
     const data = response.data;
-    if (data.response?.notify?.type === "error") {
-      return Promise.reject({ error: data.response.notify, response });
-    }
+
+    const notifyResponse = data?.response?.notify as ApiResponseNotifyError | ApiResponseNotifySuccess;
+    notifyResponse && toast[notifyResponse.type](notifyResponse.content);
+    // if (data.response?.notify?.type === "error") {
+    //   return Promise.reject({ error: data.response.notify, response });
+    // }
 
     // отдача успешного запроса
     return data.response;
@@ -34,7 +40,6 @@ api.interceptors.response.use(
   // Обработка ошибок
   function (error) {
     nProgress.done();
-    const toast = useToast();
     // Истечение Bearer-токена
 
     switch (error?.response?.status) {

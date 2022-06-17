@@ -17,7 +17,6 @@ export default function addItem(dto: Ref<addItemParams>) {
       toast.success("Комплектующий добавлен");
     } catch (error) {
       console.error(error);
-      toast.error("Произошла ошибка. Повторите позже");
     }
     isLoading.value = false;
   };

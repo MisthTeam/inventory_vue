@@ -15,7 +15,7 @@ export default function getItem(id: string) {
       item.value = await itemsStore.getItem(Number(id));
     } catch (error) {
       toast.error("Произошла ошибка при получении данных. Попробуйте позже");
-      console.log(error);
+      import.meta.env.DEV && console.error(error);
     } finally {
       isLoading.value = false;
     }

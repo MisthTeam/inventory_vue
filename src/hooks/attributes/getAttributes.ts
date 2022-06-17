@@ -13,7 +13,7 @@ export default function getAttributes() {
       attributes.value = data.response;
     } catch (error) {
       toast.error("Произошла ошибка при получении данных. Попробуйте позже");
-      console.log(error);
+      import.meta.env.DEV && console.error(error);
     }
     isLoading.value = false;
   };

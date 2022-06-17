@@ -16,9 +16,9 @@ export default [
   {
     path: "/logout",
     name: "auth.logout",
-    redirect: () => {
+    redirect: async () => {
       const userStore = useUserStore();
-      userStore.setBearerToken();
+      await userStore.logout();
       return { name: "auth.login" };
     },
   },

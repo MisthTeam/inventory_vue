@@ -9,6 +9,10 @@ declare module "*.vue" {
 
 interface ImportMetaEnv {
   readonly BASE_URL: string;
+  readonly MODE: "development" | "production";
+  readonly DEV: boolean;
+  readonly PROD: boolean;
+  readonly SSR: boolean;
   // more env variables...
 }
 

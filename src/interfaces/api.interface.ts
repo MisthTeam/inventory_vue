@@ -4,10 +4,6 @@ export interface ApiResponse {
   error?: ApiResponseNotifyError;
 }
 
-export type ResponseNotify = {
-  notify: ApiResponseNotifyError | ApiResponseNotifySuccess;
-};
-
 export type ApiResponseNotifyError = {
   content: string;
   title: string;

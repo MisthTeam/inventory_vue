@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { stringify } from "qs";
 
-import { ApiResponse, ResponseNotify } from "@/interfaces/api.interface";
+import { ApiResponse } from "@/interfaces/api.interface";
 import { api } from "@/utils/api";
 import { Device, deviceEditParams, DeviceState, fetchDevicesParams } from "./types";
 
@@ -32,9 +32,9 @@ const useDevicesStore = defineStore({
       return response;
     },
     async editDevice({ id, ...payload }: deviceEditParams) {
-      const response = await api.put<ApiResponse, ResponseNotify>(`admin/device/${Number(id)}`, payload);
+      await api.put<ApiResponse>(`admin/device/${Number(id)}`, payload);
       this.updateDevice({ id, ...payload });
-      return response.notify;
+      return true;
     },
 
     updateDevice({ id, ...payload }: deviceEditParams) {

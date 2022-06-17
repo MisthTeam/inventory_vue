@@ -11,7 +11,7 @@ export default function getStatused() {
     try {
       statusList.value = await api.get<ApiResponse, Array<Status>>("status");
     } catch (error) {
-      console.error(error);
+      import.meta.env.DEV && console.error(error);
       toast.error("Случилась ошибка при получении статусов");
     }
   };

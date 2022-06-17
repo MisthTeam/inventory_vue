@@ -10,15 +10,14 @@ export default function editDevice() {
   const editing = async ({ id, specification, pn, type }: deviceEditParams) => {
     isLoading.value = true;
     try {
-      const notify = await devicesStore.editDevice({
+      await devicesStore.editDevice({
         id,
         type,
         pn,
         specification,
       });
-      toast.success(notify.content);
     } catch (error) {
-      console.error(error);
+      import.meta.env.DEV && console.error(error);
       toast.error("Произошла ошибка, попробуйте позже");
     }
     isLoading.value = false;

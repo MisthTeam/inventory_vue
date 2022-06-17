@@ -11,9 +11,9 @@ export default function editItem(isEditing: Ref<boolean>) {
     isLoading.value = true;
     try {
       await itemsStore.editItem(id, item);
-      toast.success("Комплектующий изменён");
       isEditing.value = false;
     } catch (error) {
+      import.meta.env.DEV && console.error(error);
       toast.error("Случилась ошибка при изменении");
     }
     isLoading.value = false;

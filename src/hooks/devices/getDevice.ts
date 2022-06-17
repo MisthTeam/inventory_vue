@@ -1,13 +1,11 @@
 import { Ref, ref } from "vue";
 import { useDevicesStore } from "@/stores";
-import { useToast } from "vue-toastification";
 import { Device } from "@/stores/devices/types";
 import { addItemParams } from "@/stores/items/types";
 
 export default function getDevice(dto: Ref<addItemParams>) {
   const isLoading = ref(false);
   const deviceStore = useDevicesStore();
-  const toats = useToast();
   const device = ref<Device | null>(null); // Device из БД
   const responseRec = ref(false); // Получен ответ или нет
 
@@ -20,8 +18,7 @@ export default function getDevice(dto: Ref<addItemParams>) {
       else dto.value.device = { type: "HDD", specification: {} };
       responseRec.value = true;
     } catch (error) {
-      console.error(error);
-      toats.error("Случилась ошибка, попробуйте позже");
+      import.meta.env.DEV && console.error(error);
     }
     isLoading.value = false;
   };

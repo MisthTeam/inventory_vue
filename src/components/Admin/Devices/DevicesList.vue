@@ -77,14 +77,16 @@ const openModal = (device: Device) => {
 };
 
 const modalCancel = () => {
-  isOpenModal.value = false;
-  dto.value = {} as Device;
+  if (isOpenModal.value) {
+    isOpenModal.value = false;
+    dto.value = {} as Device;
+  }
 };
 
 const modalOk = () => dto.value && editing(dto.value); // Изменение девайса
 
 watch(
-  () => dto.value?.type,
+  () => dto.value.type,
   async (_, oldValue) => {
     if (oldValue) {
       dto.value && (dto.value.specification = {});

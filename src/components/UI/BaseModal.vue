@@ -1,23 +1,14 @@
 <template>
   <teleport to="body">
-    <div
-      id="exampleModal"
-      class="modal fade"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-      @click="close"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg" @click.stop>
+    <div id="exampleModal" class="modal fade" tabindex="-1">
+      <div v-on-click-outside="close" class="modal-dialog modal-dialog-centered modal-lg" @click.stop>
         <div class="modal-content">
           <div class="modal-header">
             <h5 id="exampleModalLabel" class="modal-title">{{ name }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="close"></button>
           </div>
           <div class="modal-body">
-            <slot>
-              <p>Здесь форма</p>
-            </slot>
+            <slot> </slot>
           </div>
           <div class="modal-footer">
             <slot name="footer" :close="close" :ok="confirm">
@@ -36,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+import { vOnClickOutside } from "@vueuse/components";
 interface Props {
   isOpen: boolean;
   name: string;

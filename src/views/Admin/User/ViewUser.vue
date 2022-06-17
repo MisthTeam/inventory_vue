@@ -27,7 +27,6 @@
               </div>
             </div>
           </div>
-          <!-- Этот кол должен быть вынесен и разбит по отдельности -->
           <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-2">
             <component :is="userPages[currentUserPage]" />
           </div>

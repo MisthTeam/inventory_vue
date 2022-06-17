@@ -1,6 +1,6 @@
 <template>
   <select class="form-select" :disabled="disabled" :value="modelValue" @change="changeOption">
-    <option selected value=""><slot>Все</slot></option>
+    <option :disabled="disableFirstElement" selected value=""><slot>Все</slot></option>
     <option v-for="option in options" :key="option" :value="option">
       {{ option }}
     </option>
@@ -12,10 +12,12 @@ interface Props {
   modelValue: string;
   options: Array<string>;
   disabled?: boolean;
+  disableFirstElement?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   options: () => [],
   disabled: false,
+  disableFirstElement: false,
 });
 
 const emit = defineEmits(["update:modelValue"]);

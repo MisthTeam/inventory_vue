@@ -11,10 +11,13 @@ export type AttributeField = {
 };
 
 export type fetchItemsParams = {
-  limit: number;
-  page: number;
+  limit?: number;
+  page?: number;
   type?: string;
   search?: string;
+  filter?: {
+    [key: string]: string | string[];
+  };
 };
 
 export type fetchItemParams = {
@@ -88,6 +91,7 @@ export type ItemState = {
     next_page_url?: string;
     prev_page_url?: string;
   };
+  specification?: any;
   meta?: {
     current_page: number;
     last_page: number;

@@ -2,7 +2,7 @@ import { api } from "@/utils/api";
 import { defineStore } from "pinia";
 import { array_column } from "@/utils/helpers";
 import { stringify } from "qs";
-import { addItemParams, AttributeField, editItemParams, fetchItemsParams, Item, ItemState } from "./types";
+import { addItemParams, AttributeField, fetchItemsParams, Item, ItemState } from "./types";
 import { ApiResponse } from "@/interfaces/api.interface";
 
 const useItemsStore = defineStore({

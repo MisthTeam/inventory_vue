@@ -9,7 +9,7 @@ export default function getItems() {
   const toast = useToast();
   const itemsStore = useItemsStore();
   const itemsRef = storeToRefs(itemsStore).items;
-  const fetching = async (params: fetchItemsParams = { limit: 10, page: 1 }) => {
+  const fetching = async (params: fetchItemsParams = { limit: 10, page: 1, filter: {} }) => {
     isLoading.value = true;
     try {
       itemsRef.value = await itemsStore.getItems(params);

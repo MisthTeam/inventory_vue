@@ -5,7 +5,11 @@ const types = [
   },
   {
     type: "CPU",
-    variables: "socket",
+    variables: ["socket", "hhz"],
+  },
+  {
+    type: "GPU",
+    variables: ["hhz"],
   },
 ];
 

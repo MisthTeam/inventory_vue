@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onStartTyping } from "@vueuse/core";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 
 import ItemsList from "@/components/Items/ItemsList.vue";
 import { getItems } from "@/hooks/items";
 import { deviceTypes } from "@/utils/helpers";
+import TheFilter from "@/components/Items/TheFilter.vue";
 
 const input = ref<HTMLInputElement | null>(null);
 const searchQuery = ref(""); // Сортировка по выбранному селектору
@@ -15,14 +16,15 @@ const page = ref(itemsRef.value.meta?.current_page || 1);
 onStartTyping(() => {
   if (input.value) input.value?.focus();
 });
+const params = computed(() => ({
+  page: page.value,
+  limit: 10,
+  search: searchQuery.value,
+  type: sortedValue.value,
+}));
 
 watch([page, sortedValue, searchQuery], () => {
-  fetching({
-    page: page.value,
-    limit: 10,
-    search: searchQuery.value,
-    type: sortedValue.value,
-  });
+  fetching(params.value);
 });
 </script>
 <template>
@@ -34,8 +36,14 @@ watch([page, sortedValue, searchQuery], () => {
     </div>
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
-        <BaseSelector v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
-        <BaseSelector v-if="sortedValue" :options="deviceTypes.map((t) => t.type)" />
+        <BaseSelector v-once v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
+        <TheFilter
+          v-if="sortedValue"
+          :value="sortedValue"
+          :fetching="fetching"
+          :params="params"
+          :specification="itemsRef.specification"
+        />
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input

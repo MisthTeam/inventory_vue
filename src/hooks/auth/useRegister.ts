@@ -9,16 +9,9 @@ export default function useRegister() {
   const isLoading = ref(false);
 
   const onSubmit = async (data: registerUserParams) => {
-    const user: registerUserParams = {
-      login: data.login,
-      email: data.email,
-      password: data.password,
-      password_confirmation: data.password_confirmation,
-    };
-
     try {
       isLoading.value = true;
-      await userStore.register(user);
+      await userStore.register(data);
       router.push({
         name: "Dashboard",
       });

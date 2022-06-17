@@ -20,11 +20,9 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.14",
     "qs": "^6.10.5",
-    "vee-validate": "^4.5.11",
     "vue": "^3.2.36",
     "vue-router": "^4.0.16",
-    "vue-toastification": "^2.0.0-rc.5",
-    "yup": "^0.32.11"
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",

@@ -1,8 +1,7 @@
 <template>
   <ul class="pagination justify-content-center">
     <li class="page-item" :class="{ disabled: !isPrevControlsActive }">
-      <!-- <a href="#" class="page-link" @click.prevent="changePage(modelValue - 1)">Назад</a> -->
-      <img src="@/assets/icons/pagination-left.svg" class="page-link" @click.prevent="changePage(modelValue - 1)" />
+      <span class="page-link pointer" @click.prevent="changePage(modelValue - 1)"><i class="bi bi-caret-left-fill"></i></span>
     </li>
     <li
       v-for="(page, index) in pagination"
@@ -12,12 +11,10 @@
         active: page === modelValue,
       }"
     >
-      <a href="#" class="page-link" @click.prevent="changePage(page)"> {{ page }}</a>
+      <span class="page-link pointer" @click.prevent="changePage(page)"> {{ page }}</span>
     </li>
-
     <li class="page-item" :class="{ disabled: !isNextControlsActive }">
-      <!-- <a href="#" class="page-link" @click.prevent="changePage(modelValue + 1)">Вперед</a> -->
-      <img src="@/assets/icons/pagination-right.svg" class="page-link" @click.prevent="changePage(modelValue + 1)" />
+      <span class="page-link pointer" @click.prevent="changePage(modelValue + 1)"><i class="bi bi-caret-right-fill"></i></span>
     </li>
   </ul>
 </template>
@@ -102,3 +99,8 @@ const changePage = (page: number | null) => {
   if (page) emit("update:modelValue", page);
 };
 </script>
+<style scoped>
+  .pointer {
+    cursor: pointer;
+  }
+</style>

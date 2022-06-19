@@ -1,25 +1,41 @@
 <template>
   <template v-if="filtered.length">
-    <form @submit.prevent="onSubmit">
-      <div v-for="{ variables } in filtered" :key="variables.toString()">
-        <input
-          v-if="variables.includes('volume')"
-          v-model.lazy="volume"
-          class="form-control"
-          min="0"
-          type="number"
-          placeholder="Введите емкость"
-        />
+        <form @submit.prevent="onSubmit">
+          <div class="mb-2" v-for="{ variables } in filtered" :key="variables.toString()">
+            <div class="row justify-content-center mt-2">
+              <div class="col-lg-8">
+                <div class="" v-if="variables.includes('volume')">
+                  <input
+                    v-model.lazy="volume"
+                    class="form-control"
+                    min="0"
+                    type="number"
+                    placeholder="Введите емкость"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center mb-2" v-if="variables.includes('hhz')" >
+              <div class="col-lg-4">
+                <input v-model.lazy="firstHhz" type="number" class="form-control" placeholder="2" />
+              </div>
+              <div class="col-lg-4">
+                <input v-model.lazy="secondHhz" type="number" class="form-control" placeholder="4.2" />
+              </div>
+            </div>
+            <div class="row justify-content-center" v-if="variables.includes('socket')">
+              <div class="col-lg-8">
+                <BaseSelector v-model="socket" :options="specification.CPU.socket" />
+              </div>
+            </div>
+            <div class="row justify-content-center text-center mt-2">
+              <div class="col-lg-8">
+                <button class="btn btn-dark" type="submit">Показать</button>
+              </div>
+            </div>
+          </div>
+        </form>
 
-        <div v-if="variables.includes('hhz')">
-          <input v-model.lazy="firstHhz" type="number" class="form-control" placeholder="от 2" />
-          <input v-model.lazy="secondHhz" type="number" class="form-control" placeholder="до 4.2" />
-        </div>
-
-        <BaseSelector v-if="variables.includes('socket')" v-model="socket" :options="specification.CPU.socket" />
-      </div>
-      <button type="submit">Показать</button>
-    </form>
   </template>
 </template>
 <script lang="ts" setup>

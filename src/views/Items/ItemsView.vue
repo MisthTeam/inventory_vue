@@ -37,13 +37,6 @@ watch([page, sortedValue, searchQuery], () => {
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <BaseSelector v-once v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
-        <TheFilter
-          v-if="sortedValue"
-          :value="sortedValue"
-          :fetching="fetching"
-          :params="params"
-          :specification="itemsRef.specification"
-        />
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input
@@ -57,6 +50,13 @@ watch([page, sortedValue, searchQuery], () => {
         />
       </div>
     </div>
+    <TheFilter
+      v-if="sortedValue"
+      :value="sortedValue"
+      :fetching="fetching"
+      :params="params"
+      :specification="itemsRef.specification"
+    />
     <div class="row justify-content-center mt-2">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <LoadingSpinner v-if="isLoading" />

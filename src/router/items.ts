@@ -12,12 +12,6 @@ export default [
     meta: { role: "items:control", title: "Добавить предмет" },
   },
   {
-    path: "/items/test",
-    name: "TestItem",
-    component: () => import("@/views/TestRoute.vue"),
-    meta: { role: "items:control", title: "Добавить предмет" },
-  },
-  {
     path: "/items/:id",
     name: "Iteminfo",
     component: () => import("@/views/Items/ItemView.vue"),

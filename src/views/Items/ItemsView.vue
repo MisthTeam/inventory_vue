@@ -52,6 +52,7 @@ watch([page, sortedValue, searchQuery], () => {
     </div>
     <TheFilter
       v-if="sortedValue"
+      :disabled="isLoading"
       :value="sortedValue"
       :fetching="fetching"
       :params="params"

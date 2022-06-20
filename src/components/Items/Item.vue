@@ -19,6 +19,7 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { convertTime } from "@/utils/helpers";
 import { Item } from "@/stores/items/types";
+import { VolumeSpecification } from "@/stores/devices/types";
 
 interface Props {
   item: Item;
@@ -38,14 +39,22 @@ const classObject = computed(() => ({
 }));
 
 const infoItem = {
-  HDD: props.item.device.specification?.volume,
-  SSD: props.item.device.specification?.volume,
+  HDD:
+    (props.item.device.specification?.volume as VolumeSpecification)?.capacity +
+    (props.item.device.specification?.volume as VolumeSpecification)?.unit,
+  SSD:
+    (props.item.device.specification?.volume as VolumeSpecification)?.capacity +
+    (props.item.device.specification?.volume as VolumeSpecification)?.unit,
   CPU: props.item.device.specification?.model,
   GPU: props.item.device.specification?.model,
-  NVMe: props.item.device.specification?.volume,
+  NVMe:
+    (props.item.device.specification?.volume as VolumeSpecification)?.capacity +
+    (props.item.device.specification?.volume as VolumeSpecification)?.unit,
   networkCard: props.item.device.specification?.connector,
   raidController: props.item.device.specification?.model,
-  DRAM: props.item.device.specification?.volume,
+  DRAM:
+    (props.item.device.specification?.volume as VolumeSpecification)?.capacity +
+    (props.item.device.specification?.volume as VolumeSpecification)?.unit,
 };
 
 const router = useRouter();

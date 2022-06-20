@@ -53,8 +53,12 @@ export type deviceSaveParams = {
   type: string;
 };
 
+export type VolumeSpecification = {
+  [key: string]: string;
+};
+
 export type Specification = {
-  [key: string]: string | number;
+  [key: string]: string | number | VolumeSpecification;
 };
 export type Attr = {
   [key: number]: {

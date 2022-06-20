@@ -55,7 +55,7 @@ api.interceptors.response.use(
       case 422:
         const { data } = error.response;
         for (const key in data.errors) toast.error(data.errors[key][0]);
-        break; // Откидываем ошибку
+        break;
 
       default:
         break;

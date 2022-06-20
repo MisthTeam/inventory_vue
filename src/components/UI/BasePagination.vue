@@ -1,7 +1,9 @@
 <template>
   <ul class="pagination justify-content-center">
     <li class="page-item" :class="{ disabled: !isPrevControlsActive }">
-      <span class="page-link pointer" @click.prevent="changePage(modelValue - 1)"><i class="bi bi-caret-left-fill"></i></span>
+      <span class="page-link pointer" @click.prevent="changePage(modelValue - 1)"
+        ><i class="bi bi-caret-left-fill"></i
+      ></span>
     </li>
     <li
       v-for="(page, index) in pagination"
@@ -14,7 +16,9 @@
       <span class="page-link pointer" @click.prevent="changePage(page)"> {{ page }}</span>
     </li>
     <li class="page-item" :class="{ disabled: !isNextControlsActive }">
-      <span class="page-link pointer" @click.prevent="changePage(modelValue + 1)"><i class="bi bi-caret-right-fill"></i></span>
+      <span class="page-link pointer" @click.prevent="changePage(modelValue + 1)"
+        ><i class="bi bi-caret-right-fill"></i
+      ></span>
     </li>
   </ul>
 </template>
@@ -100,7 +104,7 @@ const changePage = (page: number | null) => {
 };
 </script>
 <style scoped>
-  .pointer {
-    cursor: pointer;
-  }
+.pointer {
+  cursor: pointer;
+}
 </style>

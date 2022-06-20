@@ -43,6 +43,14 @@ const useUserStore = defineStore({
       await api.post<ApiResponse>("auth/logout");
       this.setBearerToken();
     },
+    async getUsers() {
+      const response = await api.get<ApiResponse, Array<User>>("admin/users");
+      return response;
+    },
+    async getUserById(id: number) {
+      const response = await api.get<ApiResponse, User>(`admin/users/${id}`);
+      return response;
+    },
   },
 });
 

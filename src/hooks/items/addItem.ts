@@ -16,7 +16,7 @@ export default function addItem(dto: Ref<addItemParams>) {
       router.push(`/items/${item.id}`);
       toast.success("Комплектующий добавлен");
     } catch (error) {
-      console.error(error);
+      import.meta.env.DEV && console.error(error);
     }
     isLoading.value = false;
   };

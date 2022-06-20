@@ -16,9 +16,6 @@
 
 <script setup lang="ts">
 import { adminPages } from "@/utils/helpers";
-import { useRoute } from "vue-router";
-
-const route = useRoute();
 
 const iconsPage = {
   device: "bi bi-card-list",

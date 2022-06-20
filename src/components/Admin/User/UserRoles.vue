@@ -5,3 +5,13 @@
     <label class="form-check-label" for="flexSwitchCheckDefault">Роль 1</label>
   </div>
 </template>
+
+<script setup lang="ts">
+import { User } from "@/stores/user/types";
+
+interface Props {
+  user: User;
+}
+
+defineProps<Props>();
+</script>

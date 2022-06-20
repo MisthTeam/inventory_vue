@@ -6,32 +6,14 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-xl-5 col-lg-5 col-md-12 col-12 mt-2">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr @click="toUser(2)">
-            <td>misthntism</td>
-            <td>cblpgamer@yandex.ru</td>
-          </tr>
-        </tbody>
-      </table>
+      <LoadingSpinner v-if="isLoading" />
+      <UsersList v-else :users="users" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-const router = useRouter();
-const toUser = (id: number) => router.push(`/admin/users/${id}`);
+import { getUsers } from "@/hooks/user";
+import UsersList from "@/components/Admin/Users/UsersList.vue";
+
+const { isLoading, users } = getUsers();
 </script>
-<style scoped>
-tbody tr:hover {
-  background-color: #212529;
-  color: white;
-  cursor: pointer;
-}
-</style>

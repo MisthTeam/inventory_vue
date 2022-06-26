@@ -23,6 +23,12 @@ export default [
         component: () => import("@/views/Admin/User/ViewUser.vue"),
         meta: { page: "users" },
       },
+      {
+        path: "fields",
+        name: "AdminInputs",
+        component: () => import("@/views/Admin/CustomInputs/ViewInputs.vue"),
+        meta: { page: "inputs" },
+      },
     ],
     redirect: () => {
       return { name: "AdminDevices" };

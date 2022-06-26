@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import DeviceList from "../../../components/Admin/Devices/DevicesList.vue";
 import { getDevices } from "@/hooks/devices";
 import { deviceTypes } from "@/utils/helpers";
-import { watch, ref } from "vue";
+import { ref, watch } from "vue";
+import DeviceList from "../../../components/Admin/Devices/DevicesList.vue";
 
 const { devices, isLoading, fetching } = getDevices();
 
@@ -26,10 +26,10 @@ watch([page, sortedValue, searchQuery], () => {
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
+      <div class="col-xl-4 col-12 mt-2">
         <BaseSelector v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
+      <div class="col-xl-4 col-12 mt-2">
         <input
           v-model.lazy="searchQuery"
           type="text"
@@ -41,7 +41,7 @@ watch([page, sortedValue, searchQuery], () => {
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-xl- col-lg-8 col-md-12 col-12 mt-2">
+      <div class="col-xl-8 col-12 mt-2">
         <LoadingSpinner v-if="isLoading" />
         <DeviceList v-else :devices="devices.data" @deleteDevice="deleteDevice" />
         <BasePagination v-model="page" :current-page="page" :totalPages="devices.meta?.last_page || 1" />

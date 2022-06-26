@@ -4,12 +4,11 @@
       <tr>
         <th scope="col" class="col-4">P/N</th>
         <th scope="col" class="col-1">Тип устройства</th>
-        <th scope="col" class="col-2">Юзер</th>
         <th scope="col" class="col-2">Дата</th>
         <th scope="col"></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="align-middle">
       <DeviceItem
         v-for="device in devices"
         :key="device.id"
@@ -53,10 +52,10 @@
   </BaseModal>
 </template>
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import { editDevice } from "@/hooks/devices";
-import { deviceTypes } from "@/utils/helpers";
 import { Device, updateSpecification } from "@/stores/devices/types";
+import { deviceTypes } from "@/utils/helpers";
+import { ref, watch } from "vue";
 import DeviceItem from "./DeviceItem.vue";
 
 interface Props {

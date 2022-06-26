@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row justify-content-center">
       <AdminNavbar />
-      <div class="col mt-6 ml-c">
+      <div class="col-10 mt-6 ml-c">
         <router-view />
       </div>
     </div>

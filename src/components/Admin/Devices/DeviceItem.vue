@@ -2,15 +2,14 @@
   <tr>
     <td>{{ device.pn }}</td>
     <td>{{ device.type }}</td>
-    <td class="">misthntism</td>
     <td class="">{{ convertTime(device.created_at) }}</td>
-    <td class="text-end">
+    <td class="text-center">
       <BaseButton class="btn-danger" :disabled="isDeleteLoading" @clickButton="deleteDev">
         <i class="bi bi-trash-fill" />
       </BaseButton>
       <BaseButton
         type="button"
-        class="btn-warning ms-lg-1 ms-md-1 ms-0 mt-xl-0 mt-lg-1 mt-md-0 mt-sm-1 mt-1"
+        class="btn-warning m-1"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
         @click="openModal"
@@ -22,8 +21,8 @@
 </template>
 <script setup lang="ts">
 import { deleteDevice } from "@/hooks/devices/deleteDevice";
-import { convertTime } from "@/utils/helpers";
 import { Device } from "@/stores/devices/types";
+import { convertTime } from "@/utils/helpers";
 
 interface Props {
   device: Device;

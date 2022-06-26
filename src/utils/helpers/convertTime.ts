@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 const convertTime = (time: string) =>
-  format(new Date(time), "dd MMMM yyyy", {
+  format(new Date(time), "dd.mm.yy", {
     locale: ru,
   });
 

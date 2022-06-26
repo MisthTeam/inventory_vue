@@ -97,17 +97,13 @@ watch(
 const changeSpecification = ({ target, value }: updateSpecification) => {
   if (target === "capacity" || target === "unit") {
     if (!dto.value.specification.volume) {
-      Object.assign(dto.value.specification, {
-        volume: {},
-      });
+      dto.value.specification = { ...dto.value.specification, volume: {} };
     }
     Object.assign(dto.value.specification.volume, {
       [target]: value,
     });
   } else {
-    Object.assign(dto.value.specification, {
-      [target]: value,
-    });
+    dto.value.specification = { ...dto.value.specification, [target]: value };
   }
 };
 </script>

@@ -35,17 +35,13 @@ watch(
 const changeSpecification = ({ target, value }: updateSpecification) => {
   if (target === "capacity" || target === "unit") {
     if (!dto.value.device.specification.volume) {
-      Object.assign(dto.value.device.specification, {
-        volume: {},
-      });
+      dto.value.device.specification = { ...dto.value.device.specification, volume: {} };
     }
     Object.assign(dto.value.device.specification.volume, {
       [target]: value,
     });
   } else {
-    Object.assign(dto.value.device.specification, {
-      [target]: value,
-    });
+    dto.value.device.specification = { ...dto.value.device.specification, [target]: value };
   }
 };
 

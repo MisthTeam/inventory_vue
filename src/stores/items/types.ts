@@ -1,4 +1,4 @@
-import { Device, Specification } from "../devices/types";
+import { Device, Specification, VolumeSpecification } from "../devices/types";
 
 export type AttributeField = {
   id: number;
@@ -16,7 +16,7 @@ export type fetchItemsParams = {
   type?: string;
   search?: string;
   filter?: {
-    [key: string]: string | string[];
+    [key: string]: string | string[] | VolumeSpecification;
   };
 };
 

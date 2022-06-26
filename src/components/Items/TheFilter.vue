@@ -5,7 +5,19 @@
         <div class="row justify-content-center mt-2">
           <div class="col-lg-8">
             <template v-if="variables.includes('volume')">
-              <input v-model.lazy="volume" class="form-control" min="0" type="number" placeholder="Введите емкость" />
+              <input
+                v-model.lazy="capacity"
+                min="0"
+                type="number"
+                placeholder="Введите емкость"
+                title="capacity"
+                class="form-control mb-2"
+              />
+              <select id="inputGroupSelect01" v-model="unit" title="unit" class="form-select">
+                <option selected value="">Единица измерения</option>
+                <option value="TB">TB</option>
+                <option value="GB">GB</option>
+              </select>
             </template>
           </div>
         </div>
@@ -51,7 +63,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const filtered = computed(() => filteredTypes.filter((t) => t.type.includes(props.value)));
 
-const volume = ref("");
+const capacity = ref("");
+const unit = ref("");
 const socket = ref("");
 const firstHhz = ref("");
 const secondHhz = ref("");
@@ -60,7 +73,8 @@ watch(
   () => props.value,
   (_, oldValue) => {
     if (!oldValue) return;
-    volume.value = "";
+    capacity.value = "";
+    unit.value = "";
     socket.value = "";
     firstHhz.value = "";
     secondHhz.value = "";
@@ -69,7 +83,10 @@ watch(
 
 const onSubmit = () => {
   const data = {
-    volume: volume.value,
+    volume: {
+      capacity: capacity.value ?? "",
+      unit: unit.value ?? "",
+    },
     socket: socket.value,
     hhz: firstHhz.value && secondHhz.value ? [firstHhz.value, secondHhz.value] : firstHhz.value || secondHhz.value,
   };

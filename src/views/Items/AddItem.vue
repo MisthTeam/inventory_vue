@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { deviceTypes } from "@/utils/helpers";
+import { convertedValues, deviceTypes } from "@/utils/helpers";
 import { Ref, ref, watch } from "vue";
 import { getAttributesByType } from "@/hooks/attributes";
 import { getDevice } from "@/hooks/devices";
@@ -33,16 +33,7 @@ watch(
 
 // Изменение спецификации
 const changeSpecification = ({ target, value }: updateSpecification) => {
-  if (target === "capacity" || target === "unit") {
-    if (!dto.value.device.specification.volume) {
-      dto.value.device.specification = { ...dto.value.device.specification, volume: {} };
-    }
-    Object.assign(dto.value.device.specification.volume, {
-      [target]: value,
-    });
-  } else {
-    dto.value.device.specification = { ...dto.value.device.specification, [target]: value };
-  }
+  dto.value.device.specification = { ...dto.value.device.specification, [target]: value };
 };
 
 // Изменение атрибутов

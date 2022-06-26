@@ -83,10 +83,7 @@ watch(
 
 const onSubmit = () => {
   const data = {
-    volume: {
-      capacity: capacity.value ?? "",
-      unit: unit.value ?? "",
-    },
+    volume: capacity.value,
     socket: socket.value,
     hhz: firstHhz.value && secondHhz.value ? [firstHhz.value, secondHhz.value] : firstHhz.value || secondHhz.value,
   };

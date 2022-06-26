@@ -37,7 +37,7 @@ export default {
       v-for="(specification, i) of deviceType.specification"
       :key="i"
       :disabled="disabled"
-      :specification="device?.specification[specification] || dto.device?.specification[specification] || null"
+      :specification="device?.specification[specification] || ''"
       :nameSpec="specification"
       @editSpecification="(v) => $emit('editSpecification', v)"
     />

@@ -10,10 +10,10 @@
     </thead>
     <tbody class="align-middle">
       <DeviceItem
-        v-for="device in devices"
-        :key="device.id"
-        :device="device"
-        @deleteDevice="$emit('deleteDevice', device.id)"
+        v-for="deviceItem in devices"
+        :key="deviceItem.id"
+        :device="deviceItem"
+        @deleteDevice="$emit('deleteDevice', deviceItem.id)"
         @openModal="openModal"
       />
       <div v-show="!devices.length" class="text-center">
@@ -45,7 +45,7 @@
         </div>
 
         <div class="input-group justify-content-between mb-3">
-          <SpecificationsList :type="dto.type" :device="dto" @editSpecification="changeSpecification" />
+          <SpecificationsList :type="dto.type" :device="dto" :dto="dto" @editSpecification="changeSpecification" />
         </div>
       </template>
     </template>
@@ -69,9 +69,11 @@ const { editing } = editDevice();
 
 const isOpenModal = ref(false);
 const dto = ref<Device>({} as Device);
+const device = ref<Device>({} as Device);
 
-const openModal = (device: Device) => {
-  dto.value = { ...device };
+const openModal = (d: Device) => {
+  dto.value = { ...d };
+  device.value = d;
   isOpenModal.value = true;
 };
 
@@ -95,15 +97,6 @@ watch(
 
 // Изменение спецификации
 const changeSpecification = ({ target, value }: updateSpecification) => {
-  if (target === "capacity" || target === "unit") {
-    if (!dto.value.specification.volume) {
-      dto.value.specification = { ...dto.value.specification, volume: {} };
-    }
-    Object.assign(dto.value.specification.volume, {
-      [target]: value,
-    });
-  } else {
-    dto.value.specification = { ...dto.value.specification, [target]: value };
-  }
+  dto.value.specification = { ...dto.value.specification, [target]: value };
 };
 </script>

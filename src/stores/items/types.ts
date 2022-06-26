@@ -16,7 +16,7 @@ export type fetchItemsParams = {
   type?: string;
   search?: string;
   filter?: {
-    [key: string]: string | string[] | VolumeSpecification;
+    [key: string]: string | string[] | number;
   };
 };
 

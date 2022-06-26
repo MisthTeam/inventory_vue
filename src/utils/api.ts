@@ -48,8 +48,7 @@ api.interceptors.response.use(
         break;
 
       case 403:
-        router.push({ name: "auth.login" });
-        toast.warning("Авторизуйтесь заново");
+        toast.warning("Попробуйте позже");
         break;
 
       case 422:
@@ -58,6 +57,7 @@ api.interceptors.response.use(
         break;
 
       default:
+        toast.error("Произошла ошибка. Попробуйте позже");
         break;
     }
 

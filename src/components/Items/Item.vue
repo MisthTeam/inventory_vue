@@ -19,7 +19,6 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { convertTime, formatBytes } from "@/utils/helpers";
 import { Item } from "@/stores/items/types";
-import { VolumeSpecification } from "@/stores/devices/types";
 
 interface Props {
   item: Item;

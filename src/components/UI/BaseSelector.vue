@@ -9,13 +9,14 @@
 
 <script setup lang="ts">
 interface Props {
-  modelValue: string;
+  modelValue?: string;
   options: Array<string>;
   disabled?: boolean;
   disableFirstElement?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   options: () => [],
+  modelValue: "",
   disabled: false,
   disableFirstElement: false,
 });

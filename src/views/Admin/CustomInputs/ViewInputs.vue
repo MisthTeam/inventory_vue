@@ -45,14 +45,14 @@
       <div class="row g-2">
         <div class="col-md">
           <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInputGrid" />
+            <input id="floatingInputGrid" type="text" class="form-control" />
             <label for="floatingInputGrid">Название поля</label>
           </div>
         </div>
         <div class="col-md">
           <div class="form-floating">
-            <select class="form-select" id="floatingSelectGrid">
-              <option selected>Выберете...</option>
+            <select id="floatingSelectGrid" class="form-select">
+              <option selected>Выбирете...</option>
               <option value="1">text</option>
               <option value="2">integer</option>
               <option value="3">select</option>
@@ -61,15 +61,19 @@
           </div>
         </div>
       </div>
-      <div class="row"></div>
-      <!-- <label for="inputName" class="col-sm-2 col-form-label">Тип поля</label>
-      <BaseSelector :options="['text', 'selctor', 'integer']" disableFirstElement /> -->
+      <div class="row">
+        <div class="col-md mt-3">
+          <TagsInput v-model="tags" :customDelimiter="[',', ' ']" />
+        </div>
+      </div>
     </template>
   </BaseModal>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+
+const tags = ref<string[]>([]);
 
 const isOpenModal = ref(false);
 

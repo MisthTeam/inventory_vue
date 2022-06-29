@@ -1,12 +1,12 @@
-import "@/assets/bootstrap/dist/css/bootstrap.css";
 import components from "@/components/UI";
+import "@/assets/bootstrap/dist/css/bootstrap.css";
 import directives from "@/directives";
-import "bootstrap";
-import "nprogress/nprogress.css";
-import { createPinia } from "pinia";
 import { createApp } from "vue";
+import { createPinia } from "pinia";
+import "bootstrap";
 import Toast, { PluginOptions } from "vue-toastification";
 import "vue-toastification/dist/index.css"; // Для уведомляшек стили
+import "nprogress/nprogress.css";
 
 import App from "./App.vue";
 import router from "./router";

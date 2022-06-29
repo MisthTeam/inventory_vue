@@ -8,13 +8,15 @@
       @keydown.enter="addTag(newTag)"
       @input="addTagIfDelem(newTag)"
     />
-    <label for="floatingInputGrid">Название поля</label>
+    <label for="floatingInputGrid">Название опции в списке</label>
 
-    <div v-for="(tag, index) in tags" :key="tag" class="row">
+    <div class="row">
       <div class="col">
-        <span class="badge bg-primary"> {{ tag }}</span>
-        <BaseButton @click="removeTag(index)">x</BaseButton>
+        <span v-for="(tag, index) in tags" :key="tag" class="badge bg-primary me-2 mt-2">
+          {{ tag }} <button @click="removeTag(index)" type="button" class="btn-close" aria-label="Close"></button
+        ></span>
       </div>
+      <!-- <BaseButton @click="removeTag(index)">x</BaseButton> -->
     </div>
   </div>
 

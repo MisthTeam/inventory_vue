@@ -1,6 +1,11 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-lg-7 col-12">
+      <BaseButton @click="openModal" type="button" class="w-100 btn-success"> Добавить поле </BaseButton>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-12">
       <table class="table">
         <thead>
           <tr>
@@ -27,4 +32,27 @@
       </table>
     </div>
   </div>
+  <BaseModal name="Изменение устройства" :isOpen="isOpenModal" @close="modalCancel" @ok="modalOk">
+    <template v-if="isOpenModal" #default>
+      <BaseButton @click="openModal" type="button" class="w-100 btn-success"> Добавить поле </BaseButton>
+    </template>
+  </BaseModal>
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+
+const isOpenModal = ref(false);
+
+const openModal = () => {
+  isOpenModal.value = true;
+};
+
+const modalCancel = () => {
+  if (isOpenModal.value) {
+    isOpenModal.value = false;
+  }
+};
+
+const modalOk = () => (isOpenModal.value = false);
+</script>

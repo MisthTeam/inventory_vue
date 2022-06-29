@@ -1,7 +1,15 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-lg-7 col-12">
-      <BaseButton @click="openModal" type="button" class="w-100 btn-success"> Добавить поле </BaseButton>
+      <BaseButton
+        type="button"
+        class="w-100 btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        @click="openModal"
+      >
+        Добавить поле
+      </BaseButton>
     </div>
   </div>
   <div class="row justify-content-center">
@@ -34,7 +42,7 @@
   </div>
   <BaseModal name="Изменение устройства" :isOpen="isOpenModal" @close="modalCancel" @ok="modalOk">
     <template v-if="isOpenModal" #default>
-      <BaseButton @click="openModal" type="button" class="w-100 btn-success"> Добавить поле </BaseButton>
+      <BaseButton type="button" class="w-100 btn-success" @click="openModal"> Добавить поле </BaseButton>
     </template>
   </BaseModal>
 </template>

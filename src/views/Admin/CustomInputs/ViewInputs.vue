@@ -42,7 +42,28 @@
   </div>
   <BaseModal name="Изменение устройства" :isOpen="isOpenModal" @close="modalCancel" @ok="modalOk">
     <template v-if="isOpenModal" #default>
-      <BaseButton type="button" class="w-100 btn-success" @click="openModal"> Добавить поле </BaseButton>
+      <div class="row g-2">
+        <div class="col-md">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInputGrid" />
+            <label for="floatingInputGrid">Название поля</label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating">
+            <select class="form-select" id="floatingSelectGrid">
+              <option selected>Выберете...</option>
+              <option value="1">text</option>
+              <option value="2">integer</option>
+              <option value="3">select</option>
+            </select>
+            <label for="floatingSelectGrid">Тип будущего поля</label>
+          </div>
+        </div>
+      </div>
+      <div class="row"></div>
+      <!-- <label for="inputName" class="col-sm-2 col-form-label">Тип поля</label>
+      <BaseSelector :options="['text', 'selctor', 'integer']" disableFirstElement /> -->
     </template>
   </BaseModal>
 </template>

@@ -49,6 +49,15 @@
         </div>
       </template>
     </template>
+    <template v-else #default>
+      <div class="placeholder-glow" aria-hidden="true">
+        <div><input class="placeholder col-12" /></div>
+        <div><select class="placeholder col-12"></select></div>
+        <div>
+          <span class="placeholder col-12"></span>
+        </div>
+      </div>
+    </template>
   </BaseModal>
 </template>
 <script setup lang="ts">

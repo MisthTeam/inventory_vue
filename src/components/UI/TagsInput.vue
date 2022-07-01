@@ -13,10 +13,9 @@
     <div class="row">
       <div class="col">
         <span v-for="(tag, index) in tags" :key="tag" class="badge bg-primary me-2 mt-2">
-          {{ tag }} <button @click="removeTag(index)" type="button" class="btn-close" aria-label="Close"></button
+          {{ tag }} <button type="button" class="btn-close" aria-label="Close" @click="removeTag(index)"></button
         ></span>
       </div>
-      <!-- <BaseButton @click="removeTag(index)">x</BaseButton> -->
     </div>
   </div>
 
@@ -31,7 +30,7 @@ import { ref } from "vue";
 const props = defineProps({
   modelValue: {
     type: Array<string>,
-    default: () => [],
+    default: () => [] as string[],
   },
   showCount: {
     type: Boolean,

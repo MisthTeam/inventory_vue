@@ -56,8 +56,11 @@ api.interceptors.response.use(
         for (const key in data.errors) toast.error(data.errors[key][0]);
         break;
 
-      default:
+      case 500:
         toast.error("Произошла ошибка. Попробуйте позже");
+        break;
+
+      default:
         break;
     }
 

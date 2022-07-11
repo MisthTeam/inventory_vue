@@ -42,8 +42,8 @@ export default {
     :value="attribute.value"
     @change="updateAttr({ attrId: attribute.id, value: ($event.target as HTMLSelectElement).value })"
   >
-    <option v-for="l in attribute.meta.list" :key="l" :selected="l === attribute.value" :value="l">
-      {{ l }}
+    <option v-for="list in attribute.meta.list" :key="list" :selected="list === attribute.value" :value="list">
+      {{ list }}
     </option>
   </select>
   <label for="floatingInput">{{ attribute.name }}</label>

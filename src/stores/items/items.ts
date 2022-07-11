@@ -2,7 +2,7 @@ import { api } from "@/utils/api";
 import { defineStore } from "pinia";
 import { array_column } from "@/utils/helpers";
 import { stringify } from "qs";
-import { addItemParams, AttributeField, fetchItemsParams, Item, ItemState } from "./types";
+import { addItemParams, fetchItemsParams, Item, ItemState } from "./types";
 import { ApiResponse } from "@/interfaces/api.interface";
 
 const useItemsStore = defineStore({
@@ -56,11 +56,6 @@ const useItemsStore = defineStore({
         attr: array_column(item.attributes, "value", "id"),
         status: item.status.id,
       });
-    },
-
-    async getAttributesByType(device_type: string): Promise<Array<AttributeField>> {
-      const response = await api.get<ApiResponse, Array<AttributeField>>(`attr/type/${device_type}`);
-      return response;
     },
   },
 });

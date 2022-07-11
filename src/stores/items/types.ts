@@ -1,14 +1,5 @@
-import { Device, Specification, VolumeSpecification } from "../devices/types";
-
-export type AttributeField = {
-  id: number;
-  name: string;
-  meta: {
-    type: "text" | "select";
-    list?: Array<string>;
-  };
-  value: string;
-};
+import { Attribute } from "../attrubutes/types";
+import { Device, Specification } from "../devices/types";
 
 export type fetchItemsParams = {
   limit?: number;
@@ -62,7 +53,7 @@ export type fetchAttributeByTypeParams = {
 
 export type Item = {
   id: number;
-  attributes: Array<AttributeField>;
+  attributes: Attribute[];
   user: {
     id: number;
     login: number;

@@ -8,8 +8,8 @@ import { deviceTypes } from "@/utils/helpers";
 import TheFilter from "@/components/Items/TheFilter.vue";
 
 const input = ref<HTMLInputElement | null>(null);
-const searchQuery = ref(""); // Сортировка по выбранному селектору
-const sortedValue = ref(""); // Фильтрация по названию
+const searchQuery = ref(""); // Фильтрация по названию
+const sortedValue = ref(""); // Сортировка по выбранному селектору
 const { itemsRef, isLoading, fetching } = getItems(); // Получение items из БД
 const page = ref(itemsRef.value.meta?.current_page || 1);
 
@@ -36,7 +36,7 @@ watch([page, sortedValue, searchQuery], () => {
     </div>
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
-        <BaseSelector v-once v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
+        <BaseSelector v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input

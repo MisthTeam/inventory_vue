@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { convertedValues, deviceTypes } from "@/utils/helpers";
 import { Ref, ref, watch } from "vue";
+import { deviceTypes } from "@/utils/helpers";
 import { getAttributesByType } from "@/hooks/attributes";
 import { getDevice } from "@/hooks/devices";
 import { addItem } from "@/hooks/items";
-import { UpdateAttr, updateSpecification } from "@/stores/devices/types";
+import { updateSpecification } from "@/stores/devices/types";
 import { addItemParams } from "@/stores/items/types";
+import { UpdateAttr } from "@/stores/attrubutes/types";
 
 const dto: Ref<addItemParams> = ref({
   pn: "",

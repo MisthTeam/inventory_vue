@@ -9,13 +9,7 @@
       </tr>
     </thead>
     <tbody class="align-middle">
-      <DeviceItem
-        v-for="deviceItem in devices"
-        :key="deviceItem.id"
-        :device="deviceItem"
-        @deleteDevice="$emit('deleteDevice', deviceItem.id)"
-        @openModal="openModal"
-      />
+      <DeviceItem v-for="deviceItem in devices" :key="deviceItem.id" :device="deviceItem" @openModal="openModal" />
       <div v-show="!devices.length" class="text-center">
         <h5>Устройства не найдены</h5>
       </div>
@@ -71,8 +65,6 @@ interface Props {
   devices: Array<Device>;
 }
 defineProps<Props>();
-
-defineEmits(["deleteDevice"]);
 
 const { editing } = editDevice();
 

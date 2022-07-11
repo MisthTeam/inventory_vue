@@ -12,6 +12,9 @@ export const api = axios.create({
   },
 });
 
+localStorage.getItem("Authorization") &&
+  (api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("Authorization")}`);
+
 api.interceptors.request.use((config) => {
   nProgress.start();
   return config;
@@ -54,10 +57,6 @@ api.interceptors.response.use(
       case 422:
         const { data } = error.response;
         for (const key in data.errors) toast.error(data.errors[key][0]);
-        break;
-
-      case 500:
-        toast.error("Произошла ошибка. Попробуйте позже");
         break;
 
       default:

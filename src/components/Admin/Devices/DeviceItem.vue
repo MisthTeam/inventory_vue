@@ -4,7 +4,7 @@
     <td>{{ device.type }}</td>
     <td class="">{{ convertTime(device.created_at) }}</td>
     <td class="text-center">
-      <BaseButton class="btn-danger" :disabled="isDeleteLoading" @clickButton="deleteDev">
+      <BaseButton class="btn-danger" :disabled="isDeleteLoading" @clickButton="deleteItem">
         <i class="bi bi-trash-fill" />
       </BaseButton>
       <BaseButton
@@ -31,14 +31,10 @@ interface Props {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  (event: "deleteDevice", value: Device): void;
   (event: "openModal", value: Device): void;
 }>();
 
 const { isDeleteLoading, deleting: deleteItem } = deleteDevice(props.device.id);
 
-const deleteDev = async () => {
-  deleteItem().then((v) => emit("deleteDevice", v));
-};
 const openModal = () => emit("openModal", props.device);
 </script>

@@ -28,7 +28,8 @@ const useDevicesStore = defineStore({
       return response;
     },
     async deleteDevice(id: number) {
-      const response = await api.delete<ApiResponse, Device>(`admin/device/${Number(id)}`);
+      const response = await api.delete<ApiResponse, Device>(`admin/device/${id}`);
+      this.deleteDeviceInArray(id);
       return response;
     },
     async editDevice({ id, ...payload }: deviceEditParams) {
@@ -44,6 +45,10 @@ const useDevicesStore = defineStore({
           ...payload,
         });
       }
+    },
+
+    deleteDeviceInArray(id: number) {
+      this.devices.data = this.devices.data.filter((device) => device.id !== id);
     },
   },
 });

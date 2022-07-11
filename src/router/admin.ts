@@ -26,7 +26,7 @@ export default [
       {
         path: "fields",
         name: "AdminInputs",
-        component: () => import("@/views/Admin/CustomInputs/ViewInputs.vue"),
+        component: () => import("@/views/Admin/Attributes/ViewAttributes.vue"),
         meta: { page: "inputs" },
       },
     ],

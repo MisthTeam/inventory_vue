@@ -2,16 +2,13 @@
 import { getDevices } from "@/hooks/devices";
 import { deviceTypes } from "@/utils/helpers";
 import { ref, watch } from "vue";
-import DeviceList from "../../../components/Admin/Devices/DevicesList.vue";
+import DeviceList from "@/components/Admin/Devices/DevicesList.vue";
 
 const { devices, isLoading, fetching } = getDevices();
 
 const searchQuery = ref(""); // Сортировка по выбранному селектору
 const sortedValue = ref(""); // Фильтрация по названию
 const page = ref(devices.value.meta?.current_page || 1);
-
-const deleteDevice = async (value: number) =>
-  (devices.value.data = devices.value.data.filter((device) => device.id !== value));
 
 watch([page, sortedValue, searchQuery], () => {
   fetching({
@@ -43,7 +40,7 @@ watch([page, sortedValue, searchQuery], () => {
     <div class="row justify-content-center">
       <div class="col-xl-8 col-12 mt-2">
         <LoadingSpinner v-if="isLoading" />
-        <DeviceList v-else :devices="devices.data" @deleteDevice="deleteDevice" />
+        <DeviceList v-else :devices="devices.data" />
         <BasePagination v-model="page" :current-page="page" :totalPages="devices.meta?.last_page || 1" />
       </div>
     </div>

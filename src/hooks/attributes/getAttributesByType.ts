@@ -1,18 +1,18 @@
 import { ref } from "vue";
 import { useToast } from "vue-toastification";
-import { useItemsStore } from "@/stores";
-import { AttributeField } from "@/stores/items/types";
+import { useAttributesStore } from "@/stores";
+import { storeToRefs } from "pinia";
 
 export default function getAttributesByType() {
   const isLoading = ref(false);
-  const attributes = ref<Array<AttributeField>>([]);
   const toast = useToast();
-  const itemsStore = useItemsStore();
+  const attributesStore = useAttributesStore();
+  const attributes = storeToRefs(attributesStore).attributes;
 
   const getAttribute = async (device_type: string) => {
     isLoading.value = true;
     try {
-      attributes.value = await itemsStore.getAttributesByType(device_type);
+      attributes.value = await attributesStore.getAttributesByType(device_type);
     } catch (error) {
       toast.error("Произошла ошибка при получении данных атрибутов. Попробуйте позже");
       import.meta.env.DEV && console.error(error);

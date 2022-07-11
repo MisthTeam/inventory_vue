@@ -66,11 +66,6 @@ export type Attr = {
   };
 };
 
-export type UpdateAttr = {
-  attrId: number;
-  value: string;
-};
-
 export type fetchDevicesParams = {
   limit: number;
   page: number;

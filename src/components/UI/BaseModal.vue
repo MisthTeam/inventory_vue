@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <div id="exampleModal" class="modal fade" tabindex="-1">
+    <div :id="idOpen" class="modal fade" tabindex="-1">
       <div v-on-click-outside="close" class="modal-dialog modal-dialog-centered modal-lg" @click.stop>
         <div class="modal-content">
           <div class="modal-header">
@@ -31,10 +31,12 @@ import { vOnClickOutside } from "@vueuse/components";
 interface Props {
   isOpen: boolean;
   name: string;
+  idOpen?: string;
 }
 withDefaults(defineProps<Props>(), {
   isOpen: false,
   name: "Модалка",
+  idOpen: "exampleModal",
 });
 
 const emit = defineEmits({

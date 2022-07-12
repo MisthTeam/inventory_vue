@@ -25,6 +25,6 @@ export default function getUser(id: number) {
 
   return {
     isLoading,
-    user: computed(() => user.value),
+    user,
   };
 }

@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/interfaces/api.interface";
 import { api } from "@/utils/api";
 import { defineStore } from "pinia";
-import { loginUserParams, registerUserParams, User, AuthResponse } from "./types";
+import { loginUserParams, registerUserParams, User, AuthResponse, Role } from "./types";
 
 const useUserStore = defineStore({
   id: "user",
@@ -48,8 +48,18 @@ const useUserStore = defineStore({
       return response;
     },
     async getUserById(id: number) {
-      const response = await api.get<ApiResponse, User>(`admin/users/${id}`);
+      const response = await api.get<ApiResponse, User>(`admin/users/u/${id}`);
       return response;
+    },
+    async getRoles(): Promise<Role[]> {
+      const reponse = await api.get<ApiResponse, Role[]>("admin/users/roles");
+      return reponse;
+    },
+    async setRoles(roles: number[]) {
+      const response = await api.post<ApiResponse, User>(`admin/users/roles/${this.user?.id}`, {
+        roles,
+      });
+      return (this.user = response);
     },
   },
 });

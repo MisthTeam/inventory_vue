@@ -15,6 +15,13 @@ export type AuthResponse = {
   user: User;
 };
 
+export type Role = {
+  id: number;
+  desc: string;
+  name: string;
+  value: string;
+};
+
 export type registerUserParams = {
   login: string;
   email: string;

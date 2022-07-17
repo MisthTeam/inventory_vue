@@ -1,17 +1,3 @@
-<template>
-  <Navbar :user="user" :isLoggenIn="userStore.isLoggenIn" />
-  <router-view v-slot="{ Component }">
-    <template v-if="Component">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </template>
-    <template v-else>
-      <LoadingSpinner />
-    </template>
-  </router-view>
-</template>
-
 <script setup lang="ts">
 import { useUserStore } from "@/stores";
 import { storeToRefs } from "pinia";
@@ -23,8 +9,8 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const title = computed((): string => {
-  return (route.meta?.title as string) ? (route.meta.title as string) : "Inventory";
+const title = computed(() => {
+  return (route.meta?.title as string) ?? "Inventory";
 });
 
 useTitle(title);
@@ -32,6 +18,20 @@ useTitle(title);
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 </script>
+
+<template>
+  <Navbar :user="user" :isLoggenIn="userStore.isLoggenIn" />
+  <router-view v-slot="{ Component }">
+    <template v-if="Component">
+      <Transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </template>
+    <template v-else>
+      <LoadingSpinner />
+    </template>
+  </router-view>
+</template>
 
 <style>
 .fade-enter-from,

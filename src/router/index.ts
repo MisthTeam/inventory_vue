@@ -6,26 +6,24 @@ import itemsRoutes from "./items";
 import adminRouters from "./admin";
 import NProgress from "nprogress";
 
-const routes = [
-  {
-    path: "/",
-    name: "Dashboard",
-    component: () => import("@/views/Home/HomeView.vue"),
-  },
-  {
-    path: "/:pathMatch(.*)*",
-    name: "NotFound",
-    component: () => import("@/views/Home/NotFound.vue"),
-  },
-
-  ...authRoutes,
-  ...itemsRoutes,
-  ...adminRouters,
-];
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+  routes: [
+    {
+      path: "/",
+      name: "Dashboard",
+      component: () => import("@/views/Home/HomeView.vue"),
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "NotFound",
+      component: () => import("@/views/Home/NotFound.vue"),
+    },
+
+    ...authRoutes,
+    ...itemsRoutes,
+    ...adminRouters,
+  ],
   linkActiveClass: "active",
 });
 
@@ -40,27 +38,22 @@ router.afterEach(() => {
 
 router.beforeEach(async (to) => {
   const auth = useUserStore();
-  if (!to.meta?.guest && !auth.isLoggenIn) {
-    const canAccess = await checkAuth();
-    if (canAccess) return { path: to.fullPath };
-    return { name: "auth.login", query: { redirect: to.fullPath } };
+
+  if (!auth.isLoggenIn) {
+    await tryAuth();
   }
 
-  if (to.meta?.role && auth.isLoggenIn) {
-    const { isHasRole } = checkUserRole(auth.getUser, to.meta?.role as string);
-    if (!isHasRole.value) return { name: "Dashboard" };
-  }
+  if (!to.meta?.guest && !auth.isLoggenIn) return { name: "auth.login" };
+  return true;
 });
 
-const checkAuth = async () => {
+const tryAuth = async () => {
   const auth = useUserStore();
   const token: string | null = localStorage.getItem("Authorization");
   if (token) {
     auth.setBearerToken(token);
-    const user = await auth.fetchUserData();
-    if (user) return true;
+    await auth.fetchUserData();
   }
-  return false;
 };
 
 export default router;

@@ -28,8 +28,8 @@ const toastOpt: PluginOptions = {
   maxToasts: 3,
 };
 
-app.use(createPinia());
 app.use(router);
+app.use(createPinia());
 app.use(Toast, toastOpt);
 
 app.mount("#app");

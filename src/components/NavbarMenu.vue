@@ -56,9 +56,18 @@
             </li>
           </ul>
         </div>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Найти</button>
+        <form class="d-flex" @submit.prevent="onSearch">
+          <input
+            v-model="search"
+            :disabled="isLoading"
+            class="form-control me-2"
+            type="search"
+            placeholder="Поиск"
+            aria-label="Search"
+          />
+          <BaseButton :hideText="isLoading" :disabled="isLoading" type="submit" class="btn-outline-success">
+            Найти
+          </BaseButton>
         </form>
       </div>
     </div>
@@ -67,6 +76,12 @@
 
 <script setup lang="ts">
 import { User } from "@/stores/user/types";
+import { api } from "@/utils/api";
+import { ref, watch } from "vue";
+
+const search = ref("");
+const result = ref(null);
+const isLoading = ref(false);
 
 withDefaults(
   defineProps<{
@@ -78,4 +93,19 @@ withDefaults(
     isLoggenIn: false,
   },
 );
+const onSearch = async () => {
+  try {
+    isLoading.value = true;
+    result.value = await api.post("search", {
+      text: search.value,
+    });
+  } catch (error) {
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+watch(search, (value) => {
+  if (!value.length) result.value = null;
+});
 </script>

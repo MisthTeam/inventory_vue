@@ -64,7 +64,9 @@ export type Item = {
     badge: string;
   };
   device: Device;
-  meta: any;
+  meta: {
+    name: string;
+  };
   created_at: string;
 };
 

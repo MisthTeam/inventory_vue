@@ -45,7 +45,7 @@
 </template>
 <script lang="ts" setup>
 import { fetchItemsParams } from "@/stores/items/types";
-import { filteredTypes } from "@/utils/helpers";
+import { convertedValues, filteredTypes } from "@/utils/helpers";
 import { computed, ref, watch } from "vue";
 
 interface Props {
@@ -82,8 +82,10 @@ watch(
 );
 
 const onSubmit = () => {
+  const howMultiply = convertedValues[unit.value as keyof typeof convertedValues] ?? 1;
+  const multiplyVolume = howMultiply ** Number(capacity.value);
   const data = {
-    volume: capacity.value,
+    volume: multiplyVolume === 1 ? "" : multiplyVolume,
     socket: socket.value,
     hhz: firstHhz.value && secondHhz.value ? [firstHhz.value, secondHhz.value] : firstHhz.value || secondHhz.value,
   };

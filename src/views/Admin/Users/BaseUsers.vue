@@ -1,6 +1,11 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-lg-7 col-12">
+    <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2 text-center">
+      <h4>Пользователи</h4>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-xl-5 col-lg-5 col-md-12 col-12 mt-2">
       <BaseButton
         type="button"
         class="w-100 btn-success"
@@ -14,11 +19,6 @@
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2 text-center">
-      <h4>Пользователи</h4>
-    </div>
-  </div>
-  <div class="row justify-content-center">
     <div class="col-xl-5 col-lg-5 col-md-12 col-12 mt-2">
       <LoadingSpinner v-if="isLoading || isRegisterLoading" />
       <UsersList v-else :users="users" />
@@ -27,35 +27,29 @@
   <BaseModal name="Добавление пользователя" :isOpen="isOpenModal" @close="modalCancel" @ok="modalOk">
     <template #default>
       <form @submit.prevent="modalOk">
-        <div class="row g-2">
-          <div class="col-md">
-            <div class="form-floating">
-              <input v-model="dto.login" type="text" class="form-control" required name="login" />
-              <label class="form-label">Login</label>
+        <div class="row g-2 justify-content-center">
+          <div class="col-8">
+            <div class="form-floating mb-1">
+              <input id="floatingInput" type="email" class="form-control" placeholder="name@example.com" />
+              <label for="floatingInput">Эл. почта</label>
             </div>
           </div>
-          <div class="col-md">
-            <div class="form-floating">
-              <input v-model="dto.email" type="email" class="form-control" required name="email" />
-              <label class="form-label">Email</label>
+          <div class="col-8">
+            <div class="form-floating mb-1">
+              <input id="floatingInput" type="text" class="form-control" placeholder="name@example.com" />
+              <label for="floatingInput">Логин</label>
             </div>
           </div>
-          <div class="col-md">
-            <div class="form-floating">
-              <input v-model="dto.password" type="password" class="form-control" required name="password" />
-              <label class="form-label">Password</label>
+          <div class="col-8">
+            <div class="form-floating mb-1">
+              <input id="floatingInput" type="password" class="form-control" placeholder="name@example.com" />
+              <label for="floatingInput">Пароль</label>
             </div>
           </div>
-          <div class="col-md">
-            <div class="form-floating">
-              <input
-                v-model="dto.password_confirmation"
-                type="password"
-                class="form-control"
-                required
-                name="password_confirmation"
-              />
-              <label class="form-label">Password confirm</label>
+          <div class="col-8">
+            <div class="form-floating mb-1">
+              <input id="floatingInput" type="password" class="form-control" placeholder="name@example.com" />
+              <label for="floatingInput">Подтверждение пароля</label>
             </div>
           </div>
         </div>

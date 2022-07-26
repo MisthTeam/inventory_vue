@@ -26,9 +26,8 @@ const useUserStore = defineStore({
     },
 
     async register(responseData: registerUserParams) {
-      const response = await api.post<ApiResponse, AuthResponse>("auth/register", responseData);
-      this.setBearerToken(response.access_token);
-      return (this.user = response.user);
+      const response = await api.post<ApiResponse, User>("auth/register", responseData);
+      return response;
     },
     async login(responseData: loginUserParams) {
       const response = await api.post<ApiResponse, AuthResponse>("auth/login", responseData);

@@ -8,12 +8,6 @@ export default [
     meta: { guest: true },
   },
   {
-    path: "/register",
-    name: "auth.register",
-    component: () => import("@/views/Auth/RegisterView.vue"),
-    meta: { guest: true },
-  },
-  {
     path: "/logout",
     name: "auth.logout",
     redirect: () => {

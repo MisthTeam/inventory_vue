@@ -10,12 +10,12 @@
     <div class="mb-3 row">
       <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
       <div class="col-sm-10">
-        <input id="inputPassword" v-model="password" type="password" class="form-control" />
+        <input id="inputPassword" v-model="password" :disabled="isLoading" type="password" class="form-control" />
       </div>
     </div>
     <div class="row justify-content-center text-center">
       <div class="col-lg-8">
-        <button class="btn btn-dark" type="submit">Сохранить</button>
+        <BaseButton :disabled="isLoading" class="btn-dark" type="submit">Сохранить</BaseButton>
       </div>
     </div>
   </form>
@@ -24,16 +24,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { User } from "@/stores/user/types";
+import { updatePassword } from "@/hooks/user";
 
 const password = ref("");
+const { isLoading, fetching } = updatePassword();
 
 interface Props {
   user: User;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
-const updateUser = () => {
-  console.log(password.value);
+const updateUser = async () => {
+  await fetching(props.user.id, password.value);
+  password.value = "";
 };
 </script>

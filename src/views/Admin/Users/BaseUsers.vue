@@ -30,30 +30,64 @@
         <div class="row g-2 justify-content-center">
           <div class="col-8">
             <div class="form-floating mb-1">
-              <input id="floatingInput" type="email" class="form-control" placeholder="name@example.com" />
-              <label for="floatingInput">Эл. почта</label>
+              <input
+                id="floatingInputEmail"
+                v-model="dto.email"
+                type="email"
+                class="form-control"
+                required
+                placeholder="name@example.com"
+              />
+              <label for="floatingInputEmail">Эл. почта</label>
             </div>
           </div>
           <div class="col-8">
             <div class="form-floating mb-1">
-              <input id="floatingInput" type="text" class="form-control" placeholder="name@example.com" />
-              <label for="floatingInput">Логин</label>
+              <input
+                id="floatingInputLogin"
+                v-model="dto.login"
+                type="text"
+                class="form-control"
+                required
+                placeholder="name@example.com"
+              />
+              <label for="floatingInputLogin">Логин</label>
             </div>
           </div>
           <div class="col-8">
             <div class="form-floating mb-1">
-              <input id="floatingInput" type="password" class="form-control" placeholder="name@example.com" />
-              <label for="floatingInput">Пароль</label>
+              <input
+                id="floatingInputPassword"
+                v-model="dto.password"
+                type="password"
+                class="form-control"
+                required
+                placeholder="name@example.com"
+              />
+              <label for="floatingInputPassword">Пароль</label>
             </div>
           </div>
           <div class="col-8">
             <div class="form-floating mb-1">
-              <input id="floatingInput" type="password" class="form-control" placeholder="name@example.com" />
-              <label for="floatingInput">Подтверждение пароля</label>
+              <input
+                id="floatingInputPassword2"
+                v-model="dto.password_confirmation"
+                type="password"
+                class="form-control"
+                required
+                placeholder="name@example.com"
+              />
+              <label for="floatingInputPassword2">Подтверждение пароля</label>
             </div>
           </div>
+          <BaseButton type="submit" class="btn-success"> Добавить </BaseButton>
         </div>
       </form>
+    </template>
+    <template #footer="{ closeModal }">
+      <button ref="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="closeModal">
+        Отмена
+      </button>
     </template>
   </BaseModal>
 </template>
@@ -62,7 +96,7 @@ import { getUsers } from "@/hooks/user";
 import UsersList from "@/components/Admin/Users/UsersList.vue";
 import { ref, shallowRef, watch } from "vue";
 import useRegister from "@/hooks/auth/useRegister";
-
+const closeBtn = ref<HTMLButtonElement | null>(null);
 const initialDTO = {
   login: "",
   password: "",
@@ -88,7 +122,11 @@ const modalCancel = () => {
   }
 };
 
-const modalOk = () => onSubmit(dto.value);
+const modalOk = () => {
+  onSubmit(dto.value);
+  modalCancel();
+  closeBtn.value?.click();
+};
 
 watch(register, (value) => {
   if (value) {

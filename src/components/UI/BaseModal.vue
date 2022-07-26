@@ -8,10 +8,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="close"></button>
           </div>
           <div class="modal-body">
-            <slot> </slot>
+            <slot :close="close" :ok="confirm"> </slot>
           </div>
           <div class="modal-footer">
-            <slot name="footer" :close="close" :ok="confirm">
+            <slot name="footer" :closeModal="close" :ok="confirm">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="$emit('close')">
                 Отмена
               </button>

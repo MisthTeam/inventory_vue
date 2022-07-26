@@ -60,6 +60,11 @@ const useUserStore = defineStore({
       });
       return (this.user = response);
     },
+    async updatePassword(id: number, password: string) {
+      await api.post<ApiResponse>(`admin/users/passwd/${id}`, {
+        password,
+      });
+    },
   },
 });
 

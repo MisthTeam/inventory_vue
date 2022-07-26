@@ -6,9 +6,11 @@ export type fetchItemsParams = {
   page?: number;
   type?: string;
   search?: string;
-  filter?: {
-    [key: string]: string | string[] | number;
-  };
+  filter?: ItemsFilterParams | null;
+};
+
+export type ItemsFilterParams = {
+  [key: string]: string | string[] | number;
 };
 
 export type fetchItemParams = {

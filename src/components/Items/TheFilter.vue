@@ -8,6 +8,7 @@
               <input
                 v-model.lazy="capacity"
                 min="0"
+                step="0.1"
                 type="number"
                 placeholder="Введите емкость"
                 title="capacity"
@@ -31,7 +32,7 @@
         </div>
         <div v-if="variables.includes('socket')" class="row justify-content-center">
           <div class="col-lg-8">
-            <BaseSelector v-model="socket" :options="specification.CPU.socket" />
+            <BaseSelector v-model="socket" :options="specification?.CPU?.socket" />
           </div>
         </div>
       </template>
@@ -44,7 +45,7 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { fetchItemsParams } from "@/stores/items/types";
+import { fetchItemsParams, ItemsFilterParams } from "@/stores/items/types";
 import { convertedValues, filteredTypes } from "@/utils/helpers";
 import { computed, ref, watch } from "vue";
 
@@ -52,7 +53,6 @@ interface Props {
   value: string;
   specification: any;
   params?: fetchItemsParams;
-  fetching: (params?: fetchItemsParams) => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -60,6 +60,10 @@ const props = withDefaults(defineProps<Props>(), {
   specification: () => ({}),
   params: () => ({}),
 });
+
+const emit = defineEmits<{
+  (event: "updateFilterParams", value: ItemsFilterParams): void;
+}>();
 
 const filtered = computed(() => filteredTypes.filter((t) => t.type.includes(props.value)));
 
@@ -83,17 +87,12 @@ watch(
 
 const onSubmit = () => {
   const howMultiply = convertedValues[unit.value as keyof typeof convertedValues] ?? 1;
-  const multiplyVolume = howMultiply ** Number(capacity.value);
-  const data = {
-    volume: multiplyVolume === 1 ? "" : multiplyVolume,
+  const multiplyVolume = Number(capacity.value) * howMultiply;
+
+  emit("updateFilterParams", {
+    volume: multiplyVolume === 0 ? "" : multiplyVolume,
     socket: socket.value,
     hhz: firstHhz.value && secondHhz.value ? [firstHhz.value, secondHhz.value] : firstHhz.value || secondHhz.value,
-  };
-  props.fetching({
-    ...props.params,
-    filter: {
-      ...data,
-    },
   });
 };
 </script>

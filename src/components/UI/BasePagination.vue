@@ -30,13 +30,17 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
 interface Props {
   modelValue?: number;
   totalPages: number;
   rangeSize?: number;
 }
+
+const router = useRouter();
+const route = useRoute();
 
 const props = withDefaults(defineProps<Props>(), {
   totalPages: 1,
@@ -98,6 +102,14 @@ const isPrevControlsActive = computed(() => {
 const isNextControlsActive = computed(() => {
   return props.modelValue < props.totalPages;
 });
+
+// watch(
+//   () => props.modelValue,
+//   (page) => {
+//     console.log(page);
+//     router.push({ query: { page } });
+//   },
+// );
 
 const changePage = (page: number | null) => {
   if (page) emit("update:modelValue", page);

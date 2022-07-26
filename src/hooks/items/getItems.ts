@@ -1,7 +1,7 @@
 import { useItemsStore } from "@/stores";
 import { fetchItemsParams } from "@/stores/items/types";
 import { storeToRefs } from "pinia";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import { useToast } from "vue-toastification";
 
 export default function getItems() {
@@ -21,7 +21,6 @@ export default function getItems() {
     }
   };
 
-  onMounted(fetching);
   onUnmounted(() => {
     itemsStore.$reset();
   });

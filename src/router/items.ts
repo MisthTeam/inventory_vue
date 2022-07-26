@@ -12,7 +12,7 @@ export default [
     meta: { role: "items:control", title: "Добавить предмет" },
   },
   {
-    path: "/items/:id",
+    path: "/items/:id(\\d+)",
     name: "Iteminfo",
     component: () => import("@/views/Items/ItemView.vue"),
     meta: { role: "items:control", title: "Инфо о комплектующем" },

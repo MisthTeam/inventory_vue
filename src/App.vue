@@ -21,7 +21,7 @@ const { user } = storeToRefs(userStore);
 
 <template>
   <Navbar :user="user" :isLoggenIn="userStore.isLoggenIn" />
-  <router-view :key="$route.fullPath" v-slot="{ Component }">
+  <router-view :key="$route.path" v-slot="{ Component }">
     <template v-if="Component">
       <Transition name="fade" mode="out-in">
         <component :is="Component" />

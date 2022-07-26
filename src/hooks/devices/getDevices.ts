@@ -1,7 +1,7 @@
 import { useDevicesStore } from "@/stores";
 import { fetchDevicesParams } from "@/stores/devices/types";
 import { storeToRefs } from "pinia";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
 export default function getDevices() {
   const isLoading = ref(true);
@@ -17,7 +17,6 @@ export default function getDevices() {
     isLoading.value = false;
   };
 
-  onMounted(fetching);
   onUnmounted(() => {
     devicesStore.$reset();
   });

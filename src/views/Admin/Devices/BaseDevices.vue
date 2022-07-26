@@ -1,22 +1,63 @@
 <script setup lang="ts">
 import { getDevices } from "@/hooks/devices";
 import { deviceTypes } from "@/utils/helpers";
-import { ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import DeviceList from "@/components/Admin/Devices/DevicesList.vue";
+import { useRoute, useRouter } from "vue-router";
+import { fetchDevicesParams } from "@/stores/devices/types";
 
 const { devices, isLoading, fetching } = getDevices();
 
-const searchQuery = ref(""); // Сортировка по выбранному селектору
-const sortedValue = ref(""); // Фильтрация по названию
-const page = ref(devices.value.meta?.current_page || 1);
+const route = useRoute();
+const router = useRouter();
 
-watch([page, sortedValue, searchQuery], () => {
-  fetching({
-    page: page.value,
-    limit: 10,
-    search: searchQuery.value,
-    type: sortedValue.value,
-  });
+const searchQuery = ref(route.query.search?.toString() || ""); // Фильтрация по названию
+const sortedValue = ref(route.query.sorted?.toString() || ""); // Сортировка по выбранному селектору
+const page = ref(Number(route.query.page) || 1);
+
+const params = computed<fetchDevicesParams>(() => ({
+  page: page.value,
+  search: searchQuery.value,
+  type: sortedValue.value,
+  limit: 10,
+})); // Параметры
+
+watch([page, sortedValue, searchQuery], ([newPage, newSorted, newSearch], [oldPage, oldSorted, oldSearch]) => {
+  if (newSorted != oldSorted || newSearch != oldSearch) {
+    router.push({
+      path: route.path,
+      query: {
+        sorted: newSorted,
+        search: newSearch,
+        page: 1,
+      },
+    });
+  } else {
+    router.push({
+      path: route.path,
+      query: {
+        sorted: newSorted,
+        search: newSearch,
+        page: newPage,
+      },
+    });
+  }
+
+  fetching(params.value);
+});
+
+watch(
+  () => route.query,
+  (queryParams) => {
+    page.value = Number(queryParams.page || 1);
+    sortedValue.value = String(queryParams.sorted || "");
+    searchQuery.value = String(queryParams.search || "");
+  },
+  { deep: true },
+);
+
+onMounted(() => {
+  fetching(params.value);
 });
 </script>
 

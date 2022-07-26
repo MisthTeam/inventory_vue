@@ -88,6 +88,11 @@ watch(
 
 onMounted(() => {
   fetching(params.value);
+  deviceTypes.push({
+    id: 9,
+    type: "STATUS",
+    specification: [],
+  });
 });
 </script>
 <template>

@@ -3,7 +3,7 @@ export default [
     path: "/admin",
     name: "Admin",
     component: () => import("@/views/Admin/ViewAdmin.vue"),
-    meta: { role: "items:control" },
+    meta: { role: "items:control", title: "Админка" },
     children: [
       {
         path: "device",

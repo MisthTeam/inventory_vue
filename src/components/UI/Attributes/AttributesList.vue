@@ -5,13 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import { UpdateAttr } from "@/stores/devices/types";
-import { AttributeField } from "@/stores/items/types";
+import { UpdateAttr } from "@/stores/attrubutes/types";
+import { Attribute } from "@/stores/attrubutes/types";
 
 import AttributeItem from "./AttributeField.vue";
 
 interface Props {
-  attributes?: Array<AttributeField>;
+  attributes?: Array<Attribute>;
   disabled?: boolean;
 }
 defineProps<Props>();

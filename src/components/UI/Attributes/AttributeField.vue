@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { AttributeField } from "@/stores/items/types";
-import { UpdateAttr } from "@/stores/devices/types";
+import { Attribute } from "@/stores/attrubutes/types";
+import { UpdateAttr } from "@/stores/attrubutes/types";
 
 interface Props {
-  attribute: AttributeField;
+  attribute: Attribute;
   disabled?: boolean;
 }
 

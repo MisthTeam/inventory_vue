@@ -58,35 +58,34 @@
         </div>
         <form class="d-flex" @submit.prevent="onSearch">
           <div class="input-group-prepend show">
-            <input
-              v-model="search"
-              :disabled="isLoading"
-              class="form-control me-2"
-              type="search"
-              placeholder="Поиск"
-              aria-label="Search"
-            />
-            <div
-              class="dropdown-menu"
-              :class="{ show: result }"
-              x-placement="bottom-start"
-              style="position: absolute; will-change: transform; top: 0px; transform: translate3d(0px, 38px, 0px)"
-            >
-              <template v-if="result">
-                <router-link
-                  v-for="item in result"
-                  :key="item.id"
-                  :to="{ path: `/items/${item.id}` }"
-                  class="dropdown-item"
-                >
-                  {{ item.meta.name }}
-                </router-link>
-              </template>
-              <!-- <a class="dropdown-item">Another action</a>
-              <a class="dropdown-item">Something else here</a>
-              <div role="separator" class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a> -->
-            </div>
+            <OnClickOutside @trigger="closePopup">
+              <input
+                v-model="search"
+                :disabled="isLoading"
+                class="form-control me-2"
+                type="search"
+                placeholder="Поиск"
+                aria-label="Search"
+                @click="openPopup"
+              />
+              <div
+                class="dropdown-menu"
+                :class="{ show: showPopup }"
+                x-placement="bottom-start"
+                style="position: absolute; will-change: transform; top: 0px; transform: translate3d(0px, 38px, 0px)"
+              >
+                <template v-if="result">
+                  <router-link
+                    v-for="item in result"
+                    :key="item.id"
+                    :to="{ path: `/items/${item.id}` }"
+                    class="dropdown-item"
+                  >
+                    {{ item.meta.name }}
+                  </router-link>
+                </template>
+              </div>
+            </OnClickOutside>
           </div>
           <BaseButton :hideText="isLoading" :disabled="isLoading" type="submit" class="btn-outline-success">
             Найти
@@ -103,11 +102,12 @@ import { User } from "@/stores/user/types";
 import { api } from "@/utils/api";
 import { AxiosResponse } from "axios";
 import { ref, watch } from "vue";
-import { vOnClickOutside } from "@vueuse/components";
+import { OnClickOutside } from "@vueuse/components";
 
 const search = ref("");
 const result = ref<Item[] | null>(null);
 const isLoading = ref(false);
+const showPopup = ref(false);
 
 withDefaults(
   defineProps<{
@@ -125,7 +125,10 @@ const onSearch = async () => {
     const searchRes = await api.post<AxiosResponse, Item[]>("search", {
       text: search.value,
     });
-    if (searchRes.length) result.value = searchRes;
+    if (searchRes.length) {
+      result.value = searchRes;
+      showPopup.value = true;
+    }
   } catch (error) {
   } finally {
     isLoading.value = false;
@@ -133,11 +136,17 @@ const onSearch = async () => {
 };
 
 watch(search, (value) => {
-  if (!value.length) result.value = null;
+  if (!value.length) {
+    result.value = null;
+    showPopup.value = false;
+  }
 });
 
+const openPopup = () => {
+  if (result.value) showPopup.value = true;
+};
+
 const closePopup = () => {
-  result.value = null;
-  search.value = "";
+  if (showPopup.value) showPopup.value = false;
 };
 </script>

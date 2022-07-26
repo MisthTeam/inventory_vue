@@ -1,7 +1,7 @@
 <template>
   <nav v-if="isLoggenIn" class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
     <div class="container-fluid">
-      <router-link class="navbar-brand" to="/"> Inventory </router-link>
+      <router-link class="navbar-brand" to="/" replace> Inventory </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -16,12 +16,10 @@
       <div id="navbarSupportedContent" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link active-class="active" to="/" aria-current="page" class="nav-link"> Главная </router-link>
+            <router-link to="/" aria-current="page" class="nav-link"> Главная </router-link>
           </li>
           <li class="nav-item">
-            <router-link active-class="active" to="/items" aria-current="page" class="nav-link">
-              Комплектующие
-            </router-link>
+            <router-link to="/items" aria-current="page" class="nav-link"> Комплектующие </router-link>
           </li>
         </ul>
         <div class="d-flex">

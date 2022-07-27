@@ -11,6 +11,7 @@
       class="page-item"
       :class="{
         active: page === modelValue,
+        disabled: page === '...',
       }"
     >
       <span class="page-link pointer" @click.prevent="changePage(page)"> {{ page }}</span>
@@ -30,17 +31,13 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { computed } from "vue";
 
 interface Props {
   modelValue?: number;
   totalPages: number;
   rangeSize?: number;
 }
-
-const router = useRouter();
-const route = useRoute();
 
 const props = withDefaults(defineProps<Props>(), {
   totalPages: 1,
@@ -52,7 +49,7 @@ const emit = defineEmits<{
   (event: "update:modelValue", id: number): void;
 }>();
 
-const pagination = computed((): (number | null)[] => {
+const pagination = computed((): (number | null | string)[] => {
   const res = [];
 
   const minPaginationElems = 5 + props.rangeSize * 2;
@@ -73,7 +70,7 @@ const pagination = computed((): (number | null)[] => {
       }
     } else {
       res.push(1);
-      res.push(null);
+      res.push("...");
     }
 
     if (isEndBoundaryReached) {
@@ -85,7 +82,7 @@ const pagination = computed((): (number | null)[] => {
       for (let i = rangeStart; i <= rangeEnd; i++) {
         res.push(i);
       }
-      res.push(null);
+      res.push("...");
       res.push(props.totalPages);
     }
   } else {
@@ -103,17 +100,13 @@ const isNextControlsActive = computed(() => {
   return props.modelValue < props.totalPages;
 });
 
-// watch(
-//   () => props.modelValue,
-//   (page) => {
-//     console.log(page);
-//     router.push({ query: { page } });
-//   },
-// );
-
-const changePage = (page: number | null) => {
-  if (page) emit("update:modelValue", page);
+const changePage = (page: number | null | string) => {
+  if (typeof page === "number") emit("update:modelValue", page);
 };
+
+if (props.modelValue > props.totalPages) {
+  changePage(1);
+}
 </script>
 <style scoped>
 .pointer {

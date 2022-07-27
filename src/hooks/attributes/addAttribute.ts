@@ -15,7 +15,6 @@ export default function addAttribute() {
       toast.success("Дополнительное поле добавлено");
       return attribute.value;
     } catch (error) {
-      toast.error("Произошла ошибка. Попробуйте позже");
       import.meta.env.DEV && console.error(error);
     } finally {
       isLoading.value = false;

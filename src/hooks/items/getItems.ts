@@ -14,7 +14,6 @@ export default function getItems() {
     try {
       itemsRef.value = await itemsStore.getItems(params);
     } catch (error) {
-      toast.error("Произошла ошибка при получении данных. Попробуйте позже");
       import.meta.env.DEV && console.error(error);
     } finally {
       isLoading.value = false;

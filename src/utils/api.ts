@@ -60,6 +60,7 @@ api.interceptors.response.use(
         break;
 
       default:
+        toast.error("Произошла ошибка. Попробуйте позже");
         break;
     }
 

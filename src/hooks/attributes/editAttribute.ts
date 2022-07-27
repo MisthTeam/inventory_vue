@@ -13,7 +13,6 @@ export default function editAttribute() {
     try {
       await attributesStore.editAttribute({ id, device_type, meta, name });
     } catch (error) {
-      toast.error("Произошла ошибка. Попробуйте позже");
       import.meta.env.DEV && console.error(error);
     }
     isLoading.value = false;

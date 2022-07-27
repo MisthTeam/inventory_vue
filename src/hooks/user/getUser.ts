@@ -15,8 +15,6 @@ export default function getUser(id: number) {
       user.value = await userStore.getUserById(id);
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      const { response } = error as AxiosError;
-      if (response?.status != 404) toats.error("Произошла ошибка при получении данных. Попробуйте позже");
     }
     isLoading.value = false;
   };

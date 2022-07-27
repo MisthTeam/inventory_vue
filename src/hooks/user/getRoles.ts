@@ -14,7 +14,6 @@ export default function getRoles() {
       roles.value = await userStore.getRoles();
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      toats.error("Произошла ошибка при получении данных. Попробуйте позже");
     }
     isLoading.value = false;
   };

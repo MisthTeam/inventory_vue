@@ -18,7 +18,6 @@ export default function editDevice() {
       });
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      toast.error("Произошла ошибка, попробуйте позже");
     }
     isLoading.value = false;
   };

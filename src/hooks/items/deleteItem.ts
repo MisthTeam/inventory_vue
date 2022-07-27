@@ -15,7 +15,6 @@ export default function deleteItem() {
       route.push("/items");
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      toast.error("Произошла ошибка. Повторите позже");
     }
     isLoading.value = false;
   };

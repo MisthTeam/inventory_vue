@@ -12,7 +12,6 @@ export default function deleteAttribute() {
     try {
       await attributesStore.deleteAttribute(attr_id);
     } catch (error) {
-      toast.error("Произошла ошибка. Попробуйте позже");
       import.meta.env.DEV && console.error(error);
     }
     isLoading.value = false;

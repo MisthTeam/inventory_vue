@@ -13,7 +13,6 @@ export default function updatePassword() {
       await userStore.updatePassword(id, password);
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      toats.error("Произошла ошибка. Попробуйте позже");
     } finally {
       isLoading.value = false;
     }

@@ -14,7 +14,6 @@ export default function editItem(isEditing: Ref<boolean>) {
       isEditing.value = false;
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      toast.error("Случилась ошибка при изменении");
     }
     isLoading.value = false;
   };

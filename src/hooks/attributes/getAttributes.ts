@@ -15,7 +15,6 @@ export default function getAttributes() {
     try {
       attributes.value = await attributesStore.getAttrubtes();
     } catch (error) {
-      toast.error("Произошла ошибка при получении данных. Попробуйте позже");
       import.meta.env.DEV && console.error(error);
     }
     isLoading.value = false;

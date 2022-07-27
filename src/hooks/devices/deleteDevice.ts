@@ -14,7 +14,6 @@ export function deleteDevice(id: number) {
       device.value = await devicesStore.deleteDevice(id);
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      toast.error("Произошла ошибка при удалении файла, попробуйте позже");
     }
     isLoading.value = false;
     return device.value;

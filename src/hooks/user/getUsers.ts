@@ -14,7 +14,6 @@ export default function getUsers() {
       users.value = await userStore.getUsers();
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      "Произошла ошибка при получении данных. Попробуйте позже");
     }
     isLoading.value = false;
   };

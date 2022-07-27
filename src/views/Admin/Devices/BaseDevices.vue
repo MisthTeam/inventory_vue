@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getDevices } from "@/hooks/devices";
 import { deviceTypes } from "@/utils/helpers";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import DeviceList from "@/components/Admin/Devices/DevicesList.vue";
 import { useRoute, useRouter } from "vue-router";
 import { fetchDevicesParams } from "@/stores/devices/types";
@@ -23,38 +23,24 @@ const params = computed<fetchDevicesParams>(() => ({
 })); // Параметры
 
 watch([page, sortedValue, searchQuery], ([newPage, newSorted, newSearch], [oldPage, oldSorted, oldSearch]) => {
-  if (newSorted != oldSorted || newSearch != oldSearch) {
-    router.push({
-      path: route.path,
-      query: {
-        sorted: newSorted,
-        search: newSearch,
-        page: 1,
-      },
-    });
-  } else {
-    router.push({
-      path: route.path,
-      query: {
-        sorted: newSorted,
-        search: newSearch,
-        page: newPage,
-      },
-    });
-  }
+  if (route.name !== "AdminDevices") return;
+  router.push({
+    path: route.path,
+    query: {
+      sorted: newSorted,
+      search: newSearch,
+      page: newPage,
+    },
+  });
 
   fetching(params.value);
 });
 
-watch(
-  () => route.query,
-  (queryParams) => {
-    page.value = Number(queryParams.page || 1);
-    sortedValue.value = String(queryParams.sorted || "");
-    searchQuery.value = String(queryParams.search || "");
-  },
-  { deep: true },
-);
+watchEffect(() => {
+  page.value = Number(route.query?.page || 1);
+  sortedValue.value = String(route.query?.sorted || "");
+  searchQuery.value = String(route.query?.search || "");
+});
 
 onMounted(() => {
   fetching(params.value);

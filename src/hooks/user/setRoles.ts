@@ -13,7 +13,6 @@ export default function setRoles() {
       toats.success("Роли успешно изменены");
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      "Произошла ошибка при получении данных. Попробуйте позже");
     } finally {
       isLoading.value = false;
     }

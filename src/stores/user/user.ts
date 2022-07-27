@@ -54,8 +54,8 @@ const useUserStore = defineStore({
       const reponse = await api.get<ApiResponse, Role[]>("admin/users/roles");
       return reponse;
     },
-    async setRoles(roles: number[]) {
-      const response = await api.post<ApiResponse, User>(`admin/users/roles/${this.user?.id}`, {
+    async setRoles(id: number, roles: number[]) {
+      const response = await api.post<ApiResponse, User>(`admin/users/roles/${id}`, {
         roles,
       });
       return (this.user = response);

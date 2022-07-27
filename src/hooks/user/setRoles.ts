@@ -6,14 +6,14 @@ export default function setRoles() {
   const isLoading = ref(false);
   const userStore = useUserStore();
   const toats = useToast();
-  const setRolesToUser = async (dto: number[]) => {
+  const setRolesToUser = async (id: number, dto: number[]) => {
     try {
       isLoading.value = true;
-      await userStore.setRoles(dto);
+      await userStore.setRoles(id, dto);
       toats.success("Роли успешно изменены");
     } catch (error) {
       import.meta.env.DEV && console.error(error);
-      toats.error("Произошла ошибка при получении данных. Попробуйте позже");
+      "Произошла ошибка при получении данных. Попробуйте позже");
     } finally {
       isLoading.value = false;
     }

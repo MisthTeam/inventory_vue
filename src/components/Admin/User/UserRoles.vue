@@ -37,6 +37,6 @@ const { setRolesToUser, isLoading: isSetLoading } = setRoles();
 
 const addUserRoles = () => {
   const rolesId = dto.value.map((v) => roles.value.find((r) => r.value === v)?.id) as number[];
-  setRolesToUser(rolesId);
+  setRolesToUser(props.user.id, rolesId);
 };
 </script>

@@ -15,9 +15,9 @@ const router = useRouter();
 const searchQuery = ref(route.query.search?.toString() || ""); // Фильтрация по названию
 const sortedValue = ref(route.query.sorted?.toString() || ""); // Сортировка по выбранному селектору
 const statusValue = ref<string | number>(""); // Сортировка по статусу
-const page = ref(Number(route.query.page) || 1);
-const limit = ref(Number(route.query.limit) || 10);
-const filterParams = ref<ItemsFilterParams | null>(null);
+const page = ref(Number(route.query.page) || 1); // Страница на которой сейчас
+const limit = ref(Number(route.query.limit) || 10); // Лимит предметов на стр
+const filterParams = ref<ItemsFilterParams | null>(null); // Параметры для фильтрации
 
 const params = computed<fetchItemsParams>(() => ({
   page: page.value,
@@ -27,8 +27,10 @@ const params = computed<fetchItemsParams>(() => ({
   filter: filterParams.value,
 })); // Параметры
 
+const limitedValues = computed(() => [10, 50, 100]); // Массив значений, можно выбрать по скольки устанавливать лимит
+
 const { itemsRef, isLoading, fetching } = getItems(); // Получение items из БД
-const { statusList } = getStatused();
+const { statusList } = getStatused(); // Получение статусов с бэка
 
 onStartTyping(() => {
   if (input.value) input.value?.focus();
@@ -39,6 +41,7 @@ const updateFilterParams = (newParams: ItemsFilterParams) => (filterParams.value
 watch(
   () => statusValue.value,
   (value) => {
+    if (!statusList.value.length) return;
     filterParams.value = { ...filterParams.value, status: value };
   },
 );
@@ -91,12 +94,13 @@ onMounted(() => {
     </div>
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
-        <BaseSelector v-model="sortedValue" :options="deviceTypes.map((t) => t.type)" />
+        <BaseSelector v-model="sortedValue" :disabled="isLoading" :options="deviceTypes.map((t) => t.type)" />
       </div>
       <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
         <input
           ref="input"
           v-model.lazy="searchQuery"
+          :disabled="isLoading"
           type="text"
           class="form-control"
           placeholder="Поиск"
@@ -107,7 +111,7 @@ onMounted(() => {
     </div>
     <div class="row justify-content-center">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-2">
-        <select v-model="statusValue" class="form-select">
+        <select v-model="statusValue" :disabled="!statusList.length || isLoading" class="form-select">
           <option selected value="">Все статусы</option>
           <option v-for="option in statusList" :key="option.id" :value="option.id">
             {{ option.name }}
@@ -131,13 +135,18 @@ onMounted(() => {
     </div>
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-4 col-md-6 col-12">
-        <BasePagination v-model="page" :current-page="page" :totalPages="itemsRef.meta?.last_page || 1" />
+        <BasePagination
+          v-model="page"
+          :disabled="isLoading"
+          :current-page="page"
+          :totalPages="itemsRef.meta?.last_page || 1"
+        />
       </div>
       <div class="col-xl-1 col-lg-2 col-md-2 col-sm-4 col-4">
-        <select v-model="limit" class="form-select">
-          <option selected value="10">10</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
+        <select v-model="limit" :disabled="isLoading" class="form-select">
+          <option v-for="limVal in limitedValues" :key="limVal" :value="limVal">
+            {{ limVal }}
+          </option>
           <option value="50000">all</option>
         </select>
       </div>

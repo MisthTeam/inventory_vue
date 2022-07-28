@@ -5,7 +5,7 @@ import { ApiResponse } from "@/interfaces/api.interface";
 import { Status } from "@/stores/items/types";
 
 export default function getStatused() {
-  const statusList = ref<Array<Status> | null>(null);
+  const statusList = ref<Array<Status>>([]);
   const toast = useToast();
   const fetching = async () => {
     try {

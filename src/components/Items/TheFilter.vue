@@ -5,38 +5,50 @@
         <div class="row justify-content-center mt-2">
           <div class="col-lg-8">
             <template v-if="variables.includes('volume')">
-            <div class="input-group">
-              <input
-                v-model.lazy="capacity"
-                min="0"
-                step="0.1"
-                type="number"
-                placeholder="Введите емкость"
-                title="capacity"
-                class="form-control"
-              />
-              <select id="inputGroupSelect01" v-model="unit" title="unit" class="form-select" style="max-width: 30%">
-                <option selected value="">Единица измерения</option>
-                <option value="TB">TB</option>
-                <option value="GB">GB</option>
-              </select>
-            </div>
+              <div class="input-group">
+                <input
+                  v-model.lazy="capacity"
+                  min="0"
+                  step="0.1"
+                  type="number"
+                  :disabled="!unit.length"
+                  placeholder="Введите емкость"
+                  title="capacity"
+                  class="form-control"
+                />
+                <select id="inputGroupSelect01" v-model="unit" title="unit" class="form-select" style="max-width: 30%">
+                  <option selected value="">Единица измерения</option>
+                  <option value="TB">TB</option>
+                  <option value="GB">GB</option>
+                </select>
+              </div>
             </template>
           </div>
         </div>
         <div v-if="variables.includes('hhz')" class="row justify-content-center mb-2">
           <div class="col-lg-8">
             <div class="input-group mb-3">
-              <input v-model.lazy="firstHhz" min="0" type="number" step="0.1" class="form-control" placeholder="Минимальная частота в HHz" />
-              <input v-model.lazy="secondHhz" type="number" step="0.1" class="form-control" placeholder="Максимальная частота в HHz" />
+              <input
+                v-model.lazy="firstHhz"
+                min="0"
+                type="number"
+                step="0.1"
+                class="form-control"
+                placeholder="Минимальная частота в HHz"
+              />
+              <input
+                v-model.lazy="secondHhz"
+                type="number"
+                step="0.1"
+                class="form-control"
+                placeholder="Максимальная частота в HHz"
+              />
             </div>
           </div>
         </div>
         <div v-if="variables.includes('socket')" class="row justify-content-center">
           <div class="col-lg-8">
-            <BaseSelector v-model="socket" :options="specification?.CPU?.socket">
-              Все сокеты
-            </BaseSelector>
+            <BaseSelector v-model="socket" :options="specification?.CPU?.socket"> Все сокеты </BaseSelector>
           </div>
         </div>
       </template>

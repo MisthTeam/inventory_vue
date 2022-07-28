@@ -70,7 +70,7 @@
                 class="dropdown-menu"
                 :class="{ show: showPopup }"
                 x-placement="bottom-start"
-                style="position: absolute;"
+                style="position: absolute"
               >
                 <template v-if="result">
                   <router-link

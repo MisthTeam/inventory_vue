@@ -1,6 +1,6 @@
 <template>
   <ul class="pagination justify-content-center">
-    <li class="page-item" :class="{ disabled: !isPrevControlsActive }">
+    <li class="page-item" :class="{ disabled: !isPrevControlsActive || disabled }">
       <span class="page-link pointer" @click.prevent="changePage(modelValue - 1)"
         ><i class="bi bi-caret-left-fill"></i
       ></span>
@@ -11,12 +11,12 @@
       class="page-item"
       :class="{
         active: page === modelValue,
-        disabled: page === '...',
+        disabled: page === '...' || disabled,
       }"
     >
       <span class="page-link pointer" @click.prevent="changePage(page)"> {{ page }}</span>
     </li>
-    <li class="page-item" :class="{ disabled: !isNextControlsActive }">
+    <li class="page-item" :class="{ disabled: !isNextControlsActive || disabled }">
       <span class="page-link pointer" @click.prevent="changePage(modelValue + 1)"
         ><i class="bi bi-caret-right-fill"></i
       ></span>
@@ -37,12 +37,14 @@ interface Props {
   modelValue?: number;
   totalPages: number;
   rangeSize?: number;
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   totalPages: 1,
   modelValue: 1,
   rangeSize: 1,
+  disabled: false,
 });
 
 const emit = defineEmits<{

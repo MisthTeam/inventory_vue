@@ -1,9 +1,5 @@
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import dayjs from "dayjs";
 
-const convertTime = (time: string) =>
-  format(new Date(time), "dd.MM.yy", {
-    locale: ru,
-  });
+const convertTime = (time: string) => dayjs(time).format("DD.MM.YY");
 
 export default convertTime;

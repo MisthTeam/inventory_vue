@@ -104,9 +104,11 @@ onMounted(() => {
           aria-describedby="button-addon2"
         />
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-2">
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-2">
         <select v-model="statusValue" class="form-select">
-          <option selected value="">Все</option>
+          <option selected value="">Все статусы</option>
           <option v-for="option in statusList" :key="option.id" :value="option.id">
             {{ option.name }}
           </option>
@@ -125,7 +127,19 @@ onMounted(() => {
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <LoadingSpinner v-if="isLoading" />
         <ItemsList v-else :items="itemsRef.data" />
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-12">
         <BasePagination v-model="page" :current-page="page" :totalPages="itemsRef.meta?.last_page || 1" />
+      </div>
+      <div class="col-xl-1 col-lg-2 col-md-2 col-sm-4 col-4">
+        <select v-model="limit" class="form-select">
+          <option selected value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="50000">all</option>
+        </select>
       </div>
     </div>
   </div>

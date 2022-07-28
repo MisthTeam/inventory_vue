@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th scope="col">S/N</th>
-        <th scope="col">Тип устройства</th>
+        <th scope="col">Тип</th>
         <th scope="col">Инфо</th>
       </tr>
     </thead>

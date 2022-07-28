@@ -70,11 +70,11 @@
                 class="dropdown-menu"
                 :class="{ show: showPopup }"
                 x-placement="bottom-start"
-                style="position: absolute; will-change: transform; top: 0px; transform: translate3d(0px, 38px, 0px)"
+                style="position: absolute;"
               >
                 <template v-if="result">
                   <router-link
-                    v-for="item in result"
+                    v-for="item in result.splice(0, 10)"
                     :key="item.id"
                     :to="{ path: `/items/${item.id}` }"
                     class="dropdown-item"

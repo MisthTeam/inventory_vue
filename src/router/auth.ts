@@ -12,7 +12,7 @@ export default [
     name: "auth.logout",
     redirect: () => {
       const userStore = useUserStore();
-      userStore.logout();
+      userStore.setBearerToken();
       return { name: "auth.login" };
     },
   },

@@ -40,6 +40,7 @@
 import { ref } from "vue";
 import { User } from "@/stores/user/types";
 import { checkUserRole, updatePassword } from "@/hooks/user";
+import { useUserStore } from "@/stores";
 
 const password = ref("");
 const { isLoading, fetching } = updatePassword();
@@ -48,8 +49,10 @@ interface Props {
   user: User;
 }
 
+const authUser = useUserStore();
+
 const props = defineProps<Props>();
-const { isHasRole } = checkUserRole(props.user, "users:password");
+const { isHasRole } = checkUserRole(authUser.getUser, "users:password");
 
 const updateUser = async () => {
   await fetching(props.user.id, password.value);

@@ -47,7 +47,7 @@ router.beforeEach(async (to, from) => {
   if (to.meta?.role && auth.isLoggenIn) {
     const { isHasRole } = checkUserRole(auth.getUser, to.meta?.role as string);
     if (!isHasRole.value) {
-      toast.warning("У вас нет прав");
+      toast.error("У вас нет прав!");
       return { path: from.fullPath };
     }
   }

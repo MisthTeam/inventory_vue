@@ -41,14 +41,16 @@ import { ref } from "vue";
 import params from "@/components/Admin/User/UserParams.vue";
 import roles from "@/components/Admin/User/UserRoles.vue";
 import { checkUserRole } from "@/hooks/user";
+import { useUserStore } from "@/stores";
 
 interface Props {
   user: User | null;
 }
-const props = defineProps<Props>();
+const authUser = useUserStore();
+defineProps<Props>();
 const currentUserPage = ref<keyof typeof userComponents>("params");
 
-const { isHasRole: isEditRoles } = checkUserRole(props.user, "users:roles");
+const { isHasRole: isEditRoles } = checkUserRole(authUser.getUser, "users:roles");
 
 const userComponents = {
   params: "Параметры",

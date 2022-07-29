@@ -19,7 +19,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": ["off"],
     "vue/attribute-hyphenation": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    endOfLine: "auto",
+    endOfLine: 0,
   },
   ignorePatterns: ["dist", "assets"],
 };

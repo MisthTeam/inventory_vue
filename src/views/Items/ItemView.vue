@@ -6,11 +6,12 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-const userStore = useUserStore();
 const isEditing = ref(false);
 
+const user = useUserStore();
+const { isHasRole: isHasDelete } = checkUserRole(user.getUser, "items:delete");
+const { isHasRole: isHasEdit } = checkUserRole(user.getUser, "items:edit");
 const { item, isLoading } = getItem(route.params.id as string);
-const { isHasRole } = checkUserRole(userStore.getUser, "items:control");
 const { deleteIt, isDeleteLoading } = deleteItem();
 const { isUpdateLoading, editIt } = editItem(isEditing);
 const { statusList } = getStatused();
@@ -19,9 +20,16 @@ const { statusList } = getStatused();
   <LoadingSpinner v-if="isLoading" />
   <div v-else class="container">
     <div v-if="item && statusList" class="row justify-content-center align-items-center vh-100">
-      <div v-if="isHasRole" class="row justify-content-center">
+      <div class="row justify-content-center">
         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
-          <BaseButton v-if="!isEditing" class="w-100 btn-warning" @clickButton="() => (isEditing = !isEditing)">
+          <BaseButton
+            v-if="!isEditing"
+            class="w-100 btn-warning"
+            :class="{
+              disabled: !isHasEdit,
+            }"
+            @clickButton="() => (isEditing = !isEditing)"
+          >
             Изменить
           </BaseButton>
           <BaseButton
@@ -34,7 +42,14 @@ const { statusList } = getStatused();
           </BaseButton>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-6 col-12 mt-md-0 mt-2">
-          <BaseButton :disabled="isDeleteLoading" class="w-100 btn-danger" @clickButton="deleteIt(item!.id)">
+          <BaseButton
+            :disabled="isDeleteLoading"
+            class="w-100 btn-danger"
+            :class="{
+              disabled: !isHasDelete,
+            }"
+            @clickButton="deleteIt(item!.id)"
+          >
             Удалить
           </BaseButton>
         </div>

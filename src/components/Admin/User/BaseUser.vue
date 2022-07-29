@@ -14,6 +14,7 @@
               class="list-group-item list-group-item-action"
               :class="{
                 active: currentUserPage === component,
+                disabled: component === 'roles' && !isEditRoles,
               }"
               aria-current="true"
               @click="currentUserPage = component"
@@ -37,15 +38,17 @@
 <script setup lang="ts">
 import { User } from "@/stores/user/types";
 import { ref } from "vue";
-
 import params from "@/components/Admin/User/UserParams.vue";
 import roles from "@/components/Admin/User/UserRoles.vue";
+import { checkUserRole } from "@/hooks/user";
 
 interface Props {
   user: User | null;
 }
-defineProps<Props>();
+const props = defineProps<Props>();
 const currentUserPage = ref<keyof typeof userComponents>("params");
+
+const { isHasRole: isEditRoles } = checkUserRole(props.user, "users:roles");
 
 const userComponents = {
   params: "Параметры",

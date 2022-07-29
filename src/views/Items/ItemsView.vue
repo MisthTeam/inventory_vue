@@ -8,7 +8,11 @@ import { getItems, getStatused } from "@/hooks/items";
 import { deviceTypes } from "@/utils/helpers";
 import TheFilter from "@/components/Items/TheFilter.vue";
 import { fetchItemsParams, ItemsFilterParams } from "@/stores/items/types";
+import { checkUserRole } from "@/hooks/user";
+import { useUserStore } from "@/stores";
 
+const user = useUserStore();
+const { isHasRole } = checkUserRole(user.getUser, "items:create");
 const input = ref<HTMLInputElement | null>(null);
 const route = useRoute();
 const router = useRouter();
@@ -89,7 +93,16 @@ onMounted(() => {
   <div class="container mt-6">
     <div class="row justify-content-center">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-        <router-link to="/items/add" type="button" class="btn w-100 btn-dark"> Добавить комплектующий </router-link>
+        <router-link
+          to="/items/add"
+          type="button"
+          class="btn w-100 btn-dark"
+          :class="{
+            disabled: !isHasRole,
+          }"
+        >
+          Добавить комплектующий
+        </router-link>
       </div>
     </div>
     <div class="row justify-content-center">

@@ -9,6 +9,9 @@
       <BaseButton
         type="button"
         class="w-100 btn-success"
+        :class="{
+          disabled: !isAddUser,
+        }"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
         :disabled="isRegisterLoading"
@@ -96,6 +99,12 @@ import { getUsers } from "@/hooks/user";
 import UsersList from "@/components/Admin/Users/UsersList.vue";
 import { ref, shallowRef, watch } from "vue";
 import useRegister from "@/hooks/auth/useRegister";
+import { checkUserRole } from "@/hooks/user";
+import { useUserStore } from "@/stores";
+
+const user = useUserStore();
+const { isHasRole: isAddUser } = checkUserRole(user.getUser, "users:add");
+
 const closeBtn = ref<HTMLButtonElement | null>(null);
 const initialDTO = {
   login: "",

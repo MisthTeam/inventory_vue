@@ -5,6 +5,9 @@ import authRoutes from "./auth";
 import itemsRoutes from "./items";
 import adminRouters from "./admin";
 import NProgress from "nprogress";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,11 +39,17 @@ router.afterEach(() => {
   NProgress.done();
 });
 
-router.beforeEach(async (to) => {
+router.beforeEach(async (to, from) => {
   const auth = useUserStore();
 
-  if (!auth.isLoggenIn) {
-    await tryAuth();
+  if (!auth.isLoggenIn) await tryAuth();
+
+  if (to.meta?.role && auth.isLoggenIn) {
+    const { isHasRole } = checkUserRole(auth.getUser, to.meta?.role as string);
+    if (!isHasRole.value) {
+      toast.warning("У вас нет прав");
+      return { path: from.fullPath };
+    }
   }
 
   if (!to.meta?.guest && !auth.isLoggenIn) return { name: "auth.login" };

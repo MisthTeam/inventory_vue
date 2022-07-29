@@ -4,6 +4,9 @@
       <BaseButton
         type="button"
         class="w-100 btn-success"
+        :class="{
+          disabled: !isAddAttr,
+        }"
         :disabled="isLoadingAdding"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
@@ -61,6 +64,11 @@ import { ref } from "vue";
 import BaseAttributes from "@/components/Admin/Attributes/BaseAttributes.vue";
 import { AddAttributeDTO } from "@/stores/attrubutes/types";
 import { deviceTypes } from "@/utils/helpers";
+import { checkUserRole } from "@/hooks/user";
+import { useUserStore } from "@/stores";
+
+const user = useUserStore();
+const { isHasRole: isAddAttr } = checkUserRole(user.getUser, "attr:add");
 
 const initialDTO = {
   name: "",

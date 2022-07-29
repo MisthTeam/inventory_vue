@@ -4,12 +4,22 @@
     <td>{{ device.type }}</td>
     <td class="">{{ convertTime(device.created_at) }}</td>
     <td class="text-center">
-      <BaseButton class="btn-danger" :disabled="isDeleteLoading" @clickButton="deleteItem">
+      <BaseButton
+        class="btn-danger"
+        :class="{
+          disabled: !isDeleteDevice,
+        }"
+        :disabled="isDeleteLoading"
+        @clickButton="deleteItem"
+      >
         <i class="bi bi-trash-fill" />
       </BaseButton>
       <BaseButton
         type="button"
         class="btn-warning m-1"
+        :class="{
+          disabled: !isEditDevice,
+        }"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
         @click="openModal"
@@ -23,6 +33,12 @@
 import { deleteDevice } from "@/hooks/devices/deleteDevice";
 import { Device } from "@/stores/devices/types";
 import { convertTime } from "@/utils/helpers";
+import { checkUserRole } from "@/hooks/user";
+import { useUserStore } from "@/stores";
+
+const user = useUserStore();
+const { isHasRole: isEditDevice } = checkUserRole(user.getUser, "devices:edit");
+const { isHasRole: isDeleteDevice } = checkUserRole(user.getUser, "devices:delete");
 
 interface Props {
   device: Device;

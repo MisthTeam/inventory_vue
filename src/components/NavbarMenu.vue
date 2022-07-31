@@ -42,7 +42,7 @@
                 <li>
                   <a class="dropdown-item" href="#">Настройки</a>
                 </li>
-                <li>
+                <li v-if="hasOneIsRoles">
                   <router-link to="/admin/device" aria-current="page" class="dropdown-item">
                     Панель администратора
                   </router-link>
@@ -101,13 +101,14 @@ import { api } from "@/utils/api";
 import { AxiosResponse } from "axios";
 import { ref, watch } from "vue";
 import { OnClickOutside } from "@vueuse/components";
+import { checkUserRole } from "@/hooks/user";
 
 const search = ref("");
 const result = ref<Item[] | null>(null);
 const isLoading = ref(false);
 const showPopup = ref(false);
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     user: User | null;
     isLoggenIn: boolean;
@@ -117,6 +118,18 @@ withDefaults(
     isLoggenIn: false,
   },
 );
+const hasOneIsRoles = ref(false);
+
+watch(
+  () => props.user,
+  (value) => {
+    if (value) {
+      const { isHasRole } = checkUserRole(props.user, ["users:list", "attr:list", "devices:list"]);
+      hasOneIsRoles.value = isHasRole.value;
+    }
+  },
+);
+
 const onSearch = async () => {
   try {
     isLoading.value = true;

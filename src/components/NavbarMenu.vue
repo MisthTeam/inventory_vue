@@ -36,12 +36,6 @@
                 {{ user?.login }}
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li>
-                  <a class="dropdown-item" href="#">Профиль</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Настройки</a>
-                </li>
                 <li v-if="hasOneIsRoles">
                   <router-link to="/admin/device" aria-current="page" class="dropdown-item">
                     Панель администратора

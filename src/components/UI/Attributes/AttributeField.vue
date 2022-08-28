@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Attribute } from "@/stores/attrubutes/types";
-import { UpdateAttr } from "@/stores/attrubutes/types";
+import { Attribute, UpdateAttr } from "@/stores/attrubutes/types";
 
 interface Props {
   attribute: Attribute;

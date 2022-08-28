@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid">
-    <div class="row mt-6">
+    <div v-if="dashInfo" class="row mt-6">
       <div class="col-xl-6 col-lg-6 col-md-6 col-12">
         <div class="card m-3 green">
           <div class="card-body">
             <h5 class="card-title">Комплектующие</h5>
-            <h4 class="card-text text-end">0</h4>
+            <h4 class="card-text text-end">{{ dashInfo?.devices }}</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -14,7 +14,7 @@
         <div class="card m-3 devices">
           <div class="card-body">
             <h5 class="card-title">Девайсы</h5>
-            <h4 class="card-text text-end">0</h4>
+            <h4 class="card-text text-end">{{ dashInfo?.devices }}</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -23,7 +23,7 @@
         <div class="card m-3 free-compl">
           <div class="card-body">
             <h5 class="card-title">Свободно комплектующих</h5>
-            <h4 class="card-text text-end">0</h4>
+            <h4 class="card-text text-end">{{ dashInfo?.clear }}</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="card m-3 used-compl">
           <div class="card-body">
             <h5 class="card-title">Используется комплектующих</h5>
-            <h4 class="card-text text-end">0</h4>
+            <h4 class="card-text text-end">{{ dashInfo?.used }}</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -41,12 +41,13 @@
         <div class="card m-3 crash-compl">
           <div class="card-body">
             <h5 class="card-title">Сломано комплектующих</h5>
-            <h4 class="card-text text-end">0</h4>
+            <h4 class="card-text text-end">{{ dashInfo?.danger }}</h4>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
       </div>
     </div>
+    <LoadingSpinner v-else />
     <div class="row justify-content-center">
       <div class="col-xl-5 col-lg-5 col-md-12 col-12">
         <h5 class="text-center">Последние комплектующие</h5>
@@ -87,6 +88,19 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useItemsStore } from "@/stores";
+import { onMounted, ref } from "vue";
+import { DashboardInfo } from "@/stores/items/types";
+
+const itemsStore = useItemsStore();
+const dashInfo = ref<DashboardInfo | null>(null);
+
+onMounted(async () => {
+  dashInfo.value = await itemsStore.getItemsInfo();
+});
+</script>
 
 <style scoped>
 .green {

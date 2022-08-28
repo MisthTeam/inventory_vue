@@ -1,92 +1,92 @@
 <script setup lang="ts">
 import { onStartTyping } from "@vueuse/core";
-import { ref, watch, computed, onMounted, watchEffect } from "vue";
+import { ref, computed, onMounted, watchEffect, onUpdated, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import ItemsList from "@/components/Items/ItemsList.vue";
 import { getItems, getStatused } from "@/hooks/items";
 import { deviceTypes } from "@/utils/helpers";
 import TheFilter from "@/components/Items/TheFilter.vue";
-import { fetchItemsParams, ItemsFilterParams } from "@/stores/items/types";
+import { ItemsFilterParams } from "@/stores/items/types";
 import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
+import useFilterable from "@/hooks/use/filterable";
+import { parse, stringify } from "qs";
 
 const user = useUserStore();
 const { isHasRole } = checkUserRole(user.getUser, "items:create");
 const input = ref<HTMLInputElement | null>(null);
-const route = useRoute();
-const router = useRouter();
-const searchQuery = ref(route.query.search?.toString() || ""); // Фильтрация по названию
-const sortedValue = ref(route.query.sorted?.toString() || ""); // Сортировка по выбранному селектору
-const statusValue = ref<string | number>(""); // Сортировка по статусу
-const page = ref(Number(route.query.page) || 1); // Страница на которой сейчас
-const limit = ref(Number(route.query.limit) || 10); // Лимит предметов на стр
-const filterParams = ref<ItemsFilterParams | null>(null); // Параметры для фильтрации
-
-const params = computed<fetchItemsParams>(() => ({
-  page: page.value,
-  limit: limit.value,
-  search: searchQuery.value,
-  type: sortedValue.value,
-  filter: filterParams.value,
-})); // Параметры
-
-const limitedValues = computed(() => [10, 50, 100]); // Массив значений, можно выбрать по скольки устанавливать лимит
 
 const { itemsRef, isLoading, fetching } = getItems(); // Получение items из БД
 const { statusList } = getStatused(); // Получение статусов с бэка
+const initialFilters = {
+  status: "",
+};
+const { page, limit, searchQuery, sortedValue, filters } = useFilterable({
+  fetching,
+  initialFilters,
+}); // Хук фильтрации
+
+const route = useRoute();
+const router = useRouter();
+
+const onSubmit = () => {
+  router.push({
+    query: {
+      page: page.value,
+      limit: limit.value,
+      search: searchQuery.value,
+      sorted: sortedValue.value,
+      filter: stringify(filters.value),
+    },
+  });
+  fetching({
+    page: page.value,
+    limit: limit.value,
+    search: searchQuery.value,
+    type: sortedValue.value,
+    filter: filters.value,
+  });
+};
+
+const limitedValues = computed(() => [10, 50, 100]); // Массив значений, можно выбрать по скольки устанавливать лимит
 
 onStartTyping(() => {
-  if (input.value) input.value?.focus();
+  if (input.value) input.value.focus();
 });
 
-const updateFilterParams = (newParams: ItemsFilterParams) => (filterParams.value = newParams);
-
-watch(
-  () => statusValue.value,
-  (value) => {
-    if (!statusList.value.length) return;
-    filterParams.value = { ...filterParams.value, status: value };
-  },
-);
-
-watch(
-  [page, limit, searchQuery, sortedValue],
-  ([newPage, newLimit, newSearch, newSorted], [oldPage, _, oldSearch, oldSorted]) => {
-    if (!newSorted && filterParams.value) filterParams.value = null;
-
-    if (route.name !== "Items") return;
-    router.push({
-      query: {
-        sorted: newSorted,
-        search: newSearch,
-        page: newPage,
-        limit: newLimit,
-      },
-    });
-
-    fetching(params.value);
-  },
-);
-
-watch(
-  () => filterParams.value,
-  (newValue) => {
-    if (!newValue) return;
-
-    fetching(params.value);
-  },
-);
+const updateFilterParams = (newParams: ItemsFilterParams) => (filters.value = { ...filters.value, ...newParams });
+watch(sortedValue, (_, oldType) => {
+  if (!oldType) return;
+  const newParams = {
+    volume: "",
+    unit: "",
+    socket: "",
+    firstHhz: "",
+    secondHhz: "",
+  };
+  filters.value = { ...filters.value, ...newParams };
+});
 
 watchEffect(() => {
-  page.value = Number(route.query?.page || 1);
-  sortedValue.value = String(route.query?.sorted || "");
-  searchQuery.value = String(route.query?.search || "");
-  limit.value = Number(route.query?.limit || 10);
+  if (Object.keys(route.query).length) {
+    page.value = Number(route.query.page);
+    sortedValue.value = String(route.query.sorted);
+    searchQuery.value = String(route.query.search);
+    limit.value = Number(route.query.limit);
+    filters.value = parse(route.query.filter as string) as ItemsFilterParams;
+  }
 });
 
 onMounted(() => {
-  fetching(params.value);
+  if (Object.keys(route.query).length) return;
+  fetching({
+    page: page.value,
+    limit: limit.value,
+    search: searchQuery.value,
+    type: sortedValue.value,
+    filter: filters.value,
+  });
 });
 </script>
 <template>
@@ -124,7 +124,7 @@ onMounted(() => {
     </div>
     <div class="row justify-content-center">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-2">
-        <select v-model="statusValue" :disabled="!statusList.length || isLoading" class="form-select">
+        <select v-model="filters.status" :disabled="!statusList.length || isLoading" class="form-select">
           <option selected value="">Все статусы</option>
           <option v-for="option in statusList" :key="option.id" :value="option.id">
             {{ option.name }}
@@ -134,12 +134,16 @@ onMounted(() => {
     </div>
     <TheFilter
       v-if="sortedValue"
-      :disabled="isLoading"
-      :value="sortedValue"
-      :params="params"
+      :type="sortedValue"
+      :filter="filters"
       :specification="itemsRef.specification"
       @updateFilterParams="updateFilterParams"
     />
+    <div class="row justify-content-center text-center mt-2">
+      <div class="col-lg-8">
+        <BaseButton class="btn-dark" type="submit" :disabled="isLoading" @click="onSubmit">Показать</BaseButton>
+      </div>
+    </div>
     <div class="row justify-content-center mt-2">
       <div class="col-xl-8 col-lg-8 col-md-12 col-12">
         <LoadingSpinner v-if="isLoading" />

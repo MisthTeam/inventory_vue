@@ -6,11 +6,19 @@ export type fetchItemsParams = {
   page?: number;
   type?: string;
   search?: string;
-  filter?: ItemsFilterParams | null;
+  filter?: ItemsFilterParams;
+};
+
+export type DashboardInfo = {
+  clear: number;
+  used: number;
+  danger: number;
+  unknown: number;
+  devices: number;
 };
 
 export type ItemsFilterParams = {
-  [key: string]: string | string[] | number;
+  [key: string]: string | number | string[];
 };
 
 export type fetchItemParams = {

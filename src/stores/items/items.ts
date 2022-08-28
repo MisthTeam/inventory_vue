@@ -2,7 +2,7 @@ import { api } from "@/utils/api";
 import { defineStore } from "pinia";
 import { array_column } from "@/utils/helpers";
 import { stringify } from "qs";
-import { addItemParams, fetchItemsParams, Item, ItemState } from "./types";
+import { addItemParams, DashboardInfo, fetchItemsParams, Item, ItemState } from "./types";
 import { ApiResponse } from "@/interfaces/api.interface";
 
 const useItemsStore = defineStore({
@@ -24,13 +24,25 @@ const useItemsStore = defineStore({
       if (!params.type) {
         delete params.type;
       }
+
       if (!params.search) {
         delete params.search;
       }
-      if (!params.filter) {
-        delete params.filter;
+
+      if (params.filter?.firstHhz || params.filter?.secondHhz) {
+        params.filter.hhz =
+          params.filter.firstHhz && params.filter.secondHhz
+            ? [String(params.filter.firstHhz), String(params.filter.secondHhz)]
+            : params.filter.firstHhz || params.filter.secondHhz;
+
+        delete params.filter.firstHhz;
+        delete params.filter.secondHhz;
       }
-      const response = await api.get<ApiResponse, ItemState>(`items?${stringify(params)}`);
+      const response = await api.get<ApiResponse, ItemState>(
+        `items?${stringify(params, {
+          skipNulls: true,
+        })}`,
+      );
       return (this.items = response);
     },
 
@@ -48,6 +60,10 @@ const useItemsStore = defineStore({
 
     async deleteItem(id: number) {
       await api.delete<ApiResponse>(`admin/items/${id}`);
+    },
+
+    async getItemsInfo() {
+      return await api.get<ApiResponse, DashboardInfo>("dash");
     },
 
     async editItem(id: number, item: Item) {

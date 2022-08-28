@@ -6,7 +6,7 @@ import nProgress from "nprogress";
 
 // аксиос клиент
 export const api = axios.create({
-  baseURL: "https://inv.misthntism.space/api/",
+  baseURL: "http://in.netrack.ru/api/",
   headers: {
     Accept: "application/json",
   },
@@ -44,6 +44,7 @@ api.interceptors.response.use(
   function (error) {
     nProgress.done();
     // Истечение Bearer-токена
+    const { data } = error.response;
 
     switch (error?.response?.status) {
       case 401:
@@ -55,8 +56,11 @@ api.interceptors.response.use(
         break;
 
       case 422:
-        const { data } = error.response;
         for (const key in data.errors) toast.error(data.errors[key][0]);
+        break;
+
+      case 400:
+        toast.error(data.error);
         break;
 
       default:

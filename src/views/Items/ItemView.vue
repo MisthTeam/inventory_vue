@@ -2,8 +2,10 @@
 import { deleteItem, editItem, getItem, getStatused } from "@/hooks/items";
 import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
-import { ref } from "vue";
+import { UpdateAttr } from "@/stores/attrubutes/types";
+import { watch, ref } from "vue";
 import { useRoute } from "vue-router";
+import { Item } from "@/stores/items/types";
 
 const route = useRoute();
 const isEditing = ref(false);
@@ -15,6 +17,21 @@ const { item, isLoading } = getItem(route.params.id as string);
 const { deleteIt, isDeleteLoading } = deleteItem();
 const { isUpdateLoading, editIt } = editItem(isEditing);
 const { statusList } = getStatused();
+const DTO = ref<Item>({} as Item);
+
+// Изменение атрибутов
+const changeAttributes = ({ attrId, value: newValue }: UpdateAttr) => {
+  const attr = DTO.value.attributes.find((attr) => attr.id === attrId);
+  if (attr) {
+    Object.assign(attr, {
+      value: newValue,
+    });
+  }
+};
+
+watch(item, (newItem) => {
+  DTO.value = JSON.parse(JSON.stringify(newItem));
+});
 </script>
 <template>
   <LoadingSpinner v-if="isLoading" />
@@ -32,12 +49,7 @@ const { statusList } = getStatused();
           >
             Изменить
           </BaseButton>
-          <BaseButton
-            v-else
-            :disabled="isUpdateLoading"
-            class="w-100 btn-success"
-            @clickButton="editIt(item!.id, item!)"
-          >
+          <BaseButton v-else :disabled="isUpdateLoading" class="w-100 btn-success" @clickButton="editIt(DTO.id, DTO)">
             Сохранить
           </BaseButton>
         </div>
@@ -48,31 +60,31 @@ const { statusList } = getStatused();
             :class="{
               disabled: !isHasDelete,
             }"
-            @clickButton="deleteIt(item!.id)"
+            @clickButton="deleteIt(DTO.id)"
           >
             Удалить
           </BaseButton>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-3">
-          <ItemsFields v-model="item.meta.name" :item="item" :disabled="!isEditing" />
-          <AttributesList :attributes="item.attributes" :disabled="!isEditing" />
+          <ItemsFields v-model="DTO.meta.name" :item="item" :disabled="!isEditing" />
+          <AttributesList :attributes="DTO.attributes" :disabled="!isEditing" @updateAttr="changeAttributes" />
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
             <select class="form-select" disabled aria-label="Device type">
-              <option selected :value="item.device.type">
-                {{ item.device.type }}
+              <option selected :value="DTO.device.type">
+                {{ DTO.device.type }}
               </option>
             </select>
             <label for="floatingInput">Device type</label>
           </div>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <SpecificationsList disabled :type="item.device.type" :device="item.device" />
+          <SpecificationsList disabled :type="DTO.device.type" :device="DTO.device" />
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">
-            <select v-model="item.status.id" class="form-select" :disabled="!isEditing" aria-label="Change status">
+            <select v-model="DTO.status.id" class="form-select" :disabled="!isEditing" aria-label="Change status">
               <option
                 v-for="status in statusList"
                 :key="status.id"

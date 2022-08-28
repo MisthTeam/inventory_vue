@@ -31,7 +31,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onUpdated } from "vue";
 
 interface Props {
   modelValue?: number;
@@ -106,9 +106,11 @@ const changePage = (page: number | null | string) => {
   if (typeof page === "number") emit("update:modelValue", page);
 };
 
-if (props.modelValue > props.totalPages) {
-  changePage(1);
-}
+onUpdated(() => {
+  if (!props.disabled && props.modelValue > props.totalPages) {
+    changePage(1);
+  }
+});
 </script>
 <style scoped>
 .pointer {

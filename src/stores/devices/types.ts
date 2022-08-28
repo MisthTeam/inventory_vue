@@ -67,8 +67,8 @@ export type Attr = {
 };
 
 export type fetchDevicesParams = {
-  limit: number;
-  page: number;
+  limit?: number;
+  page?: number;
   type?: string;
   search?: string;
 };

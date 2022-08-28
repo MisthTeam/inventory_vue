@@ -1,45 +1,44 @@
 <script setup lang="ts">
 import { getDevices } from "@/hooks/devices";
 import { deviceTypes } from "@/utils/helpers";
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, watchEffect } from "vue";
 import DeviceList from "@/components/Admin/Devices/DevicesList.vue";
 import { useRoute, useRouter } from "vue-router";
 import { fetchDevicesParams } from "@/stores/devices/types";
+import useFilterable from "@/hooks/use/filterable";
 
 const { devices, isLoading, fetching } = getDevices();
+const { page, sortedValue, searchQuery } = useFilterable({
+  fetching,
+});
 
 const route = useRoute();
-const router = useRouter();
-
-const searchQuery = ref(route.query.search?.toString() || ""); // Фильтрация по названию
-const sortedValue = ref(route.query.sorted?.toString() || ""); // Сортировка по выбранному селектору
-const page = ref(Number(route.query.page) || 1);
 
 const params = computed<fetchDevicesParams>(() => ({
   page: page.value,
   search: searchQuery.value,
   type: sortedValue.value,
-  limit: 10,
 })); // Параметры
 
-watch([page, sortedValue, searchQuery], ([newPage, newSorted, newSearch], [oldPage, oldSorted, oldSearch]) => {
-  if (route.name !== "AdminDevices") return;
+const router = useRouter();
+
+const onSubmit = () => {
   router.push({
-    path: route.path,
     query: {
-      sorted: newSorted,
-      search: newSearch,
-      page: newPage,
+      page: page.value,
+      search: searchQuery.value,
+      sorted: sortedValue.value,
     },
   });
-
   fetching(params.value);
-});
+};
 
 watchEffect(() => {
-  page.value = Number(route.query?.page || 1);
-  sortedValue.value = String(route.query?.sorted || "");
-  searchQuery.value = String(route.query?.search || "");
+  if (Object.keys(route.query).length) {
+    page.value = Number(route.query.page);
+    sortedValue.value = String(route.query.sorted);
+    searchQuery.value = String(route.query.search);
+  }
 });
 
 onMounted(() => {
@@ -62,6 +61,11 @@ onMounted(() => {
           aria-label="enter pn"
           aria-describedby="button-addon2"
         />
+      </div>
+    </div>
+    <div class="row justify-content-center text-center mt-2">
+      <div class="col-lg-8">
+        <BaseButton class="btn-dark" type="submit" :disabled="isLoading" @click="onSubmit">Показать</BaseButton>
       </div>
     </div>
     <div class="row justify-content-center">

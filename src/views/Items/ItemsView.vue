@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onStartTyping } from "@vueuse/core";
-import { ref, computed, onMounted, watchEffect, onUpdated, watch } from "vue";
+import { ref, computed, onMounted, watchEffect, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import ItemsList from "@/components/Items/ItemsList.vue";
@@ -12,6 +12,7 @@ import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
 import useFilterable from "@/hooks/use/filterable";
 import { parse, stringify } from "qs";
+import { provide } from "vue";
 
 const user = useUserStore();
 const { isHasRole } = checkUserRole(user.getUser, "items:create");
@@ -29,6 +30,8 @@ const { page, limit, searchQuery, sortedValue, filters } = useFilterable({
 
 const route = useRoute();
 const router = useRouter();
+
+provide("fetching", fetching);
 
 const onSubmit = () => {
   router.push({
@@ -79,7 +82,6 @@ watchEffect(() => {
 });
 
 onMounted(() => {
-  if (Object.keys(route.query).length) return;
   fetching({
     page: page.value,
     limit: limit.value,

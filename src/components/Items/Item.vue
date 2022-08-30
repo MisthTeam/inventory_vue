@@ -1,12 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names  -->
 <template>
-  <tr @click="toItem(item.id)">
-    <td>{{ item.meta?.name || "nope" }}</td>
-    <td>{{ item.device.type }}</td>
-    <td class="d-sm-table-cell d-none">{{ itemInfo(item.device.type) }}</td>
+  <tr>
+    <td @click="toItem(item.id)">{{ item.meta.name }}</td>
+    <td @click="sortByClick('type', item.device.type)">{{ item.device.type }}</td>
+    <td class="d-sm-table-cell d-none" @click="sortByClick('info', item.device.type)">
+      {{ itemInfo(item.device.type) }}
+    </td>
     <td class="d-sm-table-cell d-none">{{ item.user.login }}</td>
     <td>
-      <span class="badge" :class="classObject">{{ item.status.name }}</span>
+      <span class="badge" :class="classObject" @click="sortByClick('status', item.status.id)">{{
+        item.status.name
+      }}</span>
     </td>
     <td>
       {{ convertTime(item.created_at) }}
@@ -16,13 +20,20 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useRouter } from "vue-router";
-import { convertTime, formatBytes } from "@/utils/helpers";
+import { useRoute, useRouter } from "vue-router";
+import { convertedValues, convertTime } from "@/utils/helpers";
+import { infoItem } from "@/utils/helpers/getItemInfo";
+import { filterByClick } from "@/utils/helpers/filterByClick";
 import { Item } from "@/stores/items/types";
+import { parse, stringify } from "qs";
+import { inject } from "vue";
+import { Specification } from "@/stores/devices/types";
 
 interface Props {
   item: Item;
 }
+
+const fetching: any = inject("fetching"); // Получение items из БД
 
 const props = defineProps<Props>();
 
@@ -37,20 +48,53 @@ const classObject = computed(() => ({
   "bg-dark": props.item.status.badge === "dark",
 }));
 
-const infoItem = {
-  HDD: formatBytes(Number(props.item.device.specification?.volume)).join(" "),
-  SSD: formatBytes(Number(props.item.device.specification?.volume)).join(" "),
-  CPU: props.item.device.specification?.model,
-  GPU: props.item.device.specification?.model,
-  NVMe: formatBytes(Number(props.item.device.specification?.volume)).join(" "),
-  networkCard: props.item.device.specification?.connector,
-  raidController: props.item.device.specification?.model,
-  DRAM: formatBytes(Number(props.item.device.specification?.volume)).join(" "),
-};
-
 const router = useRouter();
+const route = useRoute();
 const toItem = (id: number) => router.push(`/items/${id}`);
-const itemInfo = (type: string) => infoItem[type as keyof typeof infoItem] || "None";
+const itemInfo = (type: string) => infoItem(props.item, type) || "None";
+
+const sortByClick = (itemType: string, info: string | number) => {
+  const { type, filterObject } = filterByClick(props.item, itemType, info);
+  const newFilterObject = Object.assign(
+    { ...parse(route.query.filter as string) },
+    {
+      ...filterObject,
+    },
+  );
+  if (Object.keys(route.query).length) {
+    router.push({
+      query: {
+        ...route.query,
+        sorted: String(type).length ? type : String(route.query.sorted),
+        filter: stringify(newFilterObject),
+      },
+    });
+    fetching({
+      page: Number(route.query.page),
+      limit: Number(route.query.limit),
+      search: String(route.query.search),
+      type: String(type).length ? type : String(route.query.sorted),
+      filter: newFilterObject,
+    });
+  } else {
+    router.push({
+      query: {
+        page: 1,
+        limit: 10,
+        search: "",
+        sorted: type,
+        filter: stringify(filterObject),
+      },
+    });
+    fetching({
+      page: 1,
+      limit: 10,
+      search: "",
+      type,
+      filter: newFilterObject,
+    });
+  }
+};
 </script>
 
 <style scoped>

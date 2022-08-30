@@ -58,7 +58,7 @@ export type VolumeSpecification = {
 };
 
 export type Specification = {
-  [key: string]: string | number;
+  [key: string]: string;
 };
 export type Attr = {
   [key: number]: {

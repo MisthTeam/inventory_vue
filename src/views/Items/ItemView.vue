@@ -4,10 +4,12 @@ import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
 import { UpdateAttr } from "@/stores/attrubutes/types";
 import { watch, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { Item } from "@/stores/items/types";
+import { filterByClick } from "@/utils/helpers/filterByClick";
 
 const route = useRoute();
+const router = useRouter();
 const isEditing = ref(false);
 
 const user = useUserStore();
@@ -25,6 +27,18 @@ const changeAttributes = ({ attrId, value: newValue }: UpdateAttr) => {
   if (attr) {
     Object.assign(attr, {
       value: newValue,
+    });
+  }
+};
+
+const sortByClick = (filterType: string, info: string | number) => {
+  if (item.value) {
+    const { search } = filterByClick(item.value, filterType, info);
+    router.push({
+      path: "/items",
+      query: {
+        search,
+      },
     });
   }
 };
@@ -66,7 +80,30 @@ watch(item, (newItem) => {
           </BaseButton>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12 mt-3">
-          <ItemsFields v-model="DTO.meta.name" :item="item" :disabled="!isEditing" />
+          <div class="form-floating mb-3">
+            <input
+              id="floatingInput"
+              v-model="DTO.meta.name"
+              type="text"
+              class="form-control"
+              required
+              :disabled="!isEditing"
+              placeholder="S/N"
+            />
+            <label for="floatingInput">S/N</label>
+          </div>
+          <div class="form-floating mb-3" @click="sortByClick('PN', item!.device.pn)">
+            <input
+              id="floatingInput2"
+              type="text"
+              class="form-control"
+              :value="item.device.pn"
+              disabled
+              placeholder="P/N"
+            />
+
+            <label for="floatingInput2">P/N</label>
+          </div>
           <AttributesList :attributes="DTO.attributes" :disabled="!isEditing" @updateAttr="changeAttributes" />
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">

@@ -7,6 +7,7 @@ type sortedType = {
     [key: string]: string | number;
   };
   type: string | number;
+  search?: string;
 };
 
 export const filterByClick = (item: Item, type: string, info: string | number): Partial<sortedType> => {
@@ -25,6 +26,15 @@ export const filterByClick = (item: Item, type: string, info: string | number): 
           status: "",
         },
         type: info,
+      };
+
+    case "PN":
+      return {
+        type: "",
+        filterObject: {
+          status: "",
+        },
+        search: String(info),
       };
 
     case "info":

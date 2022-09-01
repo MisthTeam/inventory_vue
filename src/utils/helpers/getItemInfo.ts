@@ -12,5 +12,5 @@ export const infoItem = (item: Item, type: string) => {
     raidController: item.device.specification.model,
     DRAM: formatBytes(Number(item.device.specification.volume)).join(" "),
   };
-  return infoObj[type as keyof typeof infoObj];
+  return infoObj[type as keyof typeof infoObj].toString();
 };

@@ -5,8 +5,7 @@
         <div class="card m-3 green">
           <div class="card-body">
             <h5 class="card-title">Комплектующие</h5>
-            <h4 class="card-text text-end">{{ dashInfo?.devices }}</h4>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            <h4 class="card-text text-end">{{ dashInfo.devices }}</h4>
           </div>
         </div>
       </div>
@@ -14,35 +13,31 @@
         <div class="card m-3 devices">
           <div class="card-body">
             <h5 class="card-title">Девайсы</h5>
-            <h4 class="card-text text-end">{{ dashInfo?.devices }}</h4>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            <h4 class="card-text text-end">{{ dashInfo.devices }}</h4>
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-4 d-md-block col-12 d-none">
+      <div class="col-xl-4 col-lg-4 col-md-4 d-md-block col-12 d-none cursor-pointer" @click="filteredBy(1)">
         <div class="card m-3 free-compl">
           <div class="card-body">
             <h5 class="card-title">Свободно комплектующих</h5>
-            <h4 class="card-text text-end">{{ dashInfo?.clear }}</h4>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            <h4 class="card-text text-end">{{ dashInfo.clear }}</h4>
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-4 d-md-block col-12 d-none">
+      <div class="col-xl-4 col-lg-4 col-md-4 d-md-block col-12 d-none cursor-pointer" @click="filteredBy(2)">
         <div class="card m-3 used-compl">
           <div class="card-body">
             <h5 class="card-title">Используется комплектующих</h5>
-            <h4 class="card-text text-end">{{ dashInfo?.used }}</h4>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            <h4 class="card-text text-end">{{ dashInfo.used }}</h4>
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-4 d-md-block col-12 d-none">
+      <div class="col-xl-4 col-lg-4 col-md-4 d-md-block col-12 d-none cursor-pointer" @click="filteredBy(4)">
         <div class="card m-3 crash-compl">
           <div class="card-body">
             <h5 class="card-title">Сломано комплектующих</h5>
-            <h4 class="card-text text-end">{{ dashInfo?.danger }}</h4>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            <h4 class="card-text text-end">{{ dashInfo.danger }}</h4>
           </div>
         </div>
       </div>
@@ -93,9 +88,16 @@
 import { useItemsStore } from "@/stores";
 import { onMounted, ref } from "vue";
 import { DashboardInfo } from "@/stores/items/types";
+import { useRouter } from "vue-router";
 
 const itemsStore = useItemsStore();
 const dashInfo = ref<DashboardInfo | null>(null);
+
+const router = useRouter();
+
+const filteredBy = (id: number) => {
+  router.push(`/items?filter=status=${id}`);
+};
 
 onMounted(async () => {
   dashInfo.value = await itemsStore.getItemsInfo();
@@ -103,6 +105,9 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.cursor-pointer {
+  cursor: pointer;
+}
 .green {
   background-color: #bffffd;
   color: #3b6161;

@@ -1,4 +1,3 @@
-import ItemsFields from "./ItemsFields.vue";
 import AttributesList from "./Attributes/AttributesList.vue";
 import SpecificationsList from "./Specifications/SpecificationsList.vue";
 import BaseSelector from "./BaseSelector.vue";
@@ -9,7 +8,6 @@ import TagsInput from "./TagsInput.vue";
 import BaseButton from "./BaseButton.vue";
 
 export default [
-  ItemsFields,
   BaseSelector,
   SpecificationsList,
   BasePagination,

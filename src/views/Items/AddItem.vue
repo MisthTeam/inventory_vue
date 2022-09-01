@@ -95,7 +95,18 @@ const changeAttributes = ({ attrId, value }: UpdateAttr) => {
 
         <AttributesList :attributes="attributes" @updateAttr="changeAttributes" />
 
-        <ItemsFields v-model="dto.item.name" :disabled="isAddLoading || isLoadingAttribute" />
+        <div class="form-floating mb-3">
+          <input
+            id="floatingInput"
+            v-model="dto.item.name"
+            type="text"
+            class="form-control"
+            required
+            :disabled="isAddLoading || isLoadingAttribute"
+            placeholder="S/N"
+          />
+          <label for="floatingInput">S/N</label>
+        </div>
 
         <BaseButton :disabled="isAddLoading" class="btn-outline-secondary" type="submit"> Добавить </BaseButton>
       </template>

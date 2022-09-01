@@ -16,7 +16,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import BaseItem from "./Item.vue";
+import BaseItem from "./BaseItem.vue";
 import { Item } from "@/stores/items/types";
 
 interface Props {

@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names  -->
 <template>
   <tr>
     <td @click="toItem(item.id)">{{ item.meta.name }}</td>
@@ -21,13 +20,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { convertedValues, convertTime } from "@/utils/helpers";
+import { convertTime } from "@/utils/helpers";
 import { infoItem } from "@/utils/helpers/getItemInfo";
 import { filterByClick } from "@/utils/helpers/filterByClick";
 import { Item } from "@/stores/items/types";
 import { parse, stringify } from "qs";
 import { inject } from "vue";
-import { Specification } from "@/stores/devices/types";
 
 interface Props {
   item: Item;

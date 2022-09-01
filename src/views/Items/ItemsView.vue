@@ -73,13 +73,16 @@ watch(sortedValue, (_, oldType) => {
 
 watchEffect(() => {
   if (Object.keys(route.query).length) {
+    let filterQueryValues = parse(route.query.filter as string);
     page.value = Number(route.query.page) || 1;
     sortedValue.value = route.query.sorted?.toString() || "";
     searchQuery.value = route.query.search?.toString() || "";
     limit.value = Number(route.query.limit) || 10;
-    filters.value = (parse(route.query.filter as string) as ItemsFilterParams) || {
-      status: "",
-    };
+    filters.value = Object.keys(filterQueryValues).length
+      ? filterQueryValues
+      : {
+          status: "",
+        };
   }
 });
 

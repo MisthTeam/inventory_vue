@@ -21,6 +21,9 @@ export const filterByClick = (item: Item, type: string, info: string | number): 
 
     case "type":
       return {
+        filterObject: {
+          status: "",
+        },
         type: info,
       };
 

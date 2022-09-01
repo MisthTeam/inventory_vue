@@ -59,6 +59,8 @@ const sortByClick = (itemType: string, info: string | number) => {
       ...filterObject,
     },
   );
+  console.log(newFilterObject, route.query, type, filterObject, "debug");
+
   if (Object.keys(route.query).length) {
     router.push({
       query: {

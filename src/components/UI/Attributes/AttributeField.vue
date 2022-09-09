@@ -22,28 +22,31 @@ export default {
 </script>
 
 <template>
-  <input
-    v-if="attribute.meta.type === 'text'"
-    id="floatingInput"
-    type="text"
-    class="form-control"
-    :value="attribute.value"
-    required
-    :disabled="disabled"
-    :placeholder="attribute.name"
-    @input="updateAttr({ attrId: attribute.id, value: ($event.target as HTMLInputElement).value })"
-  />
+  <div class="form-floating mb-3">
+    <input
+      v-if="attribute.meta.type === 'text'"
+      :id="attribute.name"
+      type="text"
+      class="form-control"
+      :value="attribute.value"
+      required
+      :disabled="disabled"
+      :placeholder="attribute.name"
+      @input="updateAttr({ attrId: attribute.id, value: ($event.target as HTMLInputElement).value })"
+    />
 
-  <select
-    v-if="attribute.meta.type === 'select'"
-    :disabled="disabled"
-    class="form-select"
-    :value="attribute.value"
-    @change="updateAttr({ attrId: attribute.id, value: ($event.target as HTMLSelectElement).value })"
-  >
-    <option v-for="list in attribute.meta.list" :key="list" :selected="list === attribute.value" :value="list">
-      {{ list }}
-    </option>
-  </select>
-  <label for="floatingInput">{{ attribute.name }}</label>
+    <select
+      v-if="attribute.meta.type === 'select'"
+      :id="attribute.name"
+      :disabled="disabled"
+      class="form-select"
+      :value="attribute.value"
+      @change="updateAttr({ attrId: attribute.id, value: ($event.target as HTMLSelectElement).value })"
+    >
+      <option v-for="list in attribute.meta.list" :key="list" :selected="list === attribute.value" :value="list">
+        {{ list }}
+      </option>
+    </select>
+    <label :for="attribute.name">{{ attribute.name }}</label>
+  </div>
 </template>

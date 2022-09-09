@@ -10,7 +10,12 @@ type sortedType = {
   search?: string;
 };
 
-export const filterByClick = (item: Item, type: string, info: string | number): Partial<sortedType> => {
+export const filterByClick = (
+  item: Item,
+  type: string,
+  info: string | number,
+  customSpecificaton?: string,
+): Partial<sortedType> => {
   switch (type) {
     case "status":
       return {
@@ -39,6 +44,24 @@ export const filterByClick = (item: Item, type: string, info: string | number): 
 
     case "info":
       const getInfoByType = infoItem(item, String(info));
+      if (customSpecificaton) {
+        const specification = item.device.specification[customSpecificaton];
+        if (!specification) {
+          return {
+            filterObject: {
+              status: "",
+            },
+            type: "",
+          };
+        }
+        return {
+          filterObject: {
+            [customSpecificaton]: specification,
+            status: "",
+          },
+          type: info,
+        };
+      }
       if (["HDD", "SSD", "NVMe", "DRAM"].includes(String(info))) {
         const splitingInfo = getInfoByType.split(" ");
         const unit = splitingInfo[1];

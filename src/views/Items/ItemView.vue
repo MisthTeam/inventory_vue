@@ -7,6 +7,7 @@ import { watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { Item } from "@/stores/items/types";
 import { filterByClick } from "@/utils/helpers/filterByClick";
+import { stringify } from "qs";
 
 const route = useRoute();
 const router = useRouter();
@@ -31,16 +32,70 @@ const changeAttributes = ({ attrId, value: newValue }: UpdateAttr) => {
   }
 };
 
-const sortByClick = (filterType: string, info: string | number) => {
-  if (item.value) {
-    const { search } = filterByClick(item.value, filterType, info);
+const sortBySpecification = (event: PointerEvent, infoType: string) => {
+  const element = event.target as Element;
+  if (!element) return;
+  if (!item.value) return;
+  if (["capacity", "unit"].includes(element.id)) {
+    const { filterObject, type } = filterByClick(item.value, infoType, item.value.device.type);
     router.push({
       path: "/items",
       query: {
-        search,
+        filter: stringify(filterObject),
+        sorted: type ?? "",
+      },
+    });
+  } else {
+    const { filterObject, type } = filterByClick(item.value, infoType, item.value.device.type, element.id);
+    router.push({
+      path: "/items",
+      query: {
+        filter: stringify(filterObject),
+        sorted: type ?? "",
       },
     });
   }
+};
+
+const sortByAttribute = (event: PointerEvent) => {
+  const element = event.target as Element;
+  if (!element) return;
+  if (!item.value) return;
+  if (element.id === "Profile") {
+    const attr = DTO.value.attributes.find((attr) => attr.name === element.id);
+    if (!attr || !attr.value) return;
+    router.push({
+      path: "/items",
+      query: {
+        filter: stringify({
+          profile: attr.value,
+        }),
+        sorted: item.value.device.type,
+      },
+    });
+  }
+};
+
+const sortByPN = () => {
+  if (!item.value) return;
+  const { search } = filterByClick(item.value, "PN", item.value.device.pn);
+  router.push({
+    path: "/items",
+    query: {
+      search,
+    },
+  });
+};
+
+const sortByType = () => {
+  if (!item.value) return;
+  const { type } = filterByClick(item.value, "type", item.value.device.type);
+  router.push({
+    path: "/items",
+    query: {
+      sorted: type,
+    },
+  });
 };
 
 watch(item, (newItem) => {
@@ -92,7 +147,7 @@ watch(item, (newItem) => {
             />
             <label for="floatingInput">S/N</label>
           </div>
-          <div class="form-floating mb-3" @click="sortByClick('PN', item!.device.pn)">
+          <div class="form-floating mb-3" @click="sortByPN">
             <input
               id="floatingInput2"
               type="text"
@@ -104,9 +159,14 @@ watch(item, (newItem) => {
 
             <label for="floatingInput2">P/N</label>
           </div>
-          <AttributesList :attributes="DTO.attributes" :disabled="!isEditing" @updateAttr="changeAttributes" />
+          <AttributesList
+            :attributes="DTO.attributes"
+            disabled
+            @click="sortByAttribute"
+            @updateAttr="changeAttributes"
+          />
         </div>
-        <div class="col-xl-8 col-lg-8 col-md-12 col-12">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-12" @click="sortByType">
           <div class="form-floating mb-3">
             <select class="form-select" disabled aria-label="Device type">
               <option selected :value="DTO.device.type">
@@ -117,7 +177,12 @@ watch(item, (newItem) => {
           </div>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
-          <SpecificationsList disabled :type="DTO.device.type" :device="DTO.device" />
+          <SpecificationsList
+            disabled
+            :type="DTO.device.type"
+            :device="DTO.device"
+            @click="(event: PointerEvent) => sortBySpecification(event, 'info')"
+          />
         </div>
         <div class="col-xl-8 col-lg-8 col-md-12 col-12">
           <div class="form-floating mb-3">

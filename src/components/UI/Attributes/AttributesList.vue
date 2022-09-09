@@ -1,6 +1,12 @@
 <template>
-  <div v-for="attribute in attributes" :key="attribute.id" class="form-floating mb-3">
-    <AttributeItem :disabled="disabled" :attribute="attribute" @updateAttr="(v) => $emit('updateAttr', v)" />
+  <div v-if="attributes.length">
+    <AttributeItem
+      v-for="attribute in attributes"
+      :key="attribute.id"
+      :disabled="disabled"
+      :attribute="attribute"
+      @updateAttr="(v) => $emit('updateAttr', v)"
+    />
   </div>
 </template>
 
@@ -14,7 +20,10 @@ interface Props {
   attributes?: Array<Attribute>;
   disabled?: boolean;
 }
-defineProps<Props>();
+withDefaults(defineProps<Props>(), {
+  attributes: () => [],
+  disabled: false,
+});
 
 defineEmits<{
   (e: "updateAttr", value: UpdateAttr): void;

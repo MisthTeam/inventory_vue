@@ -79,9 +79,10 @@ watchEffect(() => {
     searchQuery.value = route.query.search?.toString() || "";
     limit.value = Number(route.query.limit) || 10;
     if (Object.keys(filterQueryValues).length) {
-      let newFilterValues = Object.assign(filterQueryValues, {
-        ...initialFilters,
+      let newFilterValues = Object.assign(initialFilters, {
+        ...filterQueryValues,
       });
+
       filters.value = newFilterValues;
     } else {
       filters.value = {

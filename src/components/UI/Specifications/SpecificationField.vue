@@ -44,6 +44,7 @@ watch(capacityBefore, (value) => {
 <template>
   <input
     v-if="nameSpec != 'volume'"
+    :id="nameSpec"
     :disabled="disabled"
     type="text"
     required
@@ -62,6 +63,7 @@ watch(capacityBefore, (value) => {
 
   <template v-else>
     <input
+      id="capacity"
       v-model="capacityBefore"
       type="number"
       step="0.1"
@@ -78,7 +80,7 @@ watch(capacityBefore, (value) => {
         })
       "
     />
-    <select id="inputGroupSelect01" v-model="unit" required :disabled="disabled" title="unit" class="form-select">
+    <select id="unit" v-model="unit" required :disabled="disabled" title="unit" class="form-select">
       <option disabled selected value="">Единица измерения</option>
       <option value="TB">TB</option>
       <option value="MB">MB</option>

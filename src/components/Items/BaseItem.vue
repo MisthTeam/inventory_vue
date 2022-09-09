@@ -54,9 +54,9 @@ const itemInfo = (type: string) => infoItem(props.item, type) || "None";
 const sortByClick = (itemType: string, info: string | number) => {
   const { type, filterObject } = filterByClick(props.item, itemType, info);
   const newFilterObject = Object.assign(
-    { ...parse(route.query.filter as string) },
+    { ...filterObject },
     {
-      ...filterObject,
+      ...parse(route.query.filter as string),
     },
   );
 

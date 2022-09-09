@@ -49,6 +49,7 @@ export const filterByClick = (item: Item, type: string, info: string | number): 
         const filterObject = {
           volume: capacity,
           unit,
+          status: "",
         };
 
         return {
@@ -59,6 +60,7 @@ export const filterByClick = (item: Item, type: string, info: string | number): 
       if (["CPU", "GPU", "raidController"].includes(String(info))) {
         const filterObject = {
           model: getInfoByType,
+          status: "",
         };
 
         return {
@@ -69,6 +71,7 @@ export const filterByClick = (item: Item, type: string, info: string | number): 
       if (["networkCard"].includes(String(info))) {
         const filterObject = {
           connector: getInfoByType,
+          status: "",
         };
 
         return {

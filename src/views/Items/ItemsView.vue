@@ -78,11 +78,16 @@ watchEffect(() => {
     sortedValue.value = route.query.sorted?.toString() || "";
     searchQuery.value = route.query.search?.toString() || "";
     limit.value = Number(route.query.limit) || 10;
-    filters.value = Object.keys(filterQueryValues).length
-      ? filterQueryValues
-      : {
-          status: "",
-        };
+    if (Object.keys(filterQueryValues).length) {
+      let newFilterValues = Object.assign(filterQueryValues, {
+        ...initialFilters,
+      });
+      filters.value = newFilterValues;
+    } else {
+      filters.value = {
+        ...initialFilters,
+      };
+    }
   }
 });
 

@@ -71,8 +71,8 @@ const sortByClick = (itemType: string, info: string | number) => {
     fetching({
       page: Number(route.query.page),
       limit: Number(route.query.limit),
-      search: String(route.query.search),
-      type: String(type).length ? type : String(route.query.sorted),
+      search: route.query.search?.toString() || "",
+      type: String(type).length ? type : route.query.sorted?.toString(),
       filter: newFilterObject,
     });
   } else {

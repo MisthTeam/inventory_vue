@@ -33,6 +33,7 @@ const changeAttributes = ({ attrId, value: newValue }: UpdateAttr) => {
 };
 
 const sortBySpecification = (event: PointerEvent, infoType: string) => {
+  if (isEditing.value) return;
   const element = event.target as Element;
   if (!element) return;
   if (!item.value) return;
@@ -58,6 +59,7 @@ const sortBySpecification = (event: PointerEvent, infoType: string) => {
 };
 
 const sortByAttribute = (event: PointerEvent) => {
+  if (isEditing.value) return;
   const element = event.target as Element;
   if (!element) return;
   if (!item.value) return;
@@ -77,6 +79,7 @@ const sortByAttribute = (event: PointerEvent) => {
 };
 
 const sortByPN = () => {
+  if (isEditing.value) return;
   if (!item.value) return;
   const { search } = filterByClick(item.value, "PN", item.value.device.pn);
   router.push({
@@ -88,6 +91,7 @@ const sortByPN = () => {
 };
 
 const sortByType = () => {
+  if (isEditing.value) return;
   if (!item.value) return;
   const { type } = filterByClick(item.value, "type", item.value.device.type);
   router.push({
@@ -161,7 +165,7 @@ watch(item, (newItem) => {
           </div>
           <AttributesList
             :attributes="DTO.attributes"
-            disabled
+            :disabled="!isEditing"
             @click="sortByAttribute"
             @updateAttr="changeAttributes"
           />

@@ -67,6 +67,7 @@ watch(sortedValue, (_, oldType) => {
     socket: "",
     firstHhz: "",
     secondHhz: "",
+    reg: "",
   };
   filters.value = { ...filters.value, ...newParams };
 });

@@ -11,6 +11,10 @@ const types = [
     type: "GPU",
     variables: ["hhz"],
   },
+  {
+    type: "DRAM",
+    variables: ["reg"],
+  },
 ];
 
 export default types;

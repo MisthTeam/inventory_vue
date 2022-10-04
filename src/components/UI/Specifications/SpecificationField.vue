@@ -42,26 +42,7 @@ watch(capacityBefore, (value) => {
 </script>
 
 <template>
-  <input
-    v-if="nameSpec != 'volume'"
-    :id="nameSpec"
-    :disabled="disabled"
-    type="text"
-    required
-    :placeholder="nameSpec"
-    :aria-label="nameSpec"
-    :title="nameSpec"
-    class="form-control"
-    :value="specification"
-    @input="
-      $emit('editSpecification', {
-        value: ($event.target as HTMLInputElement).value,
-        target: nameSpec,
-      })
-    "
-  />
-
-  <template v-else>
+  <template v-if="nameSpec === 'volume'">
     <input
       id="capacity"
       v-model="capacityBefore"
@@ -87,4 +68,44 @@ watch(capacityBefore, (value) => {
       <option value="GB">GB</option>
     </select>
   </template>
+
+  <template v-else-if="nameSpec === 'reg'">
+    <select
+      :id="nameSpec"
+      required
+      :disabled="disabled"
+      :title="nameSpec"
+      class="form-select"
+      :value="specification"
+      @change="
+        $emit('editSpecification', {
+          value: ($event.target as HTMLInputElement).value,
+          target: nameSpec,
+        })
+      "
+    >
+      <option disabled selected value="">Тип</option>
+      <option value="reg">reg</option>
+      <option value="non-reg">non-reg</option>
+    </select>
+  </template>
+
+  <input
+    v-else
+    :id="nameSpec"
+    :disabled="disabled"
+    type="text"
+    required
+    :placeholder="nameSpec"
+    :aria-label="nameSpec"
+    :title="nameSpec"
+    class="form-control"
+    :value="specification"
+    @input="
+      $emit('editSpecification', {
+        value: ($event.target as HTMLInputElement).value,
+        target: nameSpec,
+      })
+    "
+  />
 </template>

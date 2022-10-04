@@ -56,6 +56,11 @@
           <BaseSelector v-model="filterParams.socket" :options="specification?.CPU?.socket"> Все сокеты </BaseSelector>
         </div>
       </div>
+      <div v-if="variables.includes('reg')" class="row justify-content-center">
+        <div class="col-lg-8">
+          <BaseSelector v-model="filterParams.reg" :options="['reg', 'non-reg']"> Все типы </BaseSelector>
+        </div>
+      </div>
     </template>
   </template>
 </template>
@@ -70,12 +75,15 @@ interface Props {
   filter: ItemsFilterParams;
 }
 
+type DRAMReg = "reg" | "non-reg";
+
 type FilterProps = {
   capacity: string | number;
   unit: string;
   socket: string;
   firstHhz: string | number;
   secondHhz: string | number;
+  reg: DRAMReg | string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -96,6 +104,7 @@ const filterParams = reactive<FilterProps>({
   socket: "",
   firstHhz: "",
   secondHhz: "",
+  reg: "",
 });
 
 watch(filterParams, () => {
@@ -107,11 +116,12 @@ watch(filterParams, () => {
     socket: filterParams.socket,
     firstHhz: filterParams.firstHhz,
     secondHhz: filterParams.secondHhz,
+    reg: filterParams.reg,
   });
 });
 
 watchEffect(() => {
-  const { volume, unit, socket, firstHhz, secondHhz } = props.filter;
+  const { volume, unit, socket, firstHhz, secondHhz, reg } = props.filter;
 
   if (socket) filterParams.socket = String(socket);
 
@@ -123,5 +133,6 @@ watchEffect(() => {
 
   if (firstHhz) filterParams.firstHhz = Number(firstHhz);
   if (secondHhz) filterParams.secondHhz = Number(secondHhz);
+  if (reg) filterParams.reg = String(reg);
 });
 </script>

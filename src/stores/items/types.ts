@@ -17,6 +17,17 @@ export type DashboardInfo = {
   devices: number;
 };
 
+export type DRAMReg = "reg" | "non-reg";
+
+export type FilterProps = {
+  volume: string | number;
+  unit: string;
+  socket: string;
+  firstHhz: string | number;
+  secondHhz: string | number;
+  reg: DRAMReg | string;
+};
+
 export type ItemsFilterParams = {
   [key: string]: string | number | string[];
 };

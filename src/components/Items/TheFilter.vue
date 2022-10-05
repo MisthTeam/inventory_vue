@@ -6,13 +6,13 @@
           <template v-if="variables.includes('volume')">
             <div class="input-group">
               <input
-                v-model.lazy="filterParams.capacity"
+                v-model.lazy="filterParams.volume"
                 min="0"
                 step="0.1"
                 type="number"
                 :disabled="!filterParams.unit.length"
                 placeholder="Введите емкость"
-                title="capacity"
+                title="volume"
                 class="form-control"
               />
               <select
@@ -65,7 +65,7 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { ItemsFilterParams } from "@/stores/items/types";
+import { ItemsFilterParams, FilterProps } from "@/stores/items/types";
 import { convertedValues, filteredTypes } from "@/utils/helpers";
 import { computed, watch, watchEffect, reactive } from "vue";
 
@@ -74,17 +74,6 @@ interface Props {
   specification: any;
   filter: ItemsFilterParams;
 }
-
-type DRAMReg = "reg" | "non-reg";
-
-type FilterProps = {
-  capacity: string | number;
-  unit: string;
-  socket: string;
-  firstHhz: string | number;
-  secondHhz: string | number;
-  reg: DRAMReg | string;
-};
 
 const props = withDefaults(defineProps<Props>(), {
   type: "",
@@ -99,7 +88,7 @@ const emit = defineEmits<{
 const filtered = computed(() => filteredTypes.filter((t) => t.type.includes(props.type)));
 
 const filterParams = reactive<FilterProps>({
-  capacity: "",
+  volume: "",
   unit: "",
   socket: "",
   firstHhz: "",
@@ -109,14 +98,10 @@ const filterParams = reactive<FilterProps>({
 
 watch(filterParams, () => {
   const howMultiply = convertedValues[filterParams.unit as keyof typeof convertedValues] ?? 1;
-  const multiplyVolume = Number(filterParams.capacity) * howMultiply;
+  const multiplyVolume = Number(filterParams.volume) * howMultiply;
   emit("updateFilterParams", {
+    ...filterParams,
     volume: multiplyVolume === 0 ? "" : multiplyVolume,
-    unit: filterParams.unit,
-    socket: filterParams.socket,
-    firstHhz: filterParams.firstHhz,
-    secondHhz: filterParams.secondHhz,
-    reg: filterParams.reg,
   });
 });
 
@@ -127,7 +112,7 @@ watchEffect(() => {
 
   if (volume && unit) {
     const howMultiply = convertedValues[unit as keyof typeof convertedValues];
-    filterParams.capacity = Number(volume) / howMultiply;
+    filterParams.volume = Number(volume) / howMultiply;
     filterParams.unit = String(unit);
   }
 

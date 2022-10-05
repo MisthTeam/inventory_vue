@@ -12,7 +12,7 @@ interface FilterableParamsProps {
   searchQuery: string;
   sortedValue: string;
   limit: number;
-  filters: Record<string, any>;
+  filters: Record<string, string | number | string[] | any>;
 }
 
 export default function useFilterable({ fetching, initialFilters }: FilterableProps) {
@@ -21,9 +21,7 @@ export default function useFilterable({ fetching, initialFilters }: FilterablePr
     searchQuery: "",
     sortedValue: "",
     limit: 10,
-    filters: {
-      ...initialFilters,
-    },
+    filters: { ...initialFilters },
   });
 
   const router = useRouter();

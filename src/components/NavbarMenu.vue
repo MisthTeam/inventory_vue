@@ -68,7 +68,7 @@
               >
                 <template v-if="result">
                   <router-link
-                    v-for="item in result.splice(0, 10)"
+                    v-for="item in result.slice(0, 10)"
                     :key="item.id"
                     :to="{ path: `/items/${item.id}` }"
                     class="dropdown-item"
@@ -89,18 +89,21 @@
 </template>
 
 <script setup lang="ts">
-import { Item } from "@/stores/items/types";
-import { User } from "@/stores/user/types";
-import { api } from "@/utils/api";
-import { AxiosResponse } from "axios";
+import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
+
+import { User } from "@/stores/user/types";
 import { OnClickOutside } from "@vueuse/components";
 import { checkUserRole } from "@/hooks/user";
+import { useSearchStore } from "@/stores";
+
+const searchStore = useSearchStore();
 
 const search = ref("");
-const result = ref<Item[] | null>(null);
+const result = storeToRefs(searchStore).items;
 const isLoading = ref(false);
 const showPopup = ref(false);
+const hasOneIsRoles = ref(false);
 
 const props = withDefaults(
   defineProps<{
@@ -112,7 +115,6 @@ const props = withDefaults(
     isLoggenIn: false,
   },
 );
-const hasOneIsRoles = ref(false);
 
 watch(
   () => props.user,
@@ -124,31 +126,28 @@ watch(
   },
 );
 
-const onSearch = async () => {
-  try {
-    isLoading.value = true;
-    const searchRes = await api.post<AxiosResponse, Item[]>("search", {
-      text: search.value,
-    });
-    if (searchRes.length) {
-      result.value = searchRes;
-      showPopup.value = true;
-    }
-  } catch (error) {
-  } finally {
-    isLoading.value = false;
-  }
-};
-
 watch(search, (value) => {
   if (!value.length) {
-    result.value = null;
+    result.value = [];
     showPopup.value = false;
   }
 });
 
+const onSearch = async () => {
+  try {
+    isLoading.value = true;
+
+    await searchStore.getItemsInSearch(search.value);
+
+    showPopup.value = true;
+  } catch (error) {
+    import.meta.env.DEV && console.error(error);
+  }
+  isLoading.value = false;
+};
+
 const openPopup = () => {
-  if (result.value) showPopup.value = true;
+  if (result.value.length) showPopup.value = true;
 };
 
 const closePopup = () => {

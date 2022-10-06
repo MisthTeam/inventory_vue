@@ -20,9 +20,11 @@ const input = ref<HTMLInputElement | null>(null);
 
 const { itemsRef, isLoading, fetching } = getItems(); // Получение items из БД
 const { statusList } = getStatused(); // Получение статусов с бэка
+
 const initialFilters = {
   status: "",
 };
+
 const { page, limit, searchQuery, sortedValue, filters } = useFilterable({
   fetching,
   initialFilters,
@@ -52,13 +54,14 @@ const onSubmit = () => {
   });
 };
 
-const limitedValues = computed(() => [10, 50, 100]); // Массив значений, можно выбрать по скольки устанавливать лимит
+const limitedValues = computed(() => [10, 50, 100]); // Массив значений лимита
 
 onStartTyping(() => {
   if (input.value) input.value.focus();
 });
 
 const updateFilterParams = (newParams: ItemsFilterParams) => (filters.value = { ...filters.value, ...newParams });
+
 watch(sortedValue, (_, oldType) => {
   if (!oldType) return;
   const newParams = {
@@ -80,7 +83,7 @@ watchEffect(() => {
     searchQuery.value = route.query.search?.toString() || "";
     limit.value = Number(route.query.limit) || 10;
     if (Object.keys(filterQueryValues).length) {
-      let newFilterValues = Object.assign(initialFilters, {
+      let newFilterValues = Object.assign(JSON.parse(JSON.stringify(initialFilters)), {
         ...filterQueryValues,
       });
 

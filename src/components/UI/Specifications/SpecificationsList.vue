@@ -9,13 +9,11 @@ interface Props {
   type: string;
   disabled?: boolean;
   device?: Device | null;
-  dto?: any;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   device: null,
-  dto: () => ({}),
 });
 
 defineEmits<{

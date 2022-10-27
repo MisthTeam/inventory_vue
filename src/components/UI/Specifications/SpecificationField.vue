@@ -48,6 +48,7 @@ watch(capacityBefore, (value) => {
       v-model="capacityBefore"
       type="number"
       step="0.1"
+      min="0"
       required
       :disabled="!unit.length || disabled"
       title="capacity"

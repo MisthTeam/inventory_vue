@@ -7,25 +7,23 @@
 <script lang="ts">
 export default {
   name: "BaseButton",
-  props: {
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    hideText: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    type: {
-      type: String,
-      required: false,
-      default: "button",
-    },
-  },
-  emits: {
-    clickButton: null,
-  },
 };
+</script>
+
+<script lang="ts" setup>
+interface Props {
+  disabled: boolean;
+  hideText: boolean;
+  type: "button" | "submit" | "reset";
+}
+
+withDefaults(defineProps<Props>(), {
+  type: "button",
+  hideText: false,
+  disabled: false,
+});
+
+defineEmits<{
+  (event: "clickButton"): void;
+}>();
 </script>

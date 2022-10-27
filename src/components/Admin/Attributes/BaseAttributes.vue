@@ -17,41 +17,39 @@
     <h5>Не нашел ни одного дополнительного поля</h5>
   </div>
   <BaseModal name="Изменение атрибута" :isOpen="isOpenModal" idOpen="exampleModal2" @close="modalCancel" @ok="modalOk">
-    <template v-if="isOpenModal" #default>
-      <template v-if="dto">
-        <div class="row g-2">
-          <div class="col-md">
-            <div class="form-floating">
-              <input id="floatingInputGrid" v-model="dto.name" type="text" class="form-control" />
-              <label for="floatingInputGrid">Название поля</label>
-            </div>
-          </div>
-          <div class="col-md">
-            <div class="form-floating">
-              <select id="floatingSelectGrid" v-model="dto.device_type" required class="form-select">
-                <option selected value="" disabled>Выбор за вами...</option>
-                <option v-for="{ type } in deviceTypes" :key="type" :value="type">{{ type }}</option>
-              </select>
-              <label for="floatingInputGrid">Тип девайса</label>
-            </div>
-          </div>
-          <div class="col-md">
-            <div class="form-floating">
-              <select id="floatingSelectGrid" v-model="dto.meta.type" class="form-select">
-                <option selected value="" disabled>Выбирете...</option>
-                <option value="text">text</option>
-                <option value="select">select</option>
-              </select>
-              <label for="floatingSelectGrid">Тип будущего поля</label>
-            </div>
+    <template #default>
+      <div class="row g-2">
+        <div class="col-md">
+          <div class="form-floating">
+            <input id="floatingInputGrid" v-model="dto.name" type="text" class="form-control" />
+            <label for="floatingInputGrid">Название поля</label>
           </div>
         </div>
-        <div v-if="dto.meta.type === 'select'" class="row">
-          <div class="col-md mt-3">
-            <TagsInput v-model="dto.meta.list" :customDelimiter="[',', ' ']" />
+        <div class="col-md">
+          <div class="form-floating">
+            <select id="floatingSelectGrid" v-model="dto.device_type" required class="form-select">
+              <option selected value="" disabled>Выбор за вами...</option>
+              <option v-for="{ type } in deviceTypes" :key="type" :value="type">{{ type }}</option>
+            </select>
+            <label for="floatingInputGrid">Тип девайса</label>
           </div>
         </div>
-      </template>
+        <div class="col-md">
+          <div class="form-floating">
+            <select id="floatingSelectGrid" v-model="dto.meta.type" class="form-select">
+              <option selected value="" disabled>Выбирете...</option>
+              <option value="text">text</option>
+              <option value="select">select</option>
+            </select>
+            <label for="floatingSelectGrid">Тип будущего поля</label>
+          </div>
+        </div>
+      </div>
+      <div v-if="dto.meta.type === 'select'" class="row">
+        <div class="col-md mt-3">
+          <TagsInput v-model="dto.meta.list" :customDelimiter="[',', ' ']" />
+        </div>
+      </div>
     </template>
   </BaseModal>
 </template>
@@ -67,24 +65,33 @@ interface Props {
 }
 defineProps<Props>();
 
+const initialDTO: editAttributeDTO = {
+  name: "",
+  device_type: "",
+  meta: {
+    type: "",
+    list: [] as string[],
+  },
+};
+
 const isOpenModal = ref(false);
-const dto = ref<editAttributeDTO>({} as editAttributeDTO);
+const dto = ref<editAttributeDTO>(initialDTO);
 
 const { editing } = editAttribute();
-const openModal = (attr: Attribute) => {
-  dto.value = JSON.parse(JSON.stringify(attr));
+const openModal = (attribute: Attribute) => {
+  dto.value = JSON.parse(JSON.stringify(attribute));
   isOpenModal.value = true;
 };
 
 const modalCancel = () => {
   if (isOpenModal.value) {
     isOpenModal.value = false;
-    dto.value = {} as editAttributeDTO;
+    dto.value = initialDTO;
   }
 };
 
 watch(
-  () => dto.value?.meta?.type,
+  () => dto.value.meta.type,
   (value) => {
     if (value === "text") dto.value.meta.list = [];
   },

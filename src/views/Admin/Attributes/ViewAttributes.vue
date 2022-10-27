@@ -91,7 +91,7 @@ const openModal = () => {
 const modalCancel = () => {
   if (isOpenModal.value) {
     isOpenModal.value = false;
-    dto.value = { ...initialDTO };
+    dto.value = JSON.parse(JSON.stringify(initialDTO));
   }
 };
 

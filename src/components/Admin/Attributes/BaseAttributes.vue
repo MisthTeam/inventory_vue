@@ -66,6 +66,7 @@ interface Props {
 defineProps<Props>();
 
 const initialDTO: editAttributeDTO = {
+  id: 0,
   name: "",
   device_type: "",
   meta: {

@@ -21,6 +21,7 @@ export type AddAttributeDTO = {
 };
 
 export type editAttributeDTO = {
+  id: number;
   name: string;
   device_type: string;
   meta: {

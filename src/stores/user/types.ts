@@ -2,7 +2,7 @@ export type User = {
   id: number;
   login: string;
   email: string;
-  roles: Array<string>;
+  roles: string[];
 };
 
 export type loginUserParams = {

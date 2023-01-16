@@ -4,6 +4,11 @@ export interface ApiResponse {
   error?: ApiResponseNotifyError;
 }
 
+enum TypeError {
+  ERROR = "error",
+  SUCCESS = "success",
+}
+
 export type ApiResponseNotifyError = {
   content: string;
   title: string;
@@ -15,8 +20,3 @@ export type ApiResponseNotifySuccess = {
   title: string;
   type: TypeError.SUCCESS;
 };
-
-enum TypeError {
-  ERROR = "error",
-  SUCCESS = "success",
-}

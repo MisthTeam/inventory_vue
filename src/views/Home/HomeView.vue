@@ -1,6 +1,19 @@
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+import { getItemsInfo } from "@/hooks/items";
+
+const router = useRouter();
+
+const { dashInfo, isLoading } = getItemsInfo();
+
+const filteredBy = (id: number) => {
+  router.push(`/items?filter=status=${id}`);
+};
+</script>
+
 <template>
   <div class="container-fluid">
-    <div v-if="dashInfo" class="row mt-6">
+    <div v-if="!isLoading" class="row mt-6">
       <div class="col-xl-6 col-lg-6 col-md-6 col-12">
         <div class="card m-3 green">
           <div class="card-body">
@@ -83,26 +96,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useItemsStore } from "@/stores";
-import { onMounted, ref } from "vue";
-import { DashboardInfo } from "@/stores/items/types";
-import { useRouter } from "vue-router";
-
-const itemsStore = useItemsStore();
-const dashInfo = ref<DashboardInfo | null>(null);
-
-const router = useRouter();
-
-const filteredBy = (id: number) => {
-  router.push(`/items?filter=status=${id}`);
-};
-
-onMounted(async () => {
-  dashInfo.value = await itemsStore.getItemsInfo();
-});
-</script>
 
 <style scoped>
 .cursor-pointer {

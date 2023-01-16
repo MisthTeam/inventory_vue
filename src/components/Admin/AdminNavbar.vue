@@ -24,6 +24,7 @@ const iconsPage = {
   logs: "bi bi-file-text-fill",
 };
 </script>
+
 <style scoped>
 .mt-5 {
   margin-top: 3.5rem !important;

@@ -11,14 +11,12 @@ export default function getItem(id: string) {
 
   const fetching = async () => {
     isLoading.value = true;
-    try {
-      item.value = await itemsStore.getItem(Number(id));
-    } catch (error) {
-      toast.error("Произошла ошибка при получении данных. Попробуйте позже");
-      import.meta.env.DEV && console.error(error);
-    } finally {
-      isLoading.value = false;
-    }
+
+    item.value = await itemsStore.getItem(Number(id));
+
+    toast.error("Произошла ошибка при получении данных. Попробуйте позже");
+
+    isLoading.value = false;
   };
 
   onMounted(fetching);

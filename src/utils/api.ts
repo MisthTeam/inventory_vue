@@ -60,13 +60,15 @@ api.interceptors.response.use(
         break;
 
       case 400:
-        toast.error(data.error);
+        toast.error("Неккоретный запрос");
         break;
 
       default:
         toast.error("Произошла ошибка. Попробуйте позже");
         break;
     }
+
+    import.meta.env.DEV && console.error(error);
 
     // Откидываем ошибку
     return Promise.reject(error);

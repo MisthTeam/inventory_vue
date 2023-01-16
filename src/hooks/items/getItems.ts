@@ -9,13 +9,10 @@ export default function getItems() {
   const itemsRef = storeToRefs(itemsStore).items;
   const fetching = async (params: fetchItemsParams = { limit: 10, page: 1, filter: {} }) => {
     isLoading.value = true;
-    try {
-      itemsRef.value = await itemsStore.getItems(JSON.parse(JSON.stringify(params)));
-    } catch (error) {
-      import.meta.env.DEV && console.error(error);
-    } finally {
-      isLoading.value = false;
-    }
+
+    itemsRef.value = await itemsStore.getItems({ ...params });
+
+    isLoading.value = false;
   };
 
   onUnmounted(() => {

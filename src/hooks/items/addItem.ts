@@ -10,14 +10,11 @@ export default function addItem(dto: Ref<addItemParams>) {
   const toast = useToast();
   const router = useRouter();
   const addIt = async () => {
-    try {
-      isLoading.value = true;
-      const item = await itemStore.createItem({ ...dto.value });
-      router.push(`/items/${item.id}`);
-      toast.success("Комплектующий добавлен");
-    } catch (error) {
-      import.meta.env.DEV && console.error(error);
-    }
+    isLoading.value = true;
+    const item = await itemStore.createItem({ ...dto.value });
+    router.push(`/items/${item.id}`);
+    toast.success("Комплектующий добавлен");
+
     isLoading.value = false;
   };
   return {

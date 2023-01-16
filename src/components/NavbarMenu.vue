@@ -134,15 +134,11 @@ watch(search, (value) => {
 });
 
 const onSearch = async () => {
-  try {
-    isLoading.value = true;
+  isLoading.value = true;
 
-    await searchStore.getItemsInSearch(search.value);
+  await searchStore.getItemsInSearch(search.value);
 
-    showPopup.value = true;
-  } catch (error) {
-    import.meta.env.DEV && console.error(error);
-  }
+  showPopup.value = true;
   isLoading.value = false;
 };
 

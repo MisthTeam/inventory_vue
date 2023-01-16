@@ -8,12 +8,7 @@ export default function getStatused() {
   const statusList = ref<Array<Status>>([]);
   const toast = useToast();
   const fetching = async () => {
-    try {
-      statusList.value = await api.get<ApiResponse, Array<Status>>("status");
-    } catch (error) {
-      import.meta.env.DEV && console.error(error);
-      toast.error("Случилась ошибка при получении статусов");
-    }
+    statusList.value = await api.get<ApiResponse, Array<Status>>("status");
   };
   onMounted(fetching);
 

@@ -9,11 +9,9 @@ export default function getDevices() {
   const devices = storeToRefs(devicesStore).devices;
   const fetching = async (params: fetchDevicesParams = { limit: 10, page: 1 }) => {
     isLoading.value = true;
-    try {
-      devices.value = await devicesStore.getDevices(params);
-    } catch (error) {
-      import.meta.env.DEV && console.error(error);
-    }
+
+    devices.value = await devicesStore.getDevices(params);
+
     isLoading.value = false;
   };
 

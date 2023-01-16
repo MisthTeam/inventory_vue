@@ -10,12 +10,12 @@ export default function useLogin() {
   const isLoading = ref(false);
 
   const onSubmit = async (params: loginUserParams) => {
-    try {
-      isLoading.value = true;
-      await userStore.login({ ...params });
-      const redirect = (route.query?.redirect as LocationQueryValue) || "/";
-      router.push(redirect);
-    } catch (error) {}
+    isLoading.value = true;
+    await userStore.login({ ...params });
+
+    const redirect = (route.query?.redirect as LocationQueryValue) || "/";
+
+    router.push(redirect);
     isLoading.value = false;
   };
 

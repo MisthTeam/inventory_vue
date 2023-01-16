@@ -11,15 +11,13 @@ export default function getDevice(dto: Ref<addItemParams>) {
 
   const onSubmit = async () => {
     responseRec.value = false;
-    try {
-      isLoading.value = true;
-      device.value = await deviceStore.getDeviceByPn(dto.value.pn);
-      if (device.value) dto.value.device = device.value;
-      else dto.value.device = { type: "HDD", specification: {} };
-      responseRec.value = true;
-    } catch (error) {
-      import.meta.env.DEV && console.error(error);
-    }
+
+    isLoading.value = true;
+    device.value = await deviceStore.getDeviceByPn(dto.value.pn);
+    if (device.value) dto.value.device = device.value;
+    else dto.value.device = { type: "HDD", specification: {} };
+    responseRec.value = true;
+
     isLoading.value = false;
   };
 

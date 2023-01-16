@@ -1,21 +1,15 @@
 import { useUserStore } from "@/stores";
 import { User } from "@/stores/user/types";
-import { AxiosError } from "axios";
-import { computed, onMounted, ref } from "vue";
-import { useToast } from "vue-toastification";
+import { onMounted, ref } from "vue";
 
 export default function getUser(id: number) {
   const isLoading = ref(false);
-  const toats = useToast();
   const userStore = useUserStore();
   const user = ref<User | null>(null);
   const fetching = async () => {
-    try {
-      isLoading.value = true;
-      user.value = await userStore.getUserById(id);
-    } catch (error) {
-      import.meta.env.DEV && console.error(error);
-    }
+    isLoading.value = true;
+    user.value = await userStore.getUserById(id);
+
     isLoading.value = false;
   };
 

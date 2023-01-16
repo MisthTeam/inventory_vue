@@ -8,10 +8,8 @@ export default function useRegister() {
   const isLoading = ref(false);
 
   const onSubmit = async (data: registerUserParams) => {
-    try {
-      isLoading.value = true;
-      register.value = await userStore.register(data);
-    } catch (error) {}
+    isLoading.value = true;
+    register.value = await userStore.register(data);
     isLoading.value = false;
   };
 

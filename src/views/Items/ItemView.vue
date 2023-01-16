@@ -103,7 +103,7 @@ const sortByType = () => {
 };
 
 watch(item, (newItem) => {
-  DTO.value = JSON.parse(JSON.stringify(newItem));
+  DTO.value = Object.assign({}, newItem);
 });
 </script>
 <template>

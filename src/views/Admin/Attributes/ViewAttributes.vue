@@ -5,7 +5,7 @@
         type="button"
         class="w-100 btn-success"
         :class="{
-          disabled: !isAddAttr,
+          disabled: !isAddAttributeRole,
         }"
         :disabled="isLoadingAdding"
         data-bs-toggle="modal"
@@ -59,16 +59,13 @@
 </template>
 
 <script setup lang="ts">
-import { addAttribute, getAttributes } from "@/hooks/attributes";
 import { ref } from "vue";
+import { addAttribute, getAttributes } from "@/hooks/attributes";
 import BaseAttributes from "@/components/Admin/Attributes/BaseAttributes.vue";
 import { AddAttributeDTO } from "@/stores/attrubutes/types";
 import { deviceTypes } from "@/utils/helpers";
 import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
-
-const user = useUserStore();
-const { isHasRole: isAddAttr } = checkUserRole(user.getUser, "attr:add");
 
 const initialDTO = {
   name: "",
@@ -79,19 +76,21 @@ const initialDTO = {
   },
 };
 
-const { adding, isLoading: isLoadingAdding } = addAttribute();
-const isOpenModal = ref(false);
-const dto = ref<AddAttributeDTO>(JSON.parse(JSON.stringify(initialDTO)));
-const { isLoading, attributes } = getAttributes();
+const user = useUserStore();
 
-const openModal = () => {
-  isOpenModal.value = true;
-};
+const { adding, isLoading: isLoadingAdding } = addAttribute();
+const { isLoading, attributes } = getAttributes();
+const { isHasRole: isAddAttributeRole } = checkUserRole(user.getUser, "attr:add");
+
+const isOpenModal = ref(false);
+const dto = ref<AddAttributeDTO>({ ...initialDTO });
+
+const openModal = () => (isOpenModal.value = true);
 
 const modalCancel = () => {
   if (isOpenModal.value) {
     isOpenModal.value = false;
-    dto.value = JSON.parse(JSON.stringify(initialDTO));
+    dto.value = Object.assign({}, initialDTO);
   }
 };
 

@@ -55,9 +55,9 @@
 </template>
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import BaseAttribute from "./BaseAttribute.vue";
 import { editAttribute } from "@/hooks/attributes";
 import { Attribute, editAttributeDTO } from "@/stores/attrubutes/types";
-import BaseAttribute from "./BaseAttribute.vue";
 import { deviceTypes } from "@/utils/helpers";
 
 interface Props {
@@ -75,19 +75,20 @@ const initialDTO: editAttributeDTO = {
   },
 };
 
-const isOpenModal = ref(false);
-const dto = ref<editAttributeDTO>(initialDTO);
-
 const { editing } = editAttribute();
+
+const isOpenModal = ref(false);
+const dto = ref<editAttributeDTO>({ ...initialDTO });
+
 const openModal = (attribute: Attribute) => {
-  dto.value = JSON.parse(JSON.stringify(attribute));
+  dto.value = Object.assign({}, attribute);
   isOpenModal.value = true;
 };
 
 const modalCancel = () => {
   if (isOpenModal.value) {
     isOpenModal.value = false;
-    dto.value = initialDTO;
+    dto.value = Object.assign({}, initialDTO);
   }
 };
 

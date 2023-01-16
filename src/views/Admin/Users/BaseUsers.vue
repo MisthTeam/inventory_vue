@@ -10,7 +10,7 @@
         type="button"
         class="w-100 btn-success"
         :class="{
-          disabled: !isAddUser,
+          disabled: !isHasAddUserRole,
         }"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
@@ -102,10 +102,6 @@ import useRegister from "@/hooks/auth/useRegister";
 import { checkUserRole } from "@/hooks/user";
 import { useUserStore } from "@/stores";
 
-const user = useUserStore();
-const { isHasRole: isAddUser } = checkUserRole(user.getUser, "users:add");
-
-const closeBtn = ref<HTMLButtonElement | null>(null);
 const initialDTO = {
   login: "",
   password: "",
@@ -113,12 +109,14 @@ const initialDTO = {
   password_confirmation: "",
 };
 
-const dto = shallowRef<typeof initialDTO>(JSON.parse(JSON.stringify(initialDTO)));
-
+const user = useUserStore();
+const { isHasRole: isHasAddUserRole } = checkUserRole(user.getUser, "users:add");
 const { isLoading, users } = getUsers();
 const { isLoading: isRegisterLoading, onSubmit, register } = useRegister();
 
 const isOpenModal = ref(false);
+const closeBtn = ref<HTMLButtonElement | null>(null);
+const dto = shallowRef<typeof initialDTO>({ ...initialDTO });
 
 const openModal = () => {
   isOpenModal.value = true;
@@ -127,7 +125,7 @@ const openModal = () => {
 const modalCancel = () => {
   if (isOpenModal.value) {
     isOpenModal.value = false;
-    dto.value = { ...initialDTO };
+    dto.value = Object.assign({}, initialDTO);
   }
 };
 

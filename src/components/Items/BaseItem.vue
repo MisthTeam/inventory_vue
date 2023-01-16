@@ -53,6 +53,7 @@ const itemInfo = (type: string) => infoItem(props.item, type) || "None";
 
 const sortByClick = (itemType: string, info: string | number) => {
   const { type, filterObject } = filterByClick(props.item, itemType, info);
+
   const newFilterObject = Object.assign(
     { ...filterObject },
     {
@@ -64,15 +65,15 @@ const sortByClick = (itemType: string, info: string | number) => {
     router.push({
       query: {
         ...route.query,
-        sorted: String(type).length ? type : String(route.query.sorted),
+        sorted: type ?? String(route.query.sorted),
         filter: stringify(newFilterObject),
       },
     });
     fetching({
-      page: Number(route.query.page),
-      limit: Number(route.query.limit),
+      page: route.query.page ?? 1,
+      limit: route.query.limit ?? 10,
       search: route.query.search?.toString() || "",
-      type: String(type).length ? type : route.query.sorted?.toString(),
+      type,
       filter: newFilterObject,
     });
   } else {

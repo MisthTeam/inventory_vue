@@ -12,9 +12,9 @@ export default {
 
 <script lang="ts" setup>
 interface Props {
-  disabled: boolean;
-  hideText: boolean;
-  type: "button" | "submit" | "reset";
+  disabled?: boolean;
+  hideText?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 withDefaults(defineProps<Props>(), {

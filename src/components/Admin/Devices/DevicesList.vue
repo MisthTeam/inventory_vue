@@ -50,20 +50,28 @@ interface Props {
 }
 defineProps<Props>();
 
+const initialDTO: Device = {
+  id: 0,
+  pn: "",
+  type: "",
+  specification: {},
+  created_at: "",
+};
+
 const { editing } = editDevice();
 
 const isOpenModal = ref(false);
-const dto = ref<Device>({} as Device);
+const dto = ref<Device>({ ...initialDTO });
 
 const openModal = (device: Device) => {
-  dto.value = JSON.parse(JSON.stringify(device));
+  dto.value = Object.assign({}, device);
   isOpenModal.value = true;
 };
 
 const modalCancel = () => {
   if (isOpenModal.value) {
     isOpenModal.value = false;
-    dto.value = {} as Device;
+    dto.value = Object.assign({}, initialDTO);
   }
 };
 
@@ -80,6 +88,8 @@ watch(
 
 // Изменение спецификации
 const changeSpecification = ({ target, value }: updateSpecification) => {
-  dto.value.specification = { ...dto.value.specification, [target]: value };
+  Object.assign(dto.value.specification, {
+    [target]: value,
+  });
 };
 </script>

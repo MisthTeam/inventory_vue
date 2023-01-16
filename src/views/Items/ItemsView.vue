@@ -77,15 +77,18 @@ watch(sortedValue, (_, oldType) => {
 
 watchEffect(() => {
   if (Object.keys(route.query).length) {
-    let filterQueryValues = parse(route.query.filter as string);
+    const filterQueryValues = parse(route.query.filter as string);
     page.value = Number(route.query.page) || 1;
     sortedValue.value = route.query.sorted?.toString() || "";
     searchQuery.value = route.query.search?.toString() || "";
     limit.value = Number(route.query.limit) || 10;
     if (Object.keys(filterQueryValues).length) {
-      let newFilterValues = Object.assign(JSON.parse(JSON.stringify(initialFilters)), {
-        ...filterQueryValues,
-      });
+      const newFilterValues = Object.assign(
+        { ...initialFilters },
+        {
+          ...filterQueryValues,
+        },
+      );
 
       filters.value = newFilterValues;
     } else {

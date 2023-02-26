@@ -14,8 +14,6 @@ export default function getItem(id: string) {
 
     item.value = await itemsStore.getItem(Number(id));
 
-    toast.error("Произошла ошибка при получении данных. Попробуйте позже");
-
     isLoading.value = false;
   };
 

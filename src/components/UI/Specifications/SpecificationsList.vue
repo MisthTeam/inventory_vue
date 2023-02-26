@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { Device } from "@/stores/devices/types";
-import { deviceTypes } from "@/utils/helpers";
 import { computed } from "vue";
+import { Device, updateSpecification } from "@/stores/devices/types";
+import { deviceTypes } from "@/utils/helpers";
 import SpecificationField from "./SpecificationField.vue";
-import { updateSpecification } from "@/stores/devices/types";
 
 interface Props {
   type: string;

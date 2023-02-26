@@ -102,6 +102,44 @@ export const filterByClick = (
           type: info,
         };
       }
+
+      if (["SFP"].includes(String(info))) {
+        return {
+          filterObject: {
+            modes: getInfoByType,
+            status: "",
+          },
+          type: info,
+        };
+      }
+
+      if (["Monitor"].includes(String(info))) {
+        return {
+          filterObject: {
+            model: getInfoByType,
+            status: "",
+          },
+          type: info,
+        };
+      }
+
+      if (["Laptop", "Computer"].includes(String(info))) {
+        return {
+          filterObject: {
+            model: getInfoByType,
+            status: "",
+          },
+          type: info,
+        };
+      }
+
+      return {
+        filterObject: {
+          status: "",
+        },
+        type: info,
+      };
+
     default:
       return {
         filterObject: {

@@ -65,9 +65,9 @@
   </template>
 </template>
 <script lang="ts" setup>
+import { computed, watch, watchEffect, reactive } from "vue";
 import { ItemsFilterParams, FilterProps } from "@/stores/items/types";
 import { convertedValues, filteredTypes } from "@/utils/helpers";
-import { computed, watch, watchEffect, reactive } from "vue";
 
 interface Props {
   type: string;
@@ -94,6 +94,9 @@ const filterParams = reactive<FilterProps>({
   firstHhz: "",
   secondHhz: "",
   reg: "",
+  model: "",
+  company: "",
+  screen_resolution: "",
 });
 
 watch(filterParams, () => {

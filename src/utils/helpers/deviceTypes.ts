@@ -39,6 +39,26 @@ const types = [
     type: "DRAM",
     specification: ["company", "model", "volume", "hhz", "reg"],
   },
+  {
+    id: 9,
+    type: "SFP",
+    specification: ["modes", "freq", "distance", "connector", "company", "model", "form_factor"],
+  },
+  {
+    id: 10,
+    type: "Monitor",
+    specification: ["company", "model", "screen_resolution"],
+  },
+  {
+    id: 11,
+    type: "Laptop",
+    specification: ["account_number", "position", "owner", "model", "company", "CPU"],
+  },
+  {
+    id: 12,
+    type: "Computer",
+    specification: ["account_number", "position", "owner", "model", "company", "CPU"],
+  },
 ];
 
 export default types;

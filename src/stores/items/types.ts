@@ -26,6 +26,9 @@ export type FilterProps = {
   firstHhz: string | number;
   secondHhz: string | number;
   reg: DRAMReg | string;
+  model: string;
+  company: string;
+  screen_resolution: string;
 };
 
 export type ItemsFilterParams = {

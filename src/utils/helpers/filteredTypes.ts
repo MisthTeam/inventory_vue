@@ -15,6 +15,14 @@ const types = [
     type: "DRAM",
     variables: ["reg"],
   },
+  // {
+  //   type: "Monitor",
+  //   variables: ["screen_resolution"],
+  // },
+  // {
+  //   type: ["Monitor", "SFP", "Laptop", "Computer"],
+  //   variables: ["model", "company"],
+  // },
 ];
 
 export default types;

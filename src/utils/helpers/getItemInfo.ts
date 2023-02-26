@@ -11,6 +11,10 @@ export const infoItem = (item: Item, type: string) => {
     networkCard: item.device.specification.connector,
     raidController: item.device.specification.model,
     DRAM: formatBytes(Number(item.device.specification.volume)).join(" "),
+    Monitor: item.device.specification.model,
+    SFP: item.device.specification.modes,
+    Laptop: item.device.specification.model,
+    Computer: item.device.specification.model,
   };
-  return infoObj[type as keyof typeof infoObj].toString();
+  return (infoObj[type as keyof typeof infoObj] || "").toString();
 };

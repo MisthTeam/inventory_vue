@@ -91,6 +91,27 @@ watch(capacityBefore, (value) => {
     </select>
   </template>
 
+  <template v-else-if="nameSpec === 'modes'">
+    <select
+      :id="nameSpec"
+      required
+      :disabled="disabled"
+      :title="nameSpec"
+      class="form-select"
+      :value="specification"
+      @change="
+        $emit('editSpecification', {
+          value: ($event.target as HTMLInputElement).value,
+          target: nameSpec,
+        })
+      "
+    >
+      <option disabled selected value="">Тип</option>
+      <option value="multimod">Multimod</option>
+      <option value="singlemod">Singlemod</option>
+    </select>
+  </template>
+
   <input
     v-else
     :id="nameSpec"

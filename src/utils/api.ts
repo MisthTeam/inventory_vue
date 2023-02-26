@@ -60,7 +60,7 @@ api.interceptors.response.use(
         break;
 
       case 400:
-        toast.error("Неккоретный запрос");
+        toast.error(data.error || "Некорректный запрос");
         break;
 
       default:

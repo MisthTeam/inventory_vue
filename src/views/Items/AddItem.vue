@@ -19,7 +19,7 @@ const dto: Ref<addItemParams> = ref({
 
 // Хуки
 const { isLoadingAttribute, getAttribute, attributes } = getAttributesByType();
-const { addIt, isAddLoading } = addItem(dto);
+const { addIt: saveItem, isAddLoading } = addItem(dto);
 const { onSubmit, isLoadingDevice, responseRec, device } = getDevice(dto);
 
 // Подгрузка кастомных атрибутов
@@ -63,7 +63,7 @@ const changeAttributes = ({ attrId, value }: UpdateAttr) => {
         </BaseButton>
       </div>
     </form>
-    <form @submit.prevent="addIt">
+    <form @submit.prevent="saveItem">
       <template v-if="responseRec">
         <div class="form-floating mb-3">
           <select
@@ -74,7 +74,7 @@ const changeAttributes = ({ attrId, value }: UpdateAttr) => {
           >
             <option
               v-for="_type in deviceTypes"
-              :key="_type.id"
+              :key="_type.type"
               :value="_type.type"
               :selected="_type.type === dto.device.type"
             >
@@ -86,7 +86,6 @@ const changeAttributes = ({ attrId, value }: UpdateAttr) => {
 
         <SpecificationsList
           v-if="dto.device.type"
-          :dto="dto"
           :disabled="isLoadingAttribute || !!device"
           :type="dto.device.type"
           :device="device"

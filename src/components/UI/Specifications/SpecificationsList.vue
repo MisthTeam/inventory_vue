@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import SpecificationField from "./SpecificationField.vue";
 import { Device, updateSpecification } from "@/stores/devices/types";
 import { deviceTypes } from "@/utils/helpers";
-import SpecificationField from "./SpecificationField.vue";
 
 interface Props {
   type: string;
@@ -31,11 +31,14 @@ export default {
 <template>
   <div v-if="deviceType" class="input-group justify-content-between mb-3">
     <SpecificationField
-      v-for="(specification, i) of deviceType.specification"
+      v-for="(spec, i) of deviceType.specification"
+      v-cloak
       :key="i"
       :disabled="disabled"
-      :specification="device?.specification[specification] || ''"
-      :nameSpec="specification"
+      :specification="device?.specification[spec.name] || ''"
+      :name-specification="spec.name"
+      :type-specification="spec.value"
+      :dropdown-list="spec.list"
       @editSpecification="(v) => $emit('editSpecification', v)"
     />
   </div>

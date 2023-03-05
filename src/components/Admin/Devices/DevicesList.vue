@@ -25,7 +25,12 @@
 
       <div class="form-floating mb-3">
         <select v-model="dto.type" class="form-select" aria-label="Device type">
-          <option v-for="_type in deviceTypes" :key="_type.id" :value="_type.type" :selected="_type.type === dto.type">
+          <option
+            v-for="_type in deviceTypes"
+            :key="_type.type"
+            :value="_type.type"
+            :selected="_type.type === dto.type"
+          >
             {{ _type.type }}
           </option>
         </select>
@@ -33,7 +38,7 @@
       </div>
 
       <div v-if="dto.specification" class="input-group justify-content-between mb-3">
-        <SpecificationsList :type="dto.type" :device="dto" :dto="dto" @editSpecification="changeSpecification" />
+        <SpecificationsList :type="dto.type" :device="dto" @editSpecification="changeSpecification" />
       </div>
     </template>
   </BaseModal>

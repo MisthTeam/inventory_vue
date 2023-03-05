@@ -1,63 +1,307 @@
-const types = [
+import { DeviceTypes } from "@/interfaces/utils.interface";
+
+const types: DeviceTypes[] = [
   {
-    id: 1,
     type: "HDD",
-    specification: ["speed", "company", "model", "rotation", "volume"],
+    specification: [
+      {
+        name: "speed",
+        value: "text",
+      },
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "rotation",
+        value: "text",
+      },
+      {
+        name: "volume",
+        value: "volume",
+      },
+    ],
   },
   {
-    id: 2,
     type: "SSD",
-    specification: ["speed", "company", "model", "volume"],
+    specification: [
+      {
+        name: "speed",
+        value: "text",
+      },
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "volume",
+        value: "volume",
+      },
+    ],
   },
   {
-    id: 3,
     type: "CPU",
-    specification: ["company", "model", "hhz", "ddr", "socket", "cores"],
+    specification: [
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "hhz",
+        value: "text",
+      },
+      {
+        name: "ddr",
+        value: "text",
+      },
+      {
+        name: "socket",
+        value: "text",
+      },
+      {
+        name: "cores",
+        value: "text",
+      },
+    ],
   },
   {
-    id: 4,
     type: "GPU",
-    specification: ["company", "model", "volume", "hhz"],
+    specification: [
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "volume",
+        value: "volume",
+      },
+      {
+        name: "hhz",
+        value: "text",
+      },
+    ],
   },
   {
-    id: 5,
     type: "NVMe",
-    specification: ["speed", "company", "model", "volume"],
+    specification: [
+      {
+        name: "speed",
+        value: "text",
+      },
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "volume",
+        value: "volume",
+      },
+    ],
   },
   {
-    id: 6,
     type: "networkCard",
-    specification: ["company", "model", "connector", "countPorts", "speed"],
+    specification: [
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "connector",
+        value: "text",
+      },
+      {
+        name: "countPorts",
+        value: "integer",
+      },
+      {
+        name: "speed",
+        value: "text",
+      },
+    ],
   },
   {
-    id: 7,
     type: "raidController",
-    specification: ["company", "model", "BBU", "cash", "maxDrivers"],
+    specification: [
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "BBU",
+        value: "text",
+      },
+      {
+        name: "cash",
+        value: "text",
+      },
+      {
+        name: "maxDrivers",
+        value: "text",
+      },
+    ],
   },
   {
-    id: 8,
     type: "DRAM",
-    specification: ["company", "model", "volume", "hhz", "reg"],
+    specification: [
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "volume",
+        value: "volume",
+      },
+      {
+        name: "hhz",
+        value: "text",
+      },
+      {
+        name: "reg",
+        value: "dropdown",
+        list: ["reg", "non-reg"],
+      },
+    ],
   },
   {
-    id: 9,
     type: "SFP",
-    specification: ["modes", "freq", "distance", "connector", "company", "model", "form_factor"],
+    specification: [
+      {
+        name: "modes",
+        value: "dropdown",
+        list: ["Multimod", "Singlemod"],
+      },
+      {
+        name: "freq",
+        value: "text",
+      },
+      {
+        name: "distance",
+        value: "text",
+      },
+      {
+        name: "connector",
+        value: "text",
+      },
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "form_factor",
+        value: "text",
+      },
+    ],
   },
   {
-    id: 10,
     type: "Monitor",
-    specification: ["company", "model", "screen_resolution"],
+    specification: [
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "screen_resolution",
+        value: "text",
+      },
+    ],
   },
   {
-    id: 11,
     type: "Laptop",
-    specification: ["account_number", "position", "owner", "model", "company", "CPU"],
+    specification: [
+      {
+        name: "account_number",
+        value: "text",
+      },
+      {
+        name: "position",
+        value: "text",
+      },
+      {
+        name: "owner",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "CPU",
+        value: "text",
+      },
+    ],
   },
   {
-    id: 12,
     type: "Computer",
-    specification: ["account_number", "position", "owner", "model", "company", "CPU"],
+    specification: [
+      {
+        name: "account_number",
+        value: "text",
+      },
+      {
+        name: "position",
+        value: "text",
+      },
+      {
+        name: "owner",
+        value: "text",
+      },
+      {
+        name: "model",
+        value: "text",
+      },
+      {
+        name: "company",
+        value: "text",
+      },
+      {
+        name: "CPU",
+        value: "text",
+      },
+    ],
   },
 ];
 

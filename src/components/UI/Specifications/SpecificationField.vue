@@ -1,51 +1,49 @@
 <script setup lang="ts">
+import { ref, computed } from "vue";
 import { updateSpecification } from "@/stores/devices/types";
 import { convertedValues, formatBytes } from "@/utils/helpers";
-import { ref, watch } from "vue";
+import { DeviceSpecificationValue } from "@/interfaces/utils.interface";
 
 interface Props {
   specification?: string | number;
-  nameSpec: string;
+  dropdownList?: string[];
+  nameSpecification: string;
+  typeSpecification: keyof typeof DeviceSpecificationValue;
   disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  nameSpec: "",
   specification: "",
   disabled: false,
+  dropdownList: () => [],
 });
 
 const emit = defineEmits<{
   (e: "editSpecification", spec: updateSpecification): void;
 }>();
 
-const capacityBefore = ref(props.nameSpec === "volume" ? formatBytes(Number(props.specification))[0] : 0);
+// Сколько стало после перерасчета с учетом какой был UNIT
+const capacityAfterTranslated = ref(
+  props.nameSpecification === "volume" ? Number(formatBytes(Number(props.specification))[0]) : 0,
+);
 
-const unit = ref((formatBytes(Number(props.specification))[1] as string) ?? "");
+// Какая единица измерения
+const unit = ref<keyof typeof convertedValues>(
+  (formatBytes(Number(props.specification))[1] as keyof typeof convertedValues) ?? "",
+);
 
-const howmultiply = ref(convertedValues[unit.value as keyof typeof convertedValues] ?? 0);
+// На сколько умножать, чтобы получить абсолютное значение емкости
+const howToMultiply = computed(() => convertedValues[unit.value] ?? 0);
 
-const capacityEnter = ref(Number(capacityBefore.value) * howmultiply.value ?? 0);
-
-watch(unit, (value) => {
-  howmultiply.value = convertedValues[value as keyof typeof convertedValues];
-  capacityEnter.value = Number(capacityBefore.value) * howmultiply.value ?? 0;
-  emit("editSpecification", {
-    target: "volume",
-    value: capacityEnter.value,
-  });
-});
-
-watch(capacityBefore, (value) => {
-  capacityEnter.value = Number(value) * howmultiply.value ?? 0;
-});
+//Абсолютное значение емкости
+const absoluteCapacity = computed(() => capacityAfterTranslated.value * howToMultiply.value ?? 0);
 </script>
 
 <template>
-  <template v-if="nameSpec === 'volume'">
+  <template v-if="typeSpecification === 'volume'">
     <input
       id="capacity"
-      v-model="capacityBefore"
+      v-model="capacityAfterTranslated"
       type="number"
       step="0.1"
       min="0"
@@ -58,7 +56,7 @@ watch(capacityBefore, (value) => {
       @input="
         $emit('editSpecification', {
           target: 'volume',
-          value: capacityEnter,
+          value: absoluteCapacity,
         })
       "
     />
@@ -69,65 +67,61 @@ watch(capacityBefore, (value) => {
       <option value="GB">GB</option>
     </select>
   </template>
-
-  <template v-else-if="nameSpec === 'reg'">
+  <template v-else-if="typeSpecification === 'text'">
+    <input
+      :id="nameSpecification"
+      :disabled="disabled"
+      type="text"
+      required
+      :placeholder="nameSpecification"
+      :aria-label="nameSpecification"
+      :title="nameSpecification"
+      class="form-control"
+      :value="specification"
+      @input="
+        $emit('editSpecification', {
+          value: ($event.target as HTMLInputElement).value,
+          target: nameSpecification,
+        })
+      "
+    />
+  </template>
+  <template v-else-if="typeSpecification === 'dropdown'">
     <select
-      :id="nameSpec"
+      :id="nameSpecification"
       required
       :disabled="disabled"
-      :title="nameSpec"
+      :title="nameSpecification"
       class="form-select"
       :value="specification"
       @change="
         $emit('editSpecification', {
           value: ($event.target as HTMLInputElement).value,
-          target: nameSpec,
+          target: nameSpecification,
         })
       "
     >
-      <option disabled selected value="">Тип</option>
-      <option value="reg">reg</option>
-      <option value="non-reg">non-reg</option>
+      <option disabled selected value="">Выбор</option>
+      <option v-for="value of dropdownList" :key="value" :value="value.toLowerCase()">{{ value }}</option>
     </select>
   </template>
-
-  <template v-else-if="nameSpec === 'modes'">
-    <select
-      :id="nameSpec"
-      required
+  <template v-else-if="typeSpecification === 'integer'">
+    <input
+      :id="nameSpecification"
       :disabled="disabled"
-      :title="nameSpec"
-      class="form-select"
+      type="number"
+      required
+      :placeholder="nameSpecification"
+      :aria-label="nameSpecification"
+      :title="nameSpecification"
+      class="form-control"
       :value="specification"
-      @change="
+      @input="
         $emit('editSpecification', {
           value: ($event.target as HTMLInputElement).value,
-          target: nameSpec,
+          target: nameSpecification,
         })
       "
-    >
-      <option disabled selected value="">Тип</option>
-      <option value="multimod">Multimod</option>
-      <option value="singlemod">Singlemod</option>
-    </select>
+    />
   </template>
-
-  <input
-    v-else
-    :id="nameSpec"
-    :disabled="disabled"
-    type="text"
-    required
-    :placeholder="nameSpec"
-    :aria-label="nameSpec"
-    :title="nameSpec"
-    class="form-control"
-    :value="specification"
-    @input="
-      $emit('editSpecification', {
-        value: ($event.target as HTMLInputElement).value,
-        target: nameSpec,
-      })
-    "
-  />
 </template>

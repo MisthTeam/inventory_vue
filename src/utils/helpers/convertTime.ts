@@ -1,5 +1,4 @@
-import dayjs from "dayjs";
-
-const convertTime = (time: string) => dayjs(time).format("DD.MM.YY");
+const convertTime = (time: string, options?: Intl.DateTimeFormatOptions) =>
+  new Intl.DateTimeFormat("ru-RU", options).format(new Date(time));
 
 export default convertTime;

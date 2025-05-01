@@ -47,9 +47,9 @@ api.interceptors.response.use(
     const { data } = error.response;
 
     switch (error?.response?.status) {
-      case 401:
-        router.push({ name: "auth.logout" });
-        break;
+      // case 401:
+      //   router.push({ name: "auth.logout" });
+      //   break;
 
       case 403:
         toast.warning("Попробуйте позже");

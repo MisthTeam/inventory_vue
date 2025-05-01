@@ -4,13 +4,14 @@ import { array_column } from "@/utils/helpers";
 import { stringify } from "qs";
 import { addItemParams, DashboardInfo, fetchItemsParams, Item, ItemState } from "./types";
 import { ApiResponse } from "@/interfaces/api.interface";
+import { dashes, items, sleep, statuses } from "@/mocks";
 
 const useItemsStore = defineStore({
   id: "items",
 
   state: () => ({
     items: {
-      data: [] || null,
+      data: [],
     } as ItemState,
   }),
   getters: {
@@ -38,40 +39,58 @@ const useItemsStore = defineStore({
         delete params.filter.firstHhz;
         delete params.filter.secondHhz;
       }
-      const response = await api.get<ApiResponse, ItemState>(
-        `items?${stringify(params, {
-          skipNulls: true,
-        })}`,
-      );
-      return (this.items = response);
+      await sleep(250);
+      // const response = await api.get<ApiResponse, ItemState>(
+      //   `items?${stringify(params, {
+      //     skipNulls: true,
+      //   })}`,
+      // );
+      return (this.items = items);
     },
 
     async createItem(dto: addItemParams): Promise<Item> {
-      const response = await api.post<ApiResponse, Item>("items", {
-        ...dto,
-      });
-      return response;
+      // const response = await api.post<ApiResponse, Item>("items", {
+      //   ...dto,
+      // });
+      await sleep(250);
+      const item = items.data[0] as unknown as Item;
+      return item;
     },
 
     async getItem(id: number): Promise<Item | null> {
-      const response = await api.get<ApiResponse, Item>(`items/${id}`);
-      return response;
+      await sleep(250);
+      const item = items.data.find((item) => item.id === id);
+      if (!item) return null;
+      return item;
     },
 
     async deleteItem(id: number) {
-      await api.delete<ApiResponse>(`admin/items/${id}`);
+      await sleep(250);
+      // await api.delete<ApiResponse>(`admin/items/${id}`);
     },
 
     async getItemsInfo() {
-      return await api.get<ApiResponse, DashboardInfo>("dash");
+      await sleep(230);
+      return dashes;
     },
 
     async editItem(id: number, item: Item) {
-      await api.put<ApiResponse>(`admin/items/${Number(id)}`, {
+      await sleep(250);
+      const findItem = items.data.find((it) => it.id === id);
+      if (!findItem) return;
+
+      const newStatus = statuses.find((status) => status.id === item.status.id);
+
+      Object.assign(findItem, {
         meta: item.meta,
         attr: array_column(item.attributes, "value", "id"),
-        status: item.status.id,
+        status: newStatus,
       });
+      // await api.put<ApiResponse>(`admin/items/${Number(id)}`, {
+      //   meta: item.meta,
+      //   attr: array_column(item.attributes, "value", "id"),
+      //   status: item.status.id,
+      // });
     },
   },
 });

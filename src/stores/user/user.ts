@@ -2,6 +2,7 @@ import { ApiResponse } from "@/interfaces/api.interface";
 import { api } from "@/utils/api";
 import { defineStore } from "pinia";
 import { loginUserParams, registerUserParams, User, AuthResponse, Role } from "./types";
+import { auth_response, roles as rolesMaps, sleep, user } from "@/mocks";
 
 const useUserStore = defineStore({
   id: "user",
@@ -25,45 +26,56 @@ const useUserStore = defineStore({
       }
     },
 
-    async register(responseData: registerUserParams) {
-      const response = await api.post<ApiResponse, User>("auth/register", responseData);
-      return response;
+    async register(_: registerUserParams) {
+      await sleep(250);
+      return user;
     },
-    async login(responseData: loginUserParams) {
-      const response = await api.post<ApiResponse, AuthResponse>("auth/login", responseData);
-      this.setBearerToken(response.access_token);
-      return (this.user = response.user);
+    async login(_: loginUserParams) {
+      await sleep(250);
+      this.setBearerToken(auth_response.access_token);
+      return (this.user = auth_response.user);
     },
     async fetchUserData() {
-      const response = await api.get<ApiResponse, User>("auth/me");
-      return (this.user = response);
+      await sleep(250);
+      return (this.user = user);
     },
     async logout() {
-      await api.post<ApiResponse>("auth/logout");
+      await sleep(250);
+      // await api.post<ApiResponse>("auth/logout");
       this.setBearerToken();
     },
     async getUsers() {
-      const response = await api.get<ApiResponse, Array<User>>("admin/users");
-      return response;
+      await sleep(250);
+      // const response = await api.get<ApiResponse, Array<User>>("admin/users");
+      return Array(1).fill(user);
     },
-    async getUserById(id: number) {
-      const response = await api.get<ApiResponse, User>(`admin/users/u/${id}`);
-      return response;
+    async getUserById(_: number) {
+      await sleep(250);
+      // const response = await api.get<ApiResponse, User>(`admin/users/u/${id}`);
+      return user;
     },
     async getRoles(): Promise<Role[]> {
-      const reponse = await api.get<ApiResponse, Role[]>("admin/users/roles");
-      return reponse;
+      await sleep(250);
+      // const reponse = await api.get<ApiResponse, Role[]>("admin/users/roles");
+      return rolesMaps;
     },
-    async setRoles(id: number, roles: number[]) {
-      const response = await api.post<ApiResponse, User>(`admin/users/roles/${id}`, {
-        roles,
+    async setRoles(_: number, roles: number[]) {
+      const roleMap = Object.fromEntries(rolesMaps.map((role) => [role.id, role.value]));
+      const updatedRoles = roles.map((id) => roleMap[id]);
+      const newUser = Object.assign(user, {
+        roles: updatedRoles,
       });
-      return (this.user = response);
+      await sleep(250);
+      // const response = await api.post<ApiResponse, User>(`admin/users/roles/${id}`, {
+      //   roles,
+      // });
+      return (this.user = newUser);
     },
     async updatePassword(id: number, password: string) {
-      await api.post<ApiResponse>(`admin/users/passwd/${id}`, {
-        password,
-      });
+      await sleep(250);
+      // await api.post<ApiResponse>(`admin/users/passwd/${id}`, {
+      //   password,
+      // });
     },
   },
 });

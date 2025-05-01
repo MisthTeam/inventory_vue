@@ -6,7 +6,7 @@ export type Attribute = {
     type: string;
     list?: string[];
   };
-  value: string;
+  value?: string;
   created_at: string;
   updated_at: string;
 };

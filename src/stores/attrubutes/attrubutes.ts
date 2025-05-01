@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import { ApiResponse } from "@/interfaces/api.interface";
 import { api } from "@/utils/api";
 import { AddAttributeDTO, Attribute, editAttributeDTO } from "./types";
+import { attrubetsList, sleep } from "@/mocks";
 
 const useAttributesStore = defineStore({
   id: "attributes",
@@ -11,28 +12,38 @@ const useAttributesStore = defineStore({
   }),
   actions: {
     async getAttrubtes() {
-      const reponse = await api.get<ApiResponse, Attribute[]>("attr");
-      return reponse;
+      await sleep(250);
+      // const reponse = await api.get<ApiResponse, Attribute[]>("attr");
+      return attrubetsList;
     },
 
     async getAttributesByType(device_type: string) {
-      const response = await api.get<ApiResponse, Attribute[]>(`attr/type/${device_type}`);
-      return response;
+      await sleep(250);
+      // const response = await api.get<ApiResponse, Attribute[]>(`attr/type/${device_type}`);
+      const attrList = attrubetsList.filter((attr) => attr.device_type === device_type);
+      return attrList;
     },
 
     async addAttribute(attr: AddAttributeDTO) {
-      const response = await api.post<ApiResponse, Attribute>("attr", attr);
-      this.addAttributeInArray(response);
-      return response;
+      const uniqid = Date.now();
+      const newAtr = {
+        id: uniqid,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        ...attr,
+      } as Attribute;
+      // const response = await api.post<ApiResponse, Attribute>("attr", attr);
+      this.addAttributeInArray(newAtr);
+      return newAtr;
     },
 
     async editAttribute({ id, ...payload }: editAttributeDTO) {
-      await api.put<ApiResponse>(`admin/attr/${id}`, payload);
+      // await api.put<ApiResponse>(`admin/attr/${id}`, payload);
       this.updateAttribute(id, payload as Attribute);
     },
 
     async deleteAttribute(id: number) {
-      await api.delete(`admin/attr/${id}`);
+      // await api.delete(`admin/attr/${id}`);
       this.deleteAttributeInArray(id);
     },
 

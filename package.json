@@ -1,5 +1,6 @@
 {
   "name": "inventory_ts",
+  "homepage": "https://slincnik.github.io/inventory_vue",
   "version": "2.0.0",
   "scripts": {
     "dev": "vite",
